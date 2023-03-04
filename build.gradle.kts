@@ -1,5 +1,6 @@
 plugins {
     java
+    checkstyle
 }
 subprojects {
     group = "parcel.delivery.app"
@@ -8,6 +9,9 @@ subprojects {
     repositories {
         mavenCentral()
     }
+}
+
+checkstyle {
 }
 
 java {

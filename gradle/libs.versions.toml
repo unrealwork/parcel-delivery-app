@@ -1,5 +1,6 @@
 [versions]
 junit = "5.9.2"
+checkstyle = "10.8.0"
 
 [libraries]
 junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
