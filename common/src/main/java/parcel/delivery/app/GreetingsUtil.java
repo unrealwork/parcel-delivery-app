@@ -7,7 +7,7 @@ class GreetingsUtil {
 
     }
 
-    static String greetPerson(Person person) {
+    static public String greetPerson(Person person) {
         return MessageFormat.format("Hello, {0}!", person.fullName());
     }
 }
