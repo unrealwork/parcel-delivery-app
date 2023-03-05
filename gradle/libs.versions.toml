@@ -9,3 +9,4 @@ junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref 
 [bundles]
 
 [plugins]
+sonar = { id = "org.sonarqube", version = "4.0.0.2929" }

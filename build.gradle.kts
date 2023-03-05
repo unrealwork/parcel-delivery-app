@@ -1,18 +1,19 @@
 plugins {
     java
     checkstyle
+    alias(libs.plugins.sonar)
 }
+
 subprojects {
     group = "parcel.delivery.app"
     version = "0.0.1"
-
+    
     repositories {
         mavenCentral()
     }
 }
 
-checkstyle {
-}
+apply(from = "gradle/sonar.gradle")
 
 java {
     toolchain {
