@@ -2,6 +2,7 @@ plugins {
     java
     checkstyle
     jacoco
+    alias(libs.plugins.sonar)
 }
 
 dependencies {
