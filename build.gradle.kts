@@ -1,6 +1,7 @@
 plugins {
     java
     checkstyle
+    jacoco
     alias(libs.plugins.sonar)
 }
 
@@ -14,6 +15,7 @@ subprojects {
 }
 
 apply(from = "gradle/sonar.gradle")
+
 
 java {
     toolchain {
