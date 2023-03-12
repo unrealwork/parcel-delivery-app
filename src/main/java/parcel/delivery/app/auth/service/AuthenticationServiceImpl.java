@@ -32,7 +32,7 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public final class AuthenticationServiceImpl implements AuthenticationService {
+public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserDetailsService userDetailsService;
     private final JwtProvider jwtProvider;
     private final UserService userService;

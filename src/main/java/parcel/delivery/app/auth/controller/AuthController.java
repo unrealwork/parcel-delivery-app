@@ -20,7 +20,7 @@ import parcel.delivery.app.auth.service.AuthenticationService;
 @RequestMapping(value = "/auth")
 @Slf4j
 @RequiredArgsConstructor
-public final class AuthController {
+public class AuthController {
     private final AuthenticationService authenticationService;
 
     @GetMapping("/me")
