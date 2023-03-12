@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: unrealwork
+      comment: "Load initial data such as (privileges, roles)"
+      changes:
+        - loadData:
+            file: ../data/privileges.csv
+            relativeToChangelogFile: true
+            tableName: privileges
+        - loadData:
+            file: ../data/roles.csv
+            relativeToChangelogFile: true
+            tableName: roles
+        - loadData:
+            file: ../data/roles_privileges.csv
+            relativeToChangelogFile: true
+            tableName: roles_privileges
