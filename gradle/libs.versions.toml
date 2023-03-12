@@ -1,12 +1,50 @@
 [versions]
 junit = "5.9.2"
 checkstyle = "10.8.0"
+spring = "3.0.4"
+lombok = "1.18.26"
+jjwt = "0.11.5"
+mapstruct = "1.5.3.Final"
+liquibase = "4.16.1"
+postgres = "42.5.4"
+testcontainers = "1.17.6"
+restassured="5.3.0"
+
+
+
 
 [libraries]
 junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
+spring-configuration-processor = { module = "org.springframework.boot:spring-boot-configuration-processor" }
+spring-web = { module = "org.springframework.boot:spring-boot-starter-web" }
+spring-security = { module = "org.springframework.boot:spring-boot-starter-security" }
+spring-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
+spring-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
+spring-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+spring-security-test = { module = "org.springframework.security:spring-security-test" }
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
+jjwt-api = { module = "io.jsonwebtoken:jjwt-api", version.ref = "jjwt" }
+jjwt-impl = { module = "io.jsonwebtoken:jjwt-impl", version.ref = "jjwt" }
+jjwt-jackson = { module = "io.jsonwebtoken:jjwt-jackson", version.ref = "jjwt" }
+psql-db = { module = "org.postgresql:postgresql", version.ref = "postgres" }
+mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
+mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
+lombok-mapstruct-binding = { module = "org.projectlombok:lombok-mapstruct-binding", version = "0.2.0" }
+liquibase-core = { module = "org.liquibase:liquibase-core", version.ref = "liquibase" }
+liquibase-hibernate5 = { module = "org.liquibase.ext:liquibase-hibernate5", version.ref = "liquibase" }
+tc = {module = "org.testcontainers:testcontainers", version.ref = "testcontainers"}
+tc-junit = {module = "org.testcontainers:junit-jupiter", version.ref = "testcontainers"}
+tc-psql = {module = "org.testcontainers:postgresql", version.ref = "testcontainers"}
+rest-assured = {module = "io.rest-assured:spring-mock-mvc", version.ref="restassured"}
+
 
 [bundles]
+jjwt = ["jjwt-api", "jjwt-impl", "jjwt-jackson"]
+tc = ["tc", "tc-junit", "tc-psql"]
 
 [plugins]
 sonar = { id = "org.sonarqube", version = "4.0.0.2929" }
+spring-boot = { id = "org.springframework.boot", version.ref = "spring" }
+spring-dm = { id = "io.spring.dependency-management", version = "1.1.0" }
+liquibase = { id = "org.liquibase.gradle", version = "2.2.0" }

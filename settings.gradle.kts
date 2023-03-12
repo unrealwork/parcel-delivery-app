@@ -1,6 +1,4 @@
 rootProject.name = "parcel-delivery-app"
 
-dependencyResolutionManagement {
-}
-
-include("common")
+include("pda-shared")
+include("pda-auth")
