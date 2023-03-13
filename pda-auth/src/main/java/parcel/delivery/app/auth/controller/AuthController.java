@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import parcel.delivery.app.auth.api.models.request.SignInRequest;
 import parcel.delivery.app.auth.api.models.request.SignUpRequest;
 import parcel.delivery.app.auth.api.models.response.AuthData;
-import parcel.delivery.app.auth.api.models.response.SignInResult;
+import parcel.delivery.app.auth.api.models.response.SignInResponse;
 import parcel.delivery.app.auth.security.core.UserType;
 import parcel.delivery.app.auth.service.AuthenticationService;
 
@@ -37,8 +37,8 @@ public class AuthController {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<SignInResult> signin(@Valid @RequestBody SignInRequest userSignInRequest) {
-        SignInResult result = authenticationService.signIn(userSignInRequest);
+    public ResponseEntity<SignInResponse> signin(@Valid @RequestBody SignInRequest userSignInRequest) {
+        SignInResponse result = authenticationService.signIn(userSignInRequest);
         return ResponseEntity.ok(result);
     }
 

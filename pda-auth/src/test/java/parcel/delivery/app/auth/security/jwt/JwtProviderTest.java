@@ -26,13 +26,13 @@ class JwtProviderTest {
         List<RolePrivilege> privileges = List.of(RolePrivilege.CREATE_COURIER_USER);
         final JwtToken jwtToken = JwtToken.builder()
                 .clientId("test@mail.com")
-                .authorities(privileges)
+                .privileges(privileges)
                 .userType(UserType.ADMIN)
                 .build();
         String generatedToken = jwtProvider.generate(jwtToken);
         JwtToken parsedToken = jwtProvider.parse(generatedToken);
         assertEquals(parsedToken.clientId(), jwtToken.clientId());
-        assertEquals(privileges, parsedToken.authorities());
+        assertEquals(privileges, parsedToken.privileges());
         assertEquals(UserType.ADMIN, parsedToken.userType());
     }
 

@@ -14,7 +14,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import parcel.delivery.app.auth.api.models.request.SignInRequest;
 import parcel.delivery.app.auth.api.models.request.SignUpRequest;
-import parcel.delivery.app.auth.api.models.response.SignInResult;
+import parcel.delivery.app.auth.api.models.response.SignInResponse;
 import parcel.delivery.app.auth.controller.client.ApiRestClient;
 import parcel.delivery.app.auth.repository.UserRepository;
 import parcel.delivery.app.auth.security.core.UserType;
@@ -78,9 +78,9 @@ class AuthSignUpCourierTest {
                 .build();
         authenticationService.signUp(adminSignUp, UserType.ADMIN);
         SignInRequest adminSignin = new SignInRequest(adminSignUp.clientId(), adminSignUp.password());
-        SignInResult signInResult = authenticationService.signIn(adminSignin);
+        SignInResponse signInResponse = authenticationService.signIn(adminSignin);
         // Courier acc
-        client.post(URL, signInResult.accessToken(), COURIER_ACC)
+        client.post(URL, signInResponse.accessToken(), COURIER_ACC)
                 .andExpect(status().isNoContent());
 
     }

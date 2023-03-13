@@ -3,7 +3,9 @@ package parcel.delivery.app.auth.security.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.Deserializer;
 import io.jsonwebtoken.jackson.io.JacksonDeserializer;
@@ -25,12 +27,10 @@ import java.util.Optional;
 @Slf4j
 @Service
 final class JwtProviderImpl implements JwtProvider {
-    private static final Map<String, Class<?>> CLASS_MAP = Maps.<String, Class<?>>of(
-                    JwtClaimKeys.AUTHORIZTATION_DATA, JwtAuthData.class)
+    private static final Map<String, Class<?>> CLASS_MAP = Maps.<String, Class<?>>of(JwtClaimKeys.AUTHORIZTATION_DATA, JwtAuthData.class)
             .build();
     @SuppressWarnings("squid:S3740")
-    private static final Deserializer<Map<String, ?>> JACKSON_DESERIALIZER =
-            new JacksonDeserializer(CLASS_MAP);
+    private static final Deserializer<Map<String, ?>> JACKSON_DESERIALIZER = new JacksonDeserializer(CLASS_MAP);
     private final Key secretKey;
     private final Duration expirationDuration;
 
@@ -62,7 +62,7 @@ final class JwtProviderImpl implements JwtProvider {
                 .issuedAt(dateToInstant(allClaims.getIssuedAt()))
                 .expiresAt(dateToInstant(allClaims.getExpiration()))
                 .userType(authData.userType())
-                .authorities(authData.privileges())
+                .privileges(authData.privileges())
                 .build();
     }
 
@@ -78,7 +78,7 @@ final class JwtProviderImpl implements JwtProvider {
         final Date issueDate = extractIssueDateFromToken(jwtToken);
         final Date expireDate = calcExpirationDateForToken(jwtToken, issueDate);
 
-        Map<String, ?> extraClaims = Map.of(JwtClaimKeys.AUTHORIZTATION_DATA, new JwtAuthData(jwtToken.userType(), jwtToken.authorities()));
+        Map<String, ?> extraClaims = Map.of(JwtClaimKeys.AUTHORIZTATION_DATA, new JwtAuthData(jwtToken.userType(), jwtToken.privileges()));
         return Jwts.builder()
                 .setClaims(extraClaims)
                 .setSubject(jwtToken.clientId())
@@ -108,9 +108,16 @@ final class JwtProviderImpl implements JwtProvider {
         try {
             parse(token);
             return true;
-        } catch (ExpiredJwtException exception) {
-            return false;
+        } catch (MalformedJwtException e) {
+            log.warn("Invalid JWT token: {}", e.getMessage());
+        } catch (ExpiredJwtException e) {
+            log.warn("JWT token is expired: {}", e.getMessage());
+        } catch (UnsupportedJwtException e) {
+            log.warn("JWT token is unsupported: {}", e.getMessage());
+        } catch (IllegalArgumentException e) {
+            log.warn("JWT claims string is empty: {}", e.getMessage());
         }
+        return false;
     }
 
     private Key getSignatureKey(String secretKey) {

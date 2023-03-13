@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import parcel.delivery.app.auth.error.ErrorHandler;
+import parcel.delivery.app.auth.security.config.JwtAuthConfigurer;
 
 import static parcel.delivery.app.auth.security.core.RolePrivilege.CREATE_COURIER_USER;
 
@@ -26,7 +27,8 @@ import static parcel.delivery.app.auth.security.core.RolePrivilege.CREATE_COURIE
 public class SecurityConfig {
     @Bean
     @SuppressWarnings("squid:S4502")
-    public SecurityFilterChain configure(HttpSecurity http, ErrorHandler errorHandler) throws Exception {
+    public SecurityFilterChain configure(HttpSecurity http, ErrorHandler errorHandler,
+                                         JwtAuthConfigurer jwtAuthConfigurer) throws Exception {
         // @formatter:off
         return http.
                 csrf().disable()
@@ -42,11 +44,13 @@ public class SecurityConfig {
                         .requestMatchers("/auth/signin").permitAll()
                         .requestMatchers("/auth/signup/courier")
                             .hasAuthority(CREATE_COURIER_USER.getAuthority())    
-                        .requestMatchers("/auth/**").authenticated()
+                        .requestMatchers("/auth/me").authenticated()
                         .requestMatchers("/**").denyAll()
                 .and()
-                .build();
-        // @formatter:on
+                    .apply(jwtAuthConfigurer)
+                .and()
+                    .build();
+                // @formatter:on
     }
 
     @Bean

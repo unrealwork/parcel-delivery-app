@@ -11,7 +11,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import parcel.delivery.app.auth.api.models.request.SignInRequest;
 import parcel.delivery.app.auth.api.models.request.SignUpRequest;
-import parcel.delivery.app.auth.api.models.response.SignInResult;
+import parcel.delivery.app.auth.api.models.response.SignInResponse;
 import parcel.delivery.app.auth.controller.client.ApiRestClient;
 import parcel.delivery.app.auth.repository.UserRepository;
 import parcel.delivery.app.auth.security.core.UserType;
@@ -48,7 +48,7 @@ class AuthMeTestControllerTest {
 
         authenticationService.signUp(signUpRequest);
         SignInRequest signInRequest = new SignInRequest(signUpRequest.clientId(), signUpRequest.password());
-        SignInResult result = authenticationService.signIn(signInRequest);
+        SignInResponse result = authenticationService.signIn(signInRequest);
         client.get(URL, result.accessToken())
                 .andDo(print())
                 .andExpect(status().isOk())

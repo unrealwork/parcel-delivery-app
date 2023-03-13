@@ -8,11 +8,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import parcel.delivery.app.auth.security.jwt.JwtProvider;
+import parcel.delivery.app.auth.security.jwt.JwtToken;
+import parcel.delivery.app.auth.security.jwt.util.JwtUtil;
 
 import java.io.IOException;
 
@@ -31,8 +34,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (isValidAuthBearerHeader(authHeader)) {
             final String bearerToken = authHeader.substring(BEARER.length());
             if (StringUtils.hasText(bearerToken) && jwtProvider.validate(bearerToken)) {
-                Authentication auth = null;
-                SecurityContextHolder.getContext().setAuthentication(auth);
+                final JwtToken jwtToken = jwtProvider.parse(bearerToken);
+                final Authentication authentication = JwtUtil.authenticationFromToken(jwtToken);
+                final SecurityContext context = SecurityContextHolder.createEmptyContext();
+                context.setAuthentication(authentication);
+                SecurityContextHolder.setContext(context);
             }
         }
         filterChain.doFilter(request, response);
