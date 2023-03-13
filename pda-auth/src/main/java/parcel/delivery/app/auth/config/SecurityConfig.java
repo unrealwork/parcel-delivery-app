@@ -25,11 +25,11 @@ import static parcel.delivery.app.auth.security.core.RolePrivilege.CREATE_COURIE
 @EnableWebSecurity
 public class SecurityConfig {
     @Bean
+    @SuppressWarnings("squid:S4502")
     public SecurityFilterChain configure(HttpSecurity http, ErrorHandler errorHandler) throws Exception {
         // @formatter:off
         return http.
-                csrf()
-                    .disable()
+                csrf().disable()
                 .exceptionHandling()
                     .authenticationEntryPoint(errorHandler)
                     .accessDeniedHandler(errorHandler)
