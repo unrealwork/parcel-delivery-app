@@ -13,7 +13,8 @@ dependencies {
     testRuntimeOnly(libs.junit.engine)
 }
 
+apply(from = "../gradle/jacoco.gradle")
 
-tasks.getByName<Test>("test") {
+tasks.test {
     useJUnitPlatform()
 }

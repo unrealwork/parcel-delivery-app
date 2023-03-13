@@ -3,3 +3,8 @@ tasks.jacocoTestReport {
         xml.required.set(true)
     }
 }
+
+
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport)
+}
