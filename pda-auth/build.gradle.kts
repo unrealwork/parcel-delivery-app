@@ -22,17 +22,16 @@ dependencies {
     implementation(libs.spring.web)
     implementation(libs.spring.validation)
     //db
-    compileOnly(libs.psql.db)
-    compileOnly(libs.liquibase.core)
+    implementation(libs.psql.db)
+    implementation(libs.liquibase.core)
     // testing
     testCompileOnly(libs.psql.db)
     testCompileOnly(libs.lombok)
     testAnnotationProcessor(libs.lombok)
     testImplementation(libs.junit.api)
-    testCompileOnly(libs.liquibase.core)
     testRuntimeOnly(libs.junit.engine)
-    testCompileOnly(libs.spring.test)
-    testCompileOnly(libs.spring.security.test)
+    testImplementation(libs.spring.test)
+    testImplementation(libs.spring.security.test)
     testImplementation(libs.bundles.tc)
     testCompileOnly(libs.rest.assured)
 }

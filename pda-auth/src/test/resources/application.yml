@@ -4,14 +4,9 @@ spring:
       replace: none
   datasource:
     url: jdbc:tc:postgresql:14:///pda-auth-test
-    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
-  jpa:
-    hibernate:
-      ddl-auto: none
   liquibase:
     drop-first: true
     change-log: classpath:/db/changelog-master.yaml
-    enabled: true
 application:
   security:
     jwt:
