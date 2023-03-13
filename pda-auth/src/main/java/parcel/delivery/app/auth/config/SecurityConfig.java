@@ -15,6 +15,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import parcel.delivery.app.auth.error.ErrorHandler;
 import parcel.delivery.app.auth.security.config.JwtAuthConfigurer;
 
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
 import static parcel.delivery.app.auth.security.core.RolePrivilege.CREATE_COURIER_USER;
 
 /**
@@ -40,11 +42,11 @@ public class SecurityConfig {
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                     .authorizeHttpRequests()
-                        .requestMatchers("/auth/signup").permitAll()
-                        .requestMatchers("/auth/signin").permitAll()
-                        .requestMatchers("/auth/signup/courier")
+                        .requestMatchers(POST,"/auth/signup").permitAll()
+                        .requestMatchers(POST,"/auth/signin").permitAll()
+                        .requestMatchers(POST,"/auth/signup/courier")
                             .hasAuthority(CREATE_COURIER_USER.getAuthority())    
-                        .requestMatchers("/auth/me").authenticated()
+                        .requestMatchers(GET,"/auth/me").authenticated()
                         .requestMatchers("/**").denyAll()
                 .and()
                     .apply(jwtAuthConfigurer)
