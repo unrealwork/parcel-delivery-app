@@ -35,9 +35,9 @@ final class JwtProviderImpl implements JwtProvider {
     private final Duration expirationDuration;
 
     public JwtProviderImpl(JwtProviderProperties conf) {
-        validateSecretKey(conf.secretKey());
-        this.secretKey = getSignatureKey(conf.secretKey());
-        this.expirationDuration = conf.expirationDuration();
+        validateSecretKey(conf.getSecretKey());
+        this.secretKey = getSignatureKey(conf.getSecretKey());
+        this.expirationDuration = conf.getExpirationDuration();
 
     }
 
