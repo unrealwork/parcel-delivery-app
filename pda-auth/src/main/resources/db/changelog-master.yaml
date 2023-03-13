@@ -1,8 +1,0 @@
-databaseChangeLog:
-  - include:
-      file: changelog/20230310_001_initial_schema.yml
-      relativeToChangelogFile: true
-  - include:
-      file: changelog/20230310_002_load_data.yml
-      relativeToChangelogFile: true
-      
