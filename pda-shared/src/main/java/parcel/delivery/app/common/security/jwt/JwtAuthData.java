@@ -1,5 +1,4 @@
-package parcel.delivery.app.auth.api.models.response;
-
+package parcel.delivery.app.common.security.jwt;
 
 
 import parcel.delivery.app.common.security.core.RolePrivilege;
@@ -7,5 +6,5 @@ import parcel.delivery.app.common.security.core.UserType;
 
 import java.util.Collection;
 
-public record AuthData(String clientId, UserType userType, Collection<RolePrivilege> privileges) {
+public record JwtAuthData(UserType userType, Collection<RolePrivilege> privileges) {
 }

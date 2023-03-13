@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import parcel.delivery.app.auth.domain.Role;
 import parcel.delivery.app.auth.repository.RoleRepository;
-import parcel.delivery.app.auth.security.core.UserType;
+import parcel.delivery.app.common.security.core.UserType;
 
 import java.util.Collection;
 import java.util.List;

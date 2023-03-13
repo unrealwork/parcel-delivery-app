@@ -13,11 +13,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import parcel.delivery.app.auth.error.ErrorHandler;
-import parcel.delivery.app.auth.security.config.JwtAuthConfigurer;
+import parcel.delivery.app.common.security.config.JwtAuthConfigurer;
 
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
-import static parcel.delivery.app.auth.security.core.RolePrivilege.CREATE_COURIER_USER;
+import static parcel.delivery.app.common.security.core.RolePrivilege.CREATE_COURIER_USER;
 
 /**
  * Security configuration

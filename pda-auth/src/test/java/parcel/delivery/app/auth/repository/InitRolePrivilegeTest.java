@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import parcel.delivery.app.auth.dto.PrivilegeDto;
-import parcel.delivery.app.auth.security.core.RolePrivilege;
+import parcel.delivery.app.common.security.core.RolePrivilege;
 
 import java.util.Arrays;
 import java.util.Optional;

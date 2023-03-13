@@ -16,11 +16,11 @@ import parcel.delivery.app.auth.api.models.response.AuthData;
 import parcel.delivery.app.auth.api.models.response.SignInResponse;
 import parcel.delivery.app.auth.dto.RoleDto;
 import parcel.delivery.app.auth.dto.UserDto;
-import parcel.delivery.app.auth.security.core.UserType;
 import parcel.delivery.app.auth.security.exceptions.UserAlreadyExistException;
-import parcel.delivery.app.auth.security.jwt.JwtProvider;
-import parcel.delivery.app.auth.security.jwt.JwtToken;
-import parcel.delivery.app.auth.security.jwt.util.JwtUtil;
+import parcel.delivery.app.common.security.core.UserType;
+import parcel.delivery.app.common.security.jwt.JwtProvider;
+import parcel.delivery.app.common.security.jwt.JwtToken;
+import parcel.delivery.app.common.security.jwt.util.JwtUtil;
 
 import java.util.List;
 
