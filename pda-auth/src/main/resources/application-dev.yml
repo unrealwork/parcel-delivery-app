@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: PDA Auth Server
+  datasource:
+    url: jdbc:h2:file:./pda-auth/pda-auth.db
+    username: sa
+    password: sa
+    driverClassName: org.h2.Driver
+  liquibase:
+    enabled: true
+  jpa:
+    spring:
+      jpa:
+        database-platform: org.hibernate.dialect.H2Dialect

@@ -10,3 +10,11 @@ file("sonar-project.properties").withReader {
         }
     }
 }
+
+sonarqube {
+    properties {
+        tasks.jacocoTestReport.configure {
+            property("sonar.coverage.jacoco.xmlReportPaths", reports.xml.outputLocation.get().asFile)
+        }
+    }
+}
