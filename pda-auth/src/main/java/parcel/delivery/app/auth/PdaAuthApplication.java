@@ -6,9 +6,9 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
 @SpringBootApplication
 @ConfigurationPropertiesScan
-public class ParcelDeliveryAppAuthApplication {
+public class PdaAuthApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ParcelDeliveryAppAuthApplication.class, args);
+        SpringApplication.run(PdaAuthApplication.class, args);
     }
 }
