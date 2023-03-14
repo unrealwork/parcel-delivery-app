@@ -11,6 +11,7 @@ dependencies {
     implementation(libs.spring.web)
     implementation(libs.spring.security)
     implementation(libs.spring.configuration.processor)
+    implementation(libs.spring.validation)
     // JWT
     implementation(libs.bundles.jjwt)
     // Mapper

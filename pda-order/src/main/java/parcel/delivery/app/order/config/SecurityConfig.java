@@ -4,8 +4,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import parcel.delivery.app.common.error.ErrorHandler;
 import parcel.delivery.app.common.security.config.JwtAuthConfigurer;
-import parcel.delivery.app.common.security.error.ErrorHandler;
 
 import static org.springframework.http.HttpMethod.GET;
 import static parcel.delivery.app.common.security.core.RolePrivilege.VIEW_ORDERS;

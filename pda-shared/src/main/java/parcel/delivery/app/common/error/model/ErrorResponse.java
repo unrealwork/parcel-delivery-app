@@ -1,4 +1,4 @@
-package parcel.delivery.app.common.security.error.model;
+package parcel.delivery.app.common.error.model;
 
 import org.springframework.http.HttpStatus;
 

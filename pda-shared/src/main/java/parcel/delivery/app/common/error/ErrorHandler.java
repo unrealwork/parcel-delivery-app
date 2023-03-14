@@ -1,4 +1,4 @@
-package parcel.delivery.app.common.security.error;
+package parcel.delivery.app.common.error;
 
 
 import jakarta.servlet.ServletException;
@@ -17,14 +17,16 @@ import java.io.IOException;
 @Component
 public class ErrorHandler implements AuthenticationEntryPoint, AccessDeniedHandler {
     private final HandlerExceptionResolver exceptionResolver;
-    
+
     public ErrorHandler(@Qualifier("handlerExceptionResolver") HandlerExceptionResolver exceptionResolver) {
         this.exceptionResolver = exceptionResolver;
     }
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) {
-        exceptionResolver.resolveException(request, response, null, authException);
+        if (request.getAuthType() == null) {
+            exceptionResolver.resolveException(request, response, null, authException);
+        }
     }
 
     @Override

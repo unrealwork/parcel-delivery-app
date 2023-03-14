@@ -11,8 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import parcel.delivery.app.common.error.ErrorHandler;
 import parcel.delivery.app.common.security.config.JwtAuthConfigurer;
-import parcel.delivery.app.common.security.error.ErrorHandler;
 
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
