@@ -26,7 +26,7 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-final class JwtProviderImpl implements JwtProvider {
+public final class JwtProviderImpl implements JwtProvider {
     private static final Map<String, Class<?>> CLASS_MAP = Maps.<String, Class<?>>of(JwtClaimKeys.AUTHORIZTATION_DATA, JwtAuthData.class)
             .build();
     @SuppressWarnings("squid:S3740")

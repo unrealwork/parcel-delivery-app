@@ -3,6 +3,7 @@ package parcel.delivery.app.common.security.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
@@ -14,7 +15,12 @@ public class JwtAuthConfigurer extends SecurityConfigurerAdapter<DefaultSecurity
     private final JwtAuthenticationFilter authenticationFilter;
 
     @Override
-    public void configure(HttpSecurity security) {
-        security.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
+    public void configure(HttpSecurity security) throws Exception {
+        security.csrf()
+                .disable()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

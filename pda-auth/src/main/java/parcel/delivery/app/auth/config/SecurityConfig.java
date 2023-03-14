@@ -8,7 +8,6 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -29,17 +28,10 @@ import static parcel.delivery.app.common.security.core.RolePrivilege.CREATE_COUR
 public class SecurityConfig {
     @Bean
     @SuppressWarnings("squid:S4502")
-    public SecurityFilterChain configure(HttpSecurity http, ErrorHandler errorHandler,
-                                         JwtAuthConfigurer jwtAuthConfigurer) throws Exception {
+    public SecurityFilterChain configure(HttpSecurity http, ErrorHandler errorHandler, JwtAuthConfigurer jwtAuthConfigurer) throws Exception {
         // @formatter:off
-        return http.
-                csrf().disable()
-                .exceptionHandling()
-                    .authenticationEntryPoint(errorHandler)
-                    .accessDeniedHandler(errorHandler)
-                .and()
-                    .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        return http
+                .apply(jwtAuthConfigurer)
                 .and()
                     .authorizeHttpRequests()
                         .requestMatchers(POST,"/auth/signup").permitAll()
@@ -49,9 +41,10 @@ public class SecurityConfig {
                         .requestMatchers(GET,"/auth/me").authenticated()
                         .requestMatchers("/**").denyAll()
                 .and()
-                    .apply(jwtAuthConfigurer)
-                .and()
-                    .build();
+                .exceptionHandling()
+                    .authenticationEntryPoint(errorHandler)
+                    .accessDeniedHandler(errorHandler)
+                .and().build();
                 // @formatter:on
     }
 

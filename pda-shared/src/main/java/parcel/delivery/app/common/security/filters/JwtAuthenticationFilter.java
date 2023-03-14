@@ -19,10 +19,11 @@ import parcel.delivery.app.common.security.jwt.util.JwtUtil;
 
 import java.io.IOException;
 
+import static parcel.delivery.app.common.util.WebUtil.BEARER;
+
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    private static final String BEARER = "Bearer ";
     private final JwtProvider jwtProvider;
 
     @Override

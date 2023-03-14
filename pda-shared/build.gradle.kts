@@ -21,6 +21,7 @@ dependencies {
     // Testing
     testImplementation(libs.junit.api)
     testImplementation(libs.spring.test)
+    testImplementation(libs.spring.security.test)
     testRuntimeOnly(libs.junit.engine)
 }
 

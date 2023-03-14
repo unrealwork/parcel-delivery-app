@@ -20,6 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import parcel.delivery.app.common.security.core.UserType;
 import parcel.delivery.app.common.security.jwt.JwtProvider;
 import parcel.delivery.app.common.security.jwt.JwtToken;
+import parcel.delivery.app.common.util.WebUtil;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -72,7 +73,7 @@ class JwtAuthenticationFilterTest {
                 .build();
 
         Mockito.when(request.getHeader(HttpHeaders.AUTHORIZATION))
-                .thenReturn("Bearer " + token);
+                .thenReturn(WebUtil.bearerHeader(token));
         Mockito.when(jwtProvider.validate(token))
                 .thenReturn(true);
         Mockito.when(jwtProvider.parse(token))
