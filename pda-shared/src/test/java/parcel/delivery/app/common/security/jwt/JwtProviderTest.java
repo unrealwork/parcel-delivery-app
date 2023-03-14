@@ -16,7 +16,7 @@ import parcel.delivery.app.common.security.core.RolePrivilege;
 import parcel.delivery.app.common.security.core.UserType;
 
 import java.time.Instant;
-import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -32,7 +32,7 @@ class JwtProviderTest {
     @Test
     @DisplayName("Test that generated token could be parsed")
     void testParseGenerate() {
-        List<RolePrivilege> privileges = List.of(RolePrivilege.CREATE_COURIER_USER);
+        Set<RolePrivilege> privileges = Set.of(RolePrivilege.CREATE_COURIER_USER);
         final JwtToken jwtToken = JwtToken.builder()
                 .clientId("test@mail.com")
                 .privileges(privileges)

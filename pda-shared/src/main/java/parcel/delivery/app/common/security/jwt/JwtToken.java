@@ -10,11 +10,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 @Builder
 public record JwtToken(String clientId, Instant issuedAt, Instant expiresAt,
                        UserType userType,
-                       Collection<RolePrivilege> privileges) {
+                       Set<RolePrivilege> privileges) {
 
 
     public Collection<GrantedAuthority> authorities() {

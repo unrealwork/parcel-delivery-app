@@ -23,7 +23,7 @@ import parcel.delivery.app.common.security.jwt.JwtToken;
 import parcel.delivery.app.common.util.WebUtil;
 
 import java.io.IOException;
-import java.util.Collections;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -69,7 +69,7 @@ class JwtAuthenticationFilterTest {
         JwtToken jwtToken = JwtToken.builder()
                 .clientId("test@gmail.com")
                 .userType(UserType.ADMIN)
-                .privileges(Collections.singletonList(CREATE_COURIER_USER))
+                .privileges(Set.of(CREATE_COURIER_USER))
                 .build();
 
         Mockito.when(request.getHeader(HttpHeaders.AUTHORIZATION))

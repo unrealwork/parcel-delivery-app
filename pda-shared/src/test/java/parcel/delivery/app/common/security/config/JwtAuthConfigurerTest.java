@@ -32,7 +32,7 @@ import parcel.delivery.app.common.security.jwt.JwtProvider;
 import parcel.delivery.app.common.security.jwt.JwtProviderImpl;
 import parcel.delivery.app.common.security.jwt.JwtToken;
 
-import java.util.List;
+import java.util.Set;
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -68,7 +68,7 @@ class JwtAuthConfigurerTest {
                 .builder()
                 .userType(UserType.USER)
                 .clientId("test@mail.com")
-                .privileges(List.of(RolePrivilege.CREATE_COURIER_USER))
+                .privileges(Set.of(RolePrivilege.CREATE_COURIER_USER))
                 .build();
         String bearerToken = jwtProvider.generate(jwtToken);
         mvc.perform(get(TEST_URL)
