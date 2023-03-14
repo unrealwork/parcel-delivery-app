@@ -1,4 +1,4 @@
-package parcel.delivery.app.common.security.core;
+package parcel.delivery.app.auth.security.auth;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
