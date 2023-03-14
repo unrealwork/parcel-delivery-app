@@ -55,7 +55,7 @@ class JwtProviderTest {
         boolean isValid = jwtProvider.validate(token);
         assertFalse(isValid);
     }
-
+    
     @Configuration
     public static class Config {
         @Bean
