@@ -59,7 +59,7 @@ public class InitRolesTest {
         final Collection<RolePrivilege> rolePrivileges = role.getPrivileges()
                 .stream()
                 .map(Privilege::getName)
-                .map(RolePrivilege::valueOf)
+                .map(RolePrivilege::fromAuthority)
                 .collect(Collectors.toSet());
         String assertMessage = TestUtil.format("Role {} should have privileges {}",
                 userType.getAuthority(),

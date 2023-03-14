@@ -25,8 +25,8 @@ public class JwtUtil {
         Set<RolePrivilege> privilegeSet = new HashSet<>();
         for (GrantedAuthority grantedAuthority : authentication.getAuthorities()) {
             String authority = grantedAuthority.getAuthority();
-            final UserType userType = UserType.fromAuthority(authority);
-            if (userType != null) {
+            if (authority.startsWith(UserType.ROLE_PREFIX)) {
+                final UserType userType = UserType.fromAuthority(grantedAuthority);
                 if (isRoleFound) {
                     throw new BadCredentialsException("User has several roles");
                 } else {
@@ -34,7 +34,7 @@ public class JwtUtil {
                     tokenBuilder.userType(userType);
                 }
             } else {
-                RolePrivilege privilege = RolePrivilege.valueOf(authority);
+                RolePrivilege privilege = RolePrivilege.fromAuthority(grantedAuthority);
                 privilegeSet.add(privilege);
             }
         }
