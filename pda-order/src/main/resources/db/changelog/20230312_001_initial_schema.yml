@@ -34,3 +34,5 @@ databaseChangeLog:
               - column:
                   name: updated_at
                   type: TIMESTAMPTZ
+                  constraints:
+                    nullable: false
