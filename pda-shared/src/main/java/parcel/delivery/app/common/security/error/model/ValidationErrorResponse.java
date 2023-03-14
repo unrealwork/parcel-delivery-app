@@ -1,4 +1,4 @@
-package parcel.delivery.app.auth.error.model;
+package parcel.delivery.app.common.security.error.model;
 
 import java.util.Map;
 

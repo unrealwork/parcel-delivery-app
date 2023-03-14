@@ -13,6 +13,8 @@ dependencies {
     implementation(libs.spring.configuration.processor)
     // JWT
     implementation(libs.bundles.jjwt)
+    // Mapper
+    compileOnly(libs.mapstruct.processor)
     // Lombok
     annotationProcessor(libs.lombok)
     compileOnly(libs.lombok)

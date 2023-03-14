@@ -1,4 +1,4 @@
-package parcel.delivery.app.auth.error;
+package parcel.delivery.app.common.security.error;
 
 
 import jakarta.servlet.ServletException;
