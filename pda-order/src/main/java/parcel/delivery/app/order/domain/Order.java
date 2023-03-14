@@ -1,15 +1,19 @@
 package parcel.delivery.app.order.domain;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -19,10 +23,16 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Table(name = "orders")
+@Getter
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Setter
 public class Order implements Serializable {
     @Serial
     private static final long serialVersionUID = 2039569510227677652L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -36,11 +46,10 @@ public class Order implements Serializable {
     private String createdBy;
 
     @CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
     private Instant createdAt;
 
     @UpdateTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false)
     private Instant updatedAt;
 }

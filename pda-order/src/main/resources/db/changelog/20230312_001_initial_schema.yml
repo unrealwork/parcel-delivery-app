@@ -28,11 +28,9 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: created_at
-                  type: TIMESTAMP WITHOUT TIME ZONE
-                  defaultValueComputed: CURRENT_TIMESTAMP
+                  type: TIMESTAMPTZ
                   constraints:
                     nullable: false
               - column:
                   name: updated_at
-                  type: TIMESTAMP WITHOUT TIME ZONE
-                  defaultValueComputed: CURRENT_TIMESTAMP
+                  type: TIMESTAMPTZ
