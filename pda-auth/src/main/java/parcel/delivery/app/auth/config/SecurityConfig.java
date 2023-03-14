@@ -31,20 +31,22 @@ public class SecurityConfig {
     public SecurityFilterChain configure(HttpSecurity http, ErrorHandler errorHandler, JwtAuthConfigurer jwtAuthConfigurer) throws Exception {
         // @formatter:off
         return http
+                .csrf().disable()
                 .apply(jwtAuthConfigurer)
                 .and()
-                    .authorizeHttpRequests()
-                        .requestMatchers(POST,"/auth/signup").permitAll()
-                        .requestMatchers(POST,"/auth/signin").permitAll()
-                        .requestMatchers(POST,"/auth/signup/courier")
-                            .hasAuthority(CREATE_COURIER_USER.getAuthority())    
-                        .requestMatchers(GET,"/auth/me").authenticated()
-                        .requestMatchers("/**").denyAll()
+                .authorizeHttpRequests()
+                    .requestMatchers(POST,"/auth/signup").permitAll()
+                    .requestMatchers(POST,"/auth/signin").permitAll()
+                    .requestMatchers(POST,"/auth/signup/courier")
+                        .hasAuthority(CREATE_COURIER_USER.getAuthority())    
+                    .requestMatchers(GET,"/auth/me").authenticated()
+                    .requestMatchers("/**").denyAll()
                 .and()
                 .exceptionHandling()
                     .authenticationEntryPoint(errorHandler)
                     .accessDeniedHandler(errorHandler)
-                .and().build();
+                .and()
+                .build();
                 // @formatter:on
     }
 

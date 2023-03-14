@@ -43,7 +43,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static parcel.delivery.app.common.util.WebUtil.bearerHeader;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(webEnvironment = RANDOM_PORT, classes = {JwtAuthConfigurerTest.SecurityConfig.class})
+@SpringBootTest(webEnvironment = RANDOM_PORT, classes = {JwtAuthConfigurerTest.Config.class})
 class JwtAuthConfigurerTest {
     public static final String TEST_URL = "/test";
     @Autowired
@@ -100,15 +100,16 @@ class JwtAuthConfigurerTest {
     @EnableConfigurationProperties(value = JwtProviderProperties.class)
     @EnableWebSecurity
     @EnableAutoConfiguration(exclude = UserDetailsServiceAutoConfiguration.class)
-    static class SecurityConfig {
+    static class Config {
         @Bean
         public SecurityFilterChain configure(HttpSecurity http, JwtAuthConfigurer jwtAuthConfigurer) throws Exception {
             return http
+                    .csrf().disable()
+                    .apply(jwtAuthConfigurer)
+                    .and()
                     .authorizeHttpRequests()
                     .requestMatchers(TEST_URL).authenticated()
                     .anyRequest().denyAll()
-                    .and()
-                    .apply(jwtAuthConfigurer)
                     .and()
                     .build();
         }
