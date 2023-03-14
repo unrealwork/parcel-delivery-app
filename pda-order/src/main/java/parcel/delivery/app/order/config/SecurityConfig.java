@@ -18,6 +18,7 @@ import static parcel.delivery.app.common.security.core.RolePrivilege.VIEW_ORDERS
 @ComponentScan(basePackages = PdaSpringApp.ROOT_PACKAGE)
 public class SecurityConfig {
     @Bean
+    @SuppressWarnings("squid:S4502")
     public SecurityFilterChain configure(HttpSecurity http, ErrorHandler errorHandler, JwtAuthConfigurer jwtAuthConfigurer) throws Exception {
         // @formatter:off
         return http
