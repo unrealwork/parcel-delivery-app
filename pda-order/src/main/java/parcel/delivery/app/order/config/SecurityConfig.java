@@ -1,9 +1,12 @@
 package parcel.delivery.app.order.config;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import parcel.delivery.app.common.annotations.PdaSpringApp;
 import parcel.delivery.app.common.error.ErrorHandler;
 import parcel.delivery.app.common.security.config.JwtAuthConfigurer;
 
@@ -12,7 +15,9 @@ import static parcel.delivery.app.common.security.core.RolePrivilege.VIEW_ORDERS
 
 @Configuration
 @EnableWebSecurity
+@ComponentScan(basePackages = PdaSpringApp.ROOT_PACKAGE)
 public class SecurityConfig {
+    @Bean
     public SecurityFilterChain configure(HttpSecurity http, ErrorHandler errorHandler, JwtAuthConfigurer jwtAuthConfigurer) throws Exception {
         // @formatter:off
         return http
