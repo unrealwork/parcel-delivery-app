@@ -4,7 +4,7 @@ import parcel.delivery.app.auth.api.models.request.SignInRequest;
 import parcel.delivery.app.auth.api.models.request.SignUpRequest;
 import parcel.delivery.app.auth.api.models.response.AuthData;
 import parcel.delivery.app.auth.api.models.response.SignInResponse;
-import parcel.delivery.app.auth.security.core.UserType;
+import parcel.delivery.app.common.security.core.UserType;
 
 public interface AuthenticationService {
     void signUp(SignUpRequest signUpRequestDto, UserType userType);

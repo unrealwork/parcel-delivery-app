@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import parcel.delivery.app.common.util.WebUtil;
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 
@@ -45,7 +46,7 @@ public class ApiRestClient {
     public ResultActions request(String url, HttpMethod httpMethod, String accessToken, Object req) throws Exception {
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.request(httpMethod, url);
         if (accessToken != null) {
-            request.header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
+            request.header(HttpHeaders.AUTHORIZATION, WebUtil.bearerHeader(accessToken));
         }
         if (req != null) {
             request.contentType(MediaType.APPLICATION_JSON);

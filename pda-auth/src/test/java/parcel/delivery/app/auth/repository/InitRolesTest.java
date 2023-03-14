@@ -11,9 +11,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import parcel.delivery.app.auth.domain.Privilege;
 import parcel.delivery.app.auth.domain.Role;
-import parcel.delivery.app.auth.security.core.RolePrivilege;
-import parcel.delivery.app.auth.security.core.UserType;
 import parcel.delivery.app.auth.util.TestUtil;
+import parcel.delivery.app.common.security.core.RolePrivilege;
+import parcel.delivery.app.common.security.core.UserType;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -24,11 +24,11 @@ import java.util.stream.Stream;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static parcel.delivery.app.auth.security.core.RolePrivilege.CREATE_COURIER_USER;
-import static parcel.delivery.app.auth.security.core.UserType.ADMIN;
-import static parcel.delivery.app.auth.security.core.UserType.COURIER;
-import static parcel.delivery.app.auth.security.core.UserType.USER;
 import static parcel.delivery.app.auth.util.TestUtil.arrayOf;
+import static parcel.delivery.app.common.security.core.RolePrivilege.CREATE_COURIER_USER;
+import static parcel.delivery.app.common.security.core.UserType.ADMIN;
+import static parcel.delivery.app.common.security.core.UserType.COURIER;
+import static parcel.delivery.app.common.security.core.UserType.USER;
 
 
 @ExtendWith(SpringExtension.class)

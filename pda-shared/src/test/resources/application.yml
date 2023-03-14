@@ -1,0 +1,6 @@
+application:
+  security:
+    jwt:
+      provider:
+        secretKey: 2A462D4A614E645267556B58703273357638782F413F4428472B4B6250655368
+        expirationDuration: 1h      

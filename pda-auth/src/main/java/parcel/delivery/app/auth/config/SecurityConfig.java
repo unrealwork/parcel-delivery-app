@@ -8,16 +8,15 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import parcel.delivery.app.auth.error.ErrorHandler;
-import parcel.delivery.app.auth.security.config.JwtAuthConfigurer;
+import parcel.delivery.app.common.security.config.JwtAuthConfigurer;
 
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
-import static parcel.delivery.app.auth.security.core.RolePrivilege.CREATE_COURIER_USER;
+import static parcel.delivery.app.common.security.core.RolePrivilege.CREATE_COURIER_USER;
 
 /**
  * Security configuration
@@ -29,29 +28,25 @@ import static parcel.delivery.app.auth.security.core.RolePrivilege.CREATE_COURIE
 public class SecurityConfig {
     @Bean
     @SuppressWarnings("squid:S4502")
-    public SecurityFilterChain configure(HttpSecurity http, ErrorHandler errorHandler,
-                                         JwtAuthConfigurer jwtAuthConfigurer) throws Exception {
+    public SecurityFilterChain configure(HttpSecurity http, ErrorHandler errorHandler, JwtAuthConfigurer jwtAuthConfigurer) throws Exception {
         // @formatter:off
-        return http.
-                csrf().disable()
+        return http
+                .csrf().disable()
+                .apply(jwtAuthConfigurer)
+                .and()
+                .authorizeHttpRequests()
+                    .requestMatchers(POST,"/auth/signup").permitAll()
+                    .requestMatchers(POST,"/auth/signin").permitAll()
+                    .requestMatchers(POST,"/auth/signup/courier")
+                        .hasAuthority(CREATE_COURIER_USER.getAuthority())    
+                    .requestMatchers(GET,"/auth/me").authenticated()
+                    .requestMatchers("/**").denyAll()
+                .and()
                 .exceptionHandling()
                     .authenticationEntryPoint(errorHandler)
                     .accessDeniedHandler(errorHandler)
                 .and()
-                    .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                    .authorizeHttpRequests()
-                        .requestMatchers(POST,"/auth/signup").permitAll()
-                        .requestMatchers(POST,"/auth/signin").permitAll()
-                        .requestMatchers(POST,"/auth/signup/courier")
-                            .hasAuthority(CREATE_COURIER_USER.getAuthority())    
-                        .requestMatchers(GET,"/auth/me").authenticated()
-                        .requestMatchers("/**").denyAll()
-                .and()
-                    .apply(jwtAuthConfigurer)
-                .and()
-                    .build();
+                .build();
                 // @formatter:on
     }
 

@@ -11,9 +11,9 @@ import parcel.delivery.app.auth.domain.Privilege;
 import parcel.delivery.app.auth.domain.Role;
 import parcel.delivery.app.auth.domain.User;
 import parcel.delivery.app.auth.repository.UserRepository;
-import parcel.delivery.app.auth.security.core.PdaUserDetails;
-import parcel.delivery.app.auth.security.core.RolePrivilege;
-import parcel.delivery.app.auth.security.core.UserType;
+import parcel.delivery.app.auth.security.auth.PdaUserDetails;
+import parcel.delivery.app.common.security.core.RolePrivilege;
+import parcel.delivery.app.common.security.core.UserType;
 
 import java.util.ArrayList;
 import java.util.Collection;

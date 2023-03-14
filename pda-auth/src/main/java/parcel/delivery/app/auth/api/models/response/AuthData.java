@@ -1,7 +1,9 @@
 package parcel.delivery.app.auth.api.models.response;
 
-import parcel.delivery.app.auth.security.core.RolePrivilege;
-import parcel.delivery.app.auth.security.core.UserType;
+
+
+import parcel.delivery.app.common.security.core.RolePrivilege;
+import parcel.delivery.app.common.security.core.UserType;
 
 import java.util.Collection;
 

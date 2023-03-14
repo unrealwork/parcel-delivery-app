@@ -17,8 +17,8 @@ import parcel.delivery.app.auth.api.models.request.SignUpRequest;
 import parcel.delivery.app.auth.api.models.response.SignInResponse;
 import parcel.delivery.app.auth.controller.client.ApiRestClient;
 import parcel.delivery.app.auth.repository.UserRepository;
-import parcel.delivery.app.auth.security.core.UserType;
 import parcel.delivery.app.auth.service.AuthenticationService;
+import parcel.delivery.app.common.security.core.UserType;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;

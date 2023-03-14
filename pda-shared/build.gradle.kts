@@ -7,9 +7,21 @@ plugins {
 }
 
 dependencies {
+    // SPRING
+    implementation(libs.spring.web)
+    implementation(libs.spring.security)
+    implementation(libs.spring.configuration.processor)
+    // JWT
+    implementation(libs.bundles.jjwt)
+    // Lombok
+    annotationProcessor(libs.lombok)
+    compileOnly(libs.lombok)
     testCompileOnly(libs.lombok)
     testAnnotationProcessor(libs.lombok)
+    // Testing
     testImplementation(libs.junit.api)
+    testImplementation(libs.spring.test)
+    testImplementation(libs.spring.security.test)
     testRuntimeOnly(libs.junit.engine)
 }
 
