@@ -49,7 +49,7 @@ public class PdaUserDetailService implements UserDetailsService {
         UserType userType = UserType.fromAuthority(role.getName());
         authorities.add(userType);
         for (Privilege privilege : role.getPrivileges()) {
-            authorities.add(RolePrivilege.valueOf(privilege.getName()));
+            authorities.add(RolePrivilege.fromAuthority(privilege.getName()));
         }
         return authorities;
     }

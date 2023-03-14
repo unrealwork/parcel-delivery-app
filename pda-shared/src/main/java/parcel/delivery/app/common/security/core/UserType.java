@@ -1,6 +1,7 @@
 package parcel.delivery.app.common.security.core;
 
 import org.springframework.lang.NonNull;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 
 public enum UserType implements GrantedAuthority {
@@ -15,8 +16,16 @@ public enum UserType implements GrantedAuthority {
 
     public static UserType fromAuthority(@NonNull String authority) {
         if (authority.startsWith(ROLE_PREFIX)) {
-            return UserType.valueOf(authority.substring(ROLE_PREFIX.length()));
+            try {
+                return UserType.valueOf(authority.substring(ROLE_PREFIX.length()));
+            } catch (IllegalArgumentException e) {
+                throw new BadCredentialsException("Unable to parse UserType", e);
+            }
         }
-        return null;
+        throw new BadCredentialsException("ROLE authority should start with " + ROLE_PREFIX);
+    }
+
+    public static UserType fromAuthority(@NonNull GrantedAuthority grantedAuthority) {
+        return fromAuthority(grantedAuthority.getAuthority());
     }
 }
