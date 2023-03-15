@@ -5,7 +5,7 @@ import parcel.delivery.app.common.annotations.PdaSpringApp;
 
 @PdaSpringApp
 public class PdaOrderApp {
-    public static void main(String[] args) {
+    public static void main(String... args) {
         SpringApplication.run(PdaOrderApp.class, args);
     }
 }
