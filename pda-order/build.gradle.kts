@@ -3,6 +3,7 @@ plugins {
     jacoco
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.spring.dm)
+    alias(libs.plugins.docker.compose)
 }
 
 dependencies {
@@ -23,6 +24,7 @@ dependencies {
     implementation(libs.spring.web)
     implementation(libs.spring.validation)
     implementation(libs.spring.devtools)
+    implementation(libs.spring.actuator)
     //db
     implementation(libs.psql.db)
     implementation(libs.liquibase.core)
@@ -41,4 +43,12 @@ apply(from = "../gradle/jacoco.gradle")
 
 tasks.test {
     useJUnitPlatform()
+}
+
+dockerCompose {
+    val serviceList = mutableListOf("db_pda_order")
+    useComposeFiles.set(listOf("../docker-compose.yml"))
+    startedServices.set(serviceList)
+    setProjectName("parcel-delivery-app")
+    noRecreate.set(true)
 }

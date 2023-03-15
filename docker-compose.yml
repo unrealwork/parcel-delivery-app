@@ -4,7 +4,7 @@ services:
     container_name: pda_auth_db
     image: postgres
     ports:
-      - "5432:5432"
+      - "15432:5432"
     env_file:
       - config/env/pda-auth-db.env
   pda_auth:
@@ -20,4 +20,23 @@ services:
       - db_pda_auth
     env_file:
       - config/env/pda-auth.env
-      
+  db_pda_order:
+    container_name: pda_order_db
+    image: postgres
+    ports:
+      - "25432:5432"
+    env_file:
+      - config/env/pda-order-db.env
+  pda_order:
+    build:
+      dockerfile: pda-order/Dockerfile
+      context: .
+    restart: unless-stopped
+    expose:
+      - "8082"
+    ports:
+      - "8082:8082"
+    depends_on:
+      - db_pda_order
+    env_file:
+      - config/env/pda-order.env    
