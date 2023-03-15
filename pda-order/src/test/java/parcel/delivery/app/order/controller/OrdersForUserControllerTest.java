@@ -1,25 +1,26 @@
 package parcel.delivery.app.order.controller;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 import parcel.delivery.app.order.controller.client.ApiRestClient;
 import parcel.delivery.app.order.domain.OrderDto;
+import parcel.delivery.app.order.repository.OrderRepository;
 import parcel.delivery.app.order.service.OrderService;
 
 import java.time.Instant;
-import java.util.List;
 import java.util.UUID;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static parcel.delivery.app.order.domain.OrderStatus.INITIAL;
 
@@ -32,10 +33,10 @@ class OrdersForUserControllerTest {
     private static final String CLIENT_ID = "test@mail.com";
     @Autowired
     private ApiRestClient client;
-    @MockBean
+    @Autowired
     private OrderService orderService;
     @Autowired
-    private JsonMatchers jsonMatchers;
+    private OrderRepository orderRepository;
 
 
     @Test
@@ -43,13 +44,14 @@ class OrdersForUserControllerTest {
     @DisplayName("User should retrieve list of own orders")
     void testViewOrdersRetrieve() throws Exception {
         OrderDto order = new OrderDto(ORDER_ID, INITIAL, CLIENT_ID, Instant.EPOCH, Instant.EPOCH);
-        List<OrderDto> orders = List.of(order);
-        Mockito.when(orderService.ordersForUser(CLIENT_ID))
-                .thenReturn(orders);
+        orderService.create(order);
         client.get(URL)
                 .andExpect(status().isOk())
-                .andExpect(jsonMatchers.isJsonArray(orders, new TypeReference<>() {
-                }));
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].id").isString())
+                .andExpect(jsonPath("$[0].createdBy")
+                        .value(CLIENT_ID))
+                .andExpect(jsonPath("$[0].status").value(INITIAL.name()));
     }
 
     @Test
@@ -58,5 +60,11 @@ class OrdersForUserControllerTest {
     void testUnavailabilityForAnonymous() throws Exception {
         client.get(URL)
                 .andExpect(status().isUnauthorized());
+    }
+
+    @AfterEach
+    @Transactional
+    public void cleanup() {
+        orderRepository.deleteAll();
     }
 }

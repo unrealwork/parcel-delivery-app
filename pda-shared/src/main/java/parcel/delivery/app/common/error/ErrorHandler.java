@@ -24,9 +24,7 @@ public class ErrorHandler implements AuthenticationEntryPoint, AccessDeniedHandl
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) {
-        if (request.getAuthType() == null) {
-            exceptionResolver.resolveException(request, response, null, authException);
-        }
+        exceptionResolver.resolveException(request, response, null, authException);
     }
 
     @Override

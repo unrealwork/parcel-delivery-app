@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface OrderService {
     List<OrderDto> ordersForUser(@NonNull String username);
+
+    OrderDto create(OrderDto order);
 }
