@@ -4,11 +4,9 @@ import org.springframework.boot.SpringApplication;
 import parcel.delivery.app.common.annotations.PdaSpringApp;
 
 @PdaSpringApp
-public class PdaAuthApplication {
-
-    static final String APP_ROOT_PACKAGE = "parcel.delivery.app";
+public class PdaAuthApp {
 
     public static void main(String[] args) {
-        SpringApplication.run(PdaAuthApplication.class, args);
+        SpringApplication.run(PdaAuthApp.class, args);
     }
 }

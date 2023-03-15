@@ -26,6 +26,7 @@ public class SecurityConfig {
                 .apply(jwtAuthConfigurer)
                 .and()
                 .authorizeHttpRequests()
+                    .requestMatchers("/actuator/**").permitAll()
                     .requestMatchers(GET,"/orders").hasAuthority(VIEW_ORDERS.getAuthority())
                     .anyRequest().denyAll()
                 .and()

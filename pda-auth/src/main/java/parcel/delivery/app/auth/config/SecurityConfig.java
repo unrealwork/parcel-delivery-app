@@ -38,6 +38,7 @@ public class SecurityConfig {
                 .apply(jwtAuthConfigurer)
                 .and()
                 .authorizeHttpRequests()
+                    .requestMatchers("/actuator/**").permitAll()
                     .requestMatchers(POST,"/auth/signup").permitAll()
                     .requestMatchers(POST,"/auth/signin").permitAll()
                     .requestMatchers(POST,"/auth/signup/courier")

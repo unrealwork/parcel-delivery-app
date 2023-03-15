@@ -3,6 +3,7 @@ plugins {
     checkstyle
     jacoco
     alias(libs.plugins.sonar)
+    alias(libs.plugins.docker.compose)
 }
 
 subprojects {
@@ -21,6 +22,12 @@ java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
+}
+
+dockerCompose {
+    useComposeFiles.set(listOf("docker-compose.yml"))
+    setProjectName("parcel-delivery-app")
+    noRecreate.set(true)
 }
 
 

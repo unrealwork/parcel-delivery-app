@@ -2,7 +2,7 @@ application:
   security:
     jwt:
       provider:
-        secretKey: ${JWT_SECRET_KEY}
+        secretKey: 2A462D4A614E645267556B58703273357638782F413F4428472B4B6250655368
 server:
   port: 8081
 spring:
@@ -12,9 +12,9 @@ spring:
     basename: i18n/messages
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${PSQL_HOST}:${PSQL_PORT}/${PSQL_DB}
-    username: ${PSQL_USER}
-    password: ${PSQL_PWD}
+    url: jdbc:postgresql://localhost:25432/pda_order_db
+    username: pda_order_user
+    password: pda_order_pwd
   liquibase:
     change-log: classpath:/db/changelog-master.yaml
   jpa:

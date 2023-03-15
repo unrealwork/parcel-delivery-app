@@ -8,8 +8,8 @@ mapstruct = "1.5.3.Final"
 liquibase = "4.16.1"
 postgres = "42.5.4"
 testcontainers = "1.17.6"
-restassured="5.3.0"
-
+restassured = "5.3.0"
+dockercompose = "0.16.11"
 
 
 
@@ -24,6 +24,7 @@ spring-validation = { module = "org.springframework.boot:spring-boot-starter-val
 spring-test = { module = "org.springframework.boot:spring-boot-starter-test" }
 spring-security-test = { module = "org.springframework.security:spring-security-test" }
 spring-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
+spring-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
 jjwt-api = { module = "io.jsonwebtoken:jjwt-api", version.ref = "jjwt" }
 jjwt-impl = { module = "io.jsonwebtoken:jjwt-impl", version.ref = "jjwt" }
@@ -34,10 +35,10 @@ mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.re
 lombok-mapstruct-binding = { module = "org.projectlombok:lombok-mapstruct-binding", version = "0.2.0" }
 liquibase-core = { module = "org.liquibase:liquibase-core", version.ref = "liquibase" }
 liquibase-hibernate5 = { module = "org.liquibase.ext:liquibase-hibernate5", version.ref = "liquibase" }
-tc = {module = "org.testcontainers:testcontainers", version.ref = "testcontainers"}
-tc-junit = {module = "org.testcontainers:junit-jupiter", version.ref = "testcontainers"}
-tc-psql = {module = "org.testcontainers:postgresql", version.ref = "testcontainers"}
-rest-assured = {module = "io.rest-assured:spring-mock-mvc", version.ref="restassured"}
+tc = { module = "org.testcontainers:testcontainers", version.ref = "testcontainers" }
+tc-junit = { module = "org.testcontainers:junit-jupiter", version.ref = "testcontainers" }
+tc-psql = { module = "org.testcontainers:postgresql", version.ref = "testcontainers" }
+rest-assured = { module = "io.rest-assured:spring-mock-mvc", version.ref = "restassured" }
 
 
 [bundles]
@@ -49,3 +50,4 @@ sonar = { id = "org.sonarqube", version = "4.0.0.2929" }
 spring-boot = { id = "org.springframework.boot", version.ref = "spring" }
 spring-dm = { id = "io.spring.dependency-management", version = "1.1.0" }
 liquibase = { id = "org.liquibase.gradle", version = "2.2.0" }
+docker-compose = { id = "com.avast.gradle.docker-compose", version.ref = "dockercompose" }
