@@ -22,6 +22,7 @@ dependencies {
     implementation(libs.spring.security)
     implementation(libs.spring.web)
     implementation(libs.spring.validation)
+    implementation(libs.spring.devtools)
     //db
     implementation(libs.psql.db)
     implementation(libs.liquibase.core)

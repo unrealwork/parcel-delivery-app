@@ -23,6 +23,7 @@ spring-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-
 spring-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
 spring-test = { module = "org.springframework.boot:spring-boot-starter-test" }
 spring-security-test = { module = "org.springframework.security:spring-security-test" }
+spring-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
 jjwt-api = { module = "io.jsonwebtoken:jjwt-api", version.ref = "jjwt" }
 jjwt-impl = { module = "io.jsonwebtoken:jjwt-impl", version.ref = "jjwt" }

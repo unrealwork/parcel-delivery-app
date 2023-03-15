@@ -1,6 +1,5 @@
 plugins {
     java
-    checkstyle
     jacoco
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.spring.dm)
@@ -32,4 +31,8 @@ apply(from = "../gradle/jacoco.gradle")
 
 tasks.test {
     useJUnitPlatform()
+}
+
+tasks.bootJar {
+    enabled = false
 }
