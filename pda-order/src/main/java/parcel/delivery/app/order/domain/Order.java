@@ -8,6 +8,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,6 +23,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -37,11 +42,20 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @NotBlank
+    private String description;
+
+    @DecimalMin("0.0")
+    @DecimalMax("100.0")
+    @Digits(integer = 3, fraction = 3)
+    private BigDecimal weight;
+
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private OrderStatus status;
 
+    @NotNull
     @Column(nullable = false)
     private String createdBy;
 

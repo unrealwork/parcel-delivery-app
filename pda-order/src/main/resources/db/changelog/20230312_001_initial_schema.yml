@@ -15,11 +15,21 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
+                  name: description
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: weight
+                  type: NUMERIC(6, 3)
+                  constraints:
+                    nullable: false
+              - column:
                   name: status
                   type: varchar(100)
                   constraints:
                     nullable: false
-                    unique: true
               - column:
                   name: created_by
                   type: varchar(255)
