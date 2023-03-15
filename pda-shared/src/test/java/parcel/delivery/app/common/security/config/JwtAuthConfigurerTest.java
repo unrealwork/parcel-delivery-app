@@ -1,6 +1,5 @@
 package parcel.delivery.app.common.security.config;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,16 +14,13 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.WebApplicationContext;
 import parcel.delivery.app.common.config.properties.JwtProviderProperties;
+import parcel.delivery.app.common.helper.SecuredTestingConfig;
 import parcel.delivery.app.common.security.core.RolePrivilege;
 import parcel.delivery.app.common.security.core.UserType;
 import parcel.delivery.app.common.security.filters.JwtAuthenticationFilter;
@@ -36,30 +32,21 @@ import java.util.Set;
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static parcel.delivery.app.common.util.WebUtil.bearerHeader;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(webEnvironment = RANDOM_PORT, classes = {JwtAuthConfigurerTest.Config.class})
+@SpringBootTest(webEnvironment = RANDOM_PORT, 
+        classes = {JwtAuthConfigurerTest.Config.class, SecuredTestingConfig.class})
 class JwtAuthConfigurerTest {
     public static final String TEST_URL = "/test";
     @Autowired
-    private WebApplicationContext wac;
+    private MockMvc mvc;
 
     @Autowired
     private JwtProvider jwtProvider;
-
-    private MockMvc mvc;
-
-    @BeforeEach
-    void setup() {
-        mvc = MockMvcBuilders.webAppContextSetup(wac)
-                .apply(springSecurity())
-                .build();
-    }
 
     @Test
     @DisplayName("Valid JWT Token should provide access to test resource")
@@ -104,19 +91,17 @@ class JwtAuthConfigurerTest {
         @Bean
         public SecurityFilterChain configure(HttpSecurity http, JwtAuthConfigurer jwtAuthConfigurer) throws Exception {
             return http
-                    .csrf().disable()
+                    .csrf()
+                    .disable()
                     .apply(jwtAuthConfigurer)
                     .and()
                     .authorizeHttpRequests()
-                    .requestMatchers(TEST_URL).authenticated()
-                    .anyRequest().denyAll()
+                    .requestMatchers(TEST_URL)
+                    .authenticated()
+                    .anyRequest()
+                    .denyAll()
                     .and()
                     .build();
-        }
-
-        @Bean
-        public UserDetailsService userDetailsService() {
-            return new InMemoryUserDetailsManager();
         }
     }
 }

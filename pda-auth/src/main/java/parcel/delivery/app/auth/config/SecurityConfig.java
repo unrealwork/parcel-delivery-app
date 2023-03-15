@@ -1,6 +1,7 @@
 package parcel.delivery.app.auth.config;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -11,7 +12,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import parcel.delivery.app.auth.error.ErrorHandler;
+import parcel.delivery.app.common.annotations.PdaSpringApp;
+import parcel.delivery.app.common.error.ErrorHandler;
 import parcel.delivery.app.common.security.config.JwtAuthConfigurer;
 
 import static org.springframework.http.HttpMethod.GET;
@@ -25,6 +27,7 @@ import static parcel.delivery.app.common.security.core.RolePrivilege.CREATE_COUR
  */
 @Configuration
 @EnableWebSecurity
+@ComponentScan(basePackages = PdaSpringApp.ROOT_PACKAGE)
 public class SecurityConfig {
     @Bean
     @SuppressWarnings("squid:S4502")

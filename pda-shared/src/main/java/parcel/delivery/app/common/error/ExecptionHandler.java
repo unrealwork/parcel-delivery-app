@@ -1,4 +1,4 @@
-package parcel.delivery.app.auth.error;
+package parcel.delivery.app.common.error;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import parcel.delivery.app.auth.error.model.ErrorResponse;
-import parcel.delivery.app.auth.error.model.ValidationErrorResponse;
+import parcel.delivery.app.common.error.model.ErrorResponse;
+import parcel.delivery.app.common.error.model.ValidationErrorResponse;
 
 import java.util.List;
 import java.util.Locale;
