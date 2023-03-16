@@ -11,6 +11,7 @@ spring:
     name: pda-auth
   messages:
     basename: i18n/messages
+    fallback-to-system-locale: true
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:25432/pda_order_db

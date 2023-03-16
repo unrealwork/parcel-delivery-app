@@ -5,16 +5,21 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import parcel.delivery.app.order.api.request.ChangeStatusRequest;
 import parcel.delivery.app.order.api.request.CreateOrderRequest;
 import parcel.delivery.app.order.dto.OrderDto;
+import parcel.delivery.app.order.error.OrderNotFoundException;
 import parcel.delivery.app.order.service.OrderService;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("orders")
@@ -30,7 +35,14 @@ public class OrdersController {
     }
 
     @PostMapping
-    public ResponseEntity<OrderDto> create(@Valid @RequestBody CreateOrderRequest orderDto) {
-        return ResponseEntity.ok(orderService.create(orderDto));
+    public ResponseEntity<OrderDto> create(@Valid @RequestBody CreateOrderRequest createOrderRequest) {
+        return ResponseEntity.ok(orderService.create(createOrderRequest));
+    }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<Void> create(@PathVariable UUID id, @Valid @RequestBody ChangeStatusRequest changeStatusRequest) throws OrderNotFoundException {
+        orderService.changeStatus(id, changeStatusRequest);
+        return ResponseEntity.noContent()
+                .build();
     }
 }

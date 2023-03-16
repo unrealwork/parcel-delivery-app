@@ -39,7 +39,7 @@ public class Order implements Serializable {
     private static final long serialVersionUID = 2039569510227677652L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @NotBlank

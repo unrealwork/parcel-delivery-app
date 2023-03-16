@@ -6,14 +6,17 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import parcel.delivery.app.order.api.request.ChangeStatusRequest;
 import parcel.delivery.app.order.api.request.CreateOrderRequest;
 import parcel.delivery.app.order.domain.Order;
 import parcel.delivery.app.order.domain.OrderStatus;
 import parcel.delivery.app.order.dto.OrderDto;
+import parcel.delivery.app.order.error.OrderNotFoundException;
 import parcel.delivery.app.order.mapper.OrderMapper;
 import parcel.delivery.app.order.repository.OrderRepository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -43,5 +46,14 @@ public class OrderServiceImpl implements OrderService {
                 .build();
         Order saved = orderRepository.save(entity);
         return orderMapper.toDto(saved);
+    }
+
+    @Override
+    public void changeStatus(UUID id, ChangeStatusRequest changeStatusRequest)
+            throws OrderNotFoundException {
+        if (!orderRepository.existsById(id)) {
+            throw new OrderNotFoundException(id);
+        }
+        orderRepository.updateStatus(id, changeStatusRequest.status());
     }
 }

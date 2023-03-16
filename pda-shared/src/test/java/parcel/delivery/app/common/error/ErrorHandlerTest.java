@@ -82,7 +82,7 @@ class ErrorHandlerTest {
     }
 
     @Configuration
-    @Import( {ErrorHandler.class, ExecptionHandler.class, TestController.class})
+    @Import( {ErrorHandler.class, PdaRestExceptionHandler.class, TestController.class})
     @EnableWebSecurity
     @EnableAutoConfiguration(exclude = UserDetailsServiceAutoConfiguration.class)
     static class Config {

@@ -16,7 +16,6 @@ import java.math.BigDecimal;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.params.provider.Arguments.arguments;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static parcel.delivery.app.order.domain.OrderStatus.INITIAL;
@@ -31,13 +30,7 @@ class OrderCreateControllerTest extends BaseControllerTest {
         return Stream.of(
                 arguments(new CreateOrderRequest("", (BigDecimal) null), "description", "must not be blank"),
                 arguments(new CreateOrderRequest("", (BigDecimal) null), "weight", "must not be null"),
-                arguments(new CreateOrderRequest("", "1.00001"), "weight",
-                        "numeric value out of bounds (<3 digits>.<3 digits> expected)"),
-                arguments(new CreateOrderRequest("", "-1.99"), "weight",
-                        "must be greater than or equal to 0.0"),
-                arguments(new CreateOrderRequest("", "101.00"), "weight",
-                        "must be less than or equal to 100.0")
-        );
+                arguments(new CreateOrderRequest("", "1.00001"), "weight", "numeric value out of bounds (<3 digits>.<3 digits> expected)"), arguments(new CreateOrderRequest("", "-1.99"), "weight", "must be greater than or equal to 0.0"), arguments(new CreateOrderRequest("", "101.00"), "weight", "must be less than or equal to 100.0"));
     }
 
     @Test
@@ -54,7 +47,6 @@ class OrderCreateControllerTest extends BaseControllerTest {
     void testOrderCreation() throws Exception {
         CreateOrderRequest createOrderRequest = new CreateOrderRequest("Test", BigDecimal.ONE);
         client.post(URL, createOrderRequest)
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isString())
                 .andExpect(jsonPath("$.description").value(createOrderRequest.description()))
@@ -71,7 +63,6 @@ class OrderCreateControllerTest extends BaseControllerTest {
     void testRequestBodyValidation(CreateOrderRequest orderDto, String field, String expectedFieldError) throws Exception {
         String fieldJsonPath = "$.fieldErrors." + field;
         client.post(URL, orderDto)
-                .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.fieldErrors").isMap())
                 .andExpect(jsonPath(fieldJsonPath).exists())

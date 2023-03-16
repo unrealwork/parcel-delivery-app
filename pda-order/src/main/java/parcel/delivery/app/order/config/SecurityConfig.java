@@ -12,6 +12,8 @@ import parcel.delivery.app.common.security.config.JwtAuthConfigurer;
 
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.PUT;
+import static parcel.delivery.app.common.security.core.RolePrivilege.CHANGE_ORDER_STATUS;
 import static parcel.delivery.app.common.security.core.RolePrivilege.CREATE_ORDER;
 import static parcel.delivery.app.common.security.core.RolePrivilege.VIEW_ORDERS;
 
@@ -31,6 +33,7 @@ public class SecurityConfig {
                     .requestMatchers("/actuator/**").permitAll()
                     .requestMatchers(GET,"/orders").hasAuthority(VIEW_ORDERS.getAuthority())
                     .requestMatchers(POST, "/orders").hasAuthority(CREATE_ORDER.getAuthority())
+                    .requestMatchers(PUT, "/orders/{id}/status").hasAuthority(CHANGE_ORDER_STATUS.getAuthority())
                     .anyRequest().denyAll()
                 .and()
                 .exceptionHandling()
