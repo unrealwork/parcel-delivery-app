@@ -55,6 +55,10 @@ public class ApiRestClient {
         return request(HttpMethod.PUT, req, null, urlTemplate, args);
     }
 
+    public ResultActions put(String urlTemplate, Object... args) throws Exception {
+        return put(null, urlTemplate, args);
+    }
+
     public ResultActions putJson(String json, String urlTemplate, Object... args) throws Exception {
         return requestJson(HttpMethod.PUT, json, null, urlTemplate, args);
     }

@@ -25,6 +25,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static parcel.delivery.app.auth.util.TestUtil.arrayOf;
+import static parcel.delivery.app.common.security.core.RolePrivilege.CANCEL_ORDER;
 import static parcel.delivery.app.common.security.core.RolePrivilege.CHANGE_ORDER_STATUS;
 import static parcel.delivery.app.common.security.core.RolePrivilege.CREATE_COURIER_USER;
 import static parcel.delivery.app.common.security.core.RolePrivilege.CREATE_ORDER;
@@ -43,7 +44,7 @@ public class InitRolesTest {
 
     public static Stream<Arguments> testCases() {
         return Stream.of(
-                Arguments.of(USER, TestUtil.arrayOf(VIEW_ORDERS, CREATE_ORDER)),
+                Arguments.of(USER, TestUtil.arrayOf(VIEW_ORDERS, CREATE_ORDER, CANCEL_ORDER)),
                 Arguments.of(ADMIN, arrayOf(CREATE_COURIER_USER, CHANGE_ORDER_STATUS)),
                 Arguments.of(COURIER, TestUtil.<RolePrivilege>arrayOf())
 

@@ -1,4 +1,4 @@
-package parcel.delivery.app.order.error;
+package parcel.delivery.app.order.error.exception;
 
 import parcel.delivery.app.common.error.exception.MessageResolvableException;
 
