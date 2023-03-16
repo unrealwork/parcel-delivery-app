@@ -13,7 +13,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import parcel.delivery.app.common.util.WebUtil;
 
+import java.nio.charset.StandardCharsets;
+
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @Component
 public class ApiRestClient {
@@ -24,15 +27,16 @@ public class ApiRestClient {
         this.mapper = mapper;
         this.mvc = MockMvcBuilders.webAppContextSetup(wac)
                 .apply(springSecurity())
+                .alwaysDo(print())
                 .build();
     }
 
     public ResultActions get(String url) throws Exception {
-        return request(url, HttpMethod.GET, null, null);
+        return request(HttpMethod.GET, null, null, url);
     }
 
     public ResultActions get(String url, String accessToken) throws Exception {
-        return request(url, HttpMethod.GET, accessToken, null);
+        return request(HttpMethod.GET, null, accessToken, url);
     }
 
     public ResultActions post(String url, Object object) throws Exception {
@@ -40,17 +44,34 @@ public class ApiRestClient {
     }
 
     public ResultActions post(String url, String accessToken, Object object) throws Exception {
-        return request(url, HttpMethod.POST, accessToken, object);
+        return request(HttpMethod.POST, object, accessToken, url);
     }
 
-    public ResultActions request(String url, HttpMethod httpMethod, String accessToken, Object req) throws Exception {
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.request(httpMethod, url);
+    public ResultActions request(HttpMethod httpMethod, Object req, String urlTemplate, Object... args) throws Exception {
+        return request(httpMethod, req, null, urlTemplate, args);
+    }
+
+    public ResultActions put(Object req, String urlTemplate, Object... args) throws Exception {
+        return request(HttpMethod.PUT, req, null, urlTemplate, args);
+    }
+
+    public ResultActions putJson(String json, String urlTemplate, Object... args) throws Exception {
+        return requestJson(HttpMethod.PUT, json, null, urlTemplate, args);
+    }
+
+    public ResultActions request(HttpMethod httpMethod, Object req, String accessToken, String urlTemplate, Object... args) throws Exception {
+        return requestJson(httpMethod, mapper.writeValueAsString(req), accessToken, urlTemplate, args);
+    }
+
+    public ResultActions requestJson(HttpMethod httpMethod, String json, String accessToken, String urlTemplate, Object... args) throws Exception {
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.request(httpMethod, urlTemplate, args);
         if (accessToken != null) {
             request.header(HttpHeaders.AUTHORIZATION, WebUtil.bearerHeader(accessToken));
         }
-        if (req != null) {
-            request.contentType(MediaType.APPLICATION_JSON);
-            request.content(mapper.writeValueAsString(req));
+        if (json != null) {
+            request.content(json)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .characterEncoding(StandardCharsets.UTF_8);
         }
         return mvc.perform(request);
     }

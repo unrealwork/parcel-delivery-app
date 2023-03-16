@@ -7,6 +7,10 @@ spring:
   liquibase:
     drop-first: true
     change-log: classpath:/db/changelog-master.yaml
+  jpa:
+    show-sql: true
+  messages:
+    basename: i18n/messages
 application:
   security:
     jwt:

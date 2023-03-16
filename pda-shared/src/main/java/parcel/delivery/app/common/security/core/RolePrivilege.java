@@ -5,7 +5,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 
 public enum RolePrivilege implements GrantedAuthority {
-    CREATE_COURIER_USER, VIEW_ORDERS, CREATE_ORDER;
+    CREATE_COURIER_USER, VIEW_ORDERS, CREATE_ORDER, CHANGE_ORDER_STATUS;
 
     @Override
     public String getAuthority() {
