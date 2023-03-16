@@ -68,9 +68,6 @@ public class OrderServiceImpl implements OrderService {
         if (!Objects.equals(order.getCreatedBy(), authentication.getName())) {
             throw new AccessDeniedException("Unable to get access to order created not by authenticated user");
         }
-        if (!orderRepository.existsById(id)) {
-            throw new OrderNotFoundException(id);
-        }
         if (order.getStatus()
                 .getOrder() > OrderStatus.PENDING.getOrder()) {
             throw new OrderCancellationException();
