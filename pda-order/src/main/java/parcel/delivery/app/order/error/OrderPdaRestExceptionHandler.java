@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import parcel.delivery.app.common.error.PdaRestExceptionHandler;
 import parcel.delivery.app.common.error.model.ErrorResponse;
+import parcel.delivery.app.order.error.exception.OrderNotFoundException;
 
 @RequiredArgsConstructor
 @RestControllerAdvice

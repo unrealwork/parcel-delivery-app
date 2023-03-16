@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import parcel.delivery.app.order.api.request.ChangeStatusRequest;
 import parcel.delivery.app.order.api.request.CreateOrderRequest;
 import parcel.delivery.app.order.dto.OrderDto;
-import parcel.delivery.app.order.error.OrderNotFoundException;
+import parcel.delivery.app.order.error.exception.OrderCancellationException;
+import parcel.delivery.app.order.error.exception.OrderNotFoundException;
 import parcel.delivery.app.order.service.OrderService;
 
 import java.security.Principal;
@@ -40,8 +41,16 @@ public class OrdersController {
     }
 
     @PutMapping("/{id}/status")
-    public ResponseEntity<Void> create(@PathVariable UUID id, @Valid @RequestBody ChangeStatusRequest changeStatusRequest) throws OrderNotFoundException {
+    public ResponseEntity<Void> changeStatus(@PathVariable UUID id, @Valid @RequestBody ChangeStatusRequest changeStatusRequest) throws OrderNotFoundException {
         orderService.changeStatus(id, changeStatusRequest);
+        return ResponseEntity.noContent()
+                .build();
+    }
+
+    @PutMapping("/{id}/cancel")
+    public ResponseEntity<Void> cancel(@PathVariable UUID id) throws
+            OrderNotFoundException, OrderCancellationException {
+        orderService.cancel(id);
         return ResponseEntity.noContent()
                 .build();
     }
