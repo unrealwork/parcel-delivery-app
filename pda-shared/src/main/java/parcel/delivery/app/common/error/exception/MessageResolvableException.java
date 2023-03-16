@@ -6,10 +6,6 @@ import org.springframework.context.support.DefaultMessageSourceResolvable;
 public abstract class MessageResolvableException extends Exception {
     private final DefaultMessageSourceResolvable resolvableMessage = new DefaultMessageSourceResolvable(new String[] {messageCode()}, messageArgs());
 
-    protected MessageResolvableException(String message) {
-        super(message);
-    }
-
     protected MessageResolvableException(Throwable cause) {
         super(cause);
     }

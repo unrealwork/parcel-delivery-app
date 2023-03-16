@@ -82,7 +82,7 @@ class OrderChangeStatusControllerTest extends BaseControllerTest {
 
 
     @WithMockUser(authorities = {"CHANGE_ORDER_STATUS"})
-    @DisplayName(URL_TEMPLATE + " should return bad req for invalid UUID")
+    @DisplayName(URL_TEMPLATE + " should return not found for non-existing UUID")
     @Test
     void testNotFoundOrder() throws Exception {
         Mockito.when(orderRepository.existsById(existingOrderId))
@@ -90,7 +90,8 @@ class OrderChangeStatusControllerTest extends BaseControllerTest {
 
         ChangeStatusRequest request = new ChangeStatusRequest(OrderStatus.ACCEPTED);
         client.put(request, URL_TEMPLATE, existingOrderId)
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").isString());
     }
 
 
