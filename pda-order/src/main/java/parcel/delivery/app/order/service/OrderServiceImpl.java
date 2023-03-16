@@ -2,10 +2,14 @@ package parcel.delivery.app.order.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import parcel.delivery.app.order.api.request.CreateOrderRequest;
 import parcel.delivery.app.order.domain.Order;
-import parcel.delivery.app.order.domain.OrderDto;
+import parcel.delivery.app.order.domain.OrderStatus;
+import parcel.delivery.app.order.dto.OrderDto;
 import parcel.delivery.app.order.mapper.OrderMapper;
 import parcel.delivery.app.order.repository.OrderRepository;
 
@@ -28,8 +32,15 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDto create(OrderDto order) {
-        Order entity = orderMapper.toEntity(order);
+    public OrderDto create(CreateOrderRequest order) {
+        Authentication authentication = SecurityContextHolder.getContext()
+                .getAuthentication();
+        Order entity = Order.builder()
+                .status(OrderStatus.INITIAL)
+                .description(order.description())
+                .createdBy(authentication.getName())
+                .weight(order.weight())
+                .build();
         Order saved = orderRepository.save(entity);
         return orderMapper.toDto(saved);
     }

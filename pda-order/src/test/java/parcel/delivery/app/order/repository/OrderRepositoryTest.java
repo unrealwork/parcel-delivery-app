@@ -10,6 +10,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import parcel.delivery.app.order.domain.Order;
 
+import java.math.BigDecimal;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -30,6 +32,8 @@ class OrderRepositoryTest {
         Order order = Order.builder()
                 .createdBy(creator)
                 .status(INITIAL)
+                .description("Test")
+                .weight(BigDecimal.ONE)
                 .build();
         final Order savedOrder = orderRepository.saveAndFlush(order);
         assertThat(savedOrder.getId(), notNullValue());
