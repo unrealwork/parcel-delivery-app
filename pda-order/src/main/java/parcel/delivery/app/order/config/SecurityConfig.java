@@ -30,6 +30,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .apply(jwtAuthConfigurer)
                 .and()
+                
                 .authorizeHttpRequests()
                     .requestMatchers("/actuator/**").permitAll()
                     .requestMatchers(GET,"/orders").hasAuthority(VIEW_ORDERS.getAuthority())
@@ -37,7 +38,8 @@ public class SecurityConfig {
                     .requestMatchers(PUT, "/orders/{id}/status")
                         .hasAuthority(CHANGE_ORDER_STATUS.getAuthority())
                     .requestMatchers(PUT, "/orders/{id}/cancel").hasAuthority(CANCEL_ORDER.getAuthority())
-                    .anyRequest().denyAll()
+                .requestMatchers(PUT, "/orders/{id}/destination").hasAuthority(CHANGE_ORDER_STATUS.getAuthority())
+                .anyRequest().denyAll()
                 .and()
                 .exceptionHandling()
                     .authenticationEntryPoint(errorHandler)

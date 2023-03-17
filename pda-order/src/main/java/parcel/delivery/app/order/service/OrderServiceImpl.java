@@ -7,12 +7,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import parcel.delivery.app.order.api.request.ChangeStatusRequest;
-import parcel.delivery.app.order.api.request.CreateOrderRequest;
+import parcel.delivery.app.order.controller.api.request.ChangeOrderDestinationRequest;
+import parcel.delivery.app.order.controller.api.request.ChangeStatusRequest;
+import parcel.delivery.app.order.controller.api.request.CreateOrderRequest;
 import parcel.delivery.app.order.domain.Order;
 import parcel.delivery.app.order.domain.OrderStatus;
 import parcel.delivery.app.order.dto.OrderDto;
 import parcel.delivery.app.order.error.exception.OrderCancellationException;
+import parcel.delivery.app.order.error.exception.OrderDestinationModificationException;
 import parcel.delivery.app.order.error.exception.OrderNotFoundException;
 import parcel.delivery.app.order.mapper.OrderMapper;
 import parcel.delivery.app.order.repository.OrderRepository;
@@ -44,6 +46,7 @@ public class OrderServiceImpl implements OrderService {
         Order entity = Order.builder()
                 .status(OrderStatus.INITIAL)
                 .description(order.description())
+                .destination(order.destination())
                 .createdBy(authentication.getName())
                 .weight(order.weight())
                 .build();
@@ -61,6 +64,16 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void cancel(UUID id) throws OrderNotFoundException, AccessDeniedException, OrderCancellationException {
+        Order order = findUserOrder(id);
+        if (order.getStatus()
+                .getOrder() > OrderStatus.PENDING.getOrder()) {
+            throw new OrderCancellationException();
+        }
+        orderRepository.updateStatus(id, OrderStatus.CANCELLED);
+    }
+
+    @NonNull
+    private Order findUserOrder(UUID id) throws OrderNotFoundException {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new OrderNotFoundException(id));
         Authentication authentication = SecurityContextHolder.getContext()
@@ -68,10 +81,15 @@ public class OrderServiceImpl implements OrderService {
         if (!Objects.equals(order.getCreatedBy(), authentication.getName())) {
             throw new AccessDeniedException("Unable to get access to order created not by authenticated user");
         }
+        return order;
+    }
+
+    @Override
+    public void changeDestination(UUID id, ChangeOrderDestinationRequest destinationRequest) throws OrderNotFoundException, OrderDestinationModificationException {
+        Order order = findUserOrder(id);
         if (order.getStatus()
-                .getOrder() > OrderStatus.PENDING.getOrder()) {
-            throw new OrderCancellationException();
+                .getOrder() >= OrderStatus.IN_PROGRESS.getOrder()) {
+            throw new OrderDestinationModificationException();
         }
-        orderRepository.updateStatus(id, OrderStatus.CANCELLED);
     }
 }

@@ -59,6 +59,10 @@ public class Order implements Serializable {
     @Column(nullable = false)
     private String createdBy;
 
+    @NotNull
+    @Column(nullable = false)
+    private String destination;
+
     @CreationTimestamp
     @Column(nullable = false)
     private Instant createdAt;

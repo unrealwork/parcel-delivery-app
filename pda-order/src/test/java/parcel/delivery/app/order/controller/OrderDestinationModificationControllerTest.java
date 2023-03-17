@@ -9,33 +9,41 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.annotation.Transactional;
+import parcel.delivery.app.order.controller.api.request.ChangeOrderDestinationRequest;
 import parcel.delivery.app.order.controller.api.request.ChangeStatusRequest;
 import parcel.delivery.app.order.domain.OrderStatus;
-import parcel.delivery.app.order.helper.OrderDomainTestConstants;
 import parcel.delivery.app.order.repository.OrderRepository;
+import parcel.delivery.app.order.service.OrderService;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static parcel.delivery.app.order.helper.OrderDomainTestConstants.CREATED_BY;
+import static parcel.delivery.app.order.helper.OrderDomainTestConstants.DESTINATION_ALT;
+import static parcel.delivery.app.order.helper.OrderDomainTestConstants.ORDER;
 
 @ExtendWith(MockitoExtension.class)
-class OrderChangeStatusControllerTest extends BaseControllerTest {
-    private static final String URL_TEMPLATE = "/orders/{id}/status";
-    private static final String REQ_AUTHORITY = "CHANGE_ORDER_STATUS";
-
+class OrderDestinationModificationControllerTest extends BaseControllerTest {
+    public static final String REQ_AUTHORITY = "CHANGE_ORDER_STATUS";
+    private static final String URL_TEMPLATE = "/orders/{id}/destination";
     @SpyBean
     private OrderRepository orderRepository;
+
+    @Autowired
+    private OrderService orderService;
     private UUID existingOrderId;
 
     @BeforeEach
     @Transactional
     public void setup() {
-        this.existingOrderId = orderRepository.save(OrderDomainTestConstants.ORDER)
+        this.existingOrderId = orderRepository.save(ORDER)
                 .getId();
     }
 
@@ -50,11 +58,11 @@ class OrderChangeStatusControllerTest extends BaseControllerTest {
     }
 
     @Test
-    @WithMockUser(authorities = {REQ_AUTHORITY})
+    @WithMockUser(username = CREATED_BY, authorities = {REQ_AUTHORITY})
     @DisplayName(URL_TEMPLATE + " should return no content for valid json")
     void testValidReq() throws Exception {
-        ChangeStatusRequest changeStatusRequest = new ChangeStatusRequest(OrderStatus.ACCEPTED);
-        client.put(changeStatusRequest, URL_TEMPLATE, existingOrderId)
+        ChangeOrderDestinationRequest request = new ChangeOrderDestinationRequest(DESTINATION_ALT);
+        client.put(request, URL_TEMPLATE, existingOrderId)
                 .andDo(print())
                 .andExpect(status().isNoContent());
     }
@@ -65,7 +73,7 @@ class OrderChangeStatusControllerTest extends BaseControllerTest {
             aavfv
             {"status":"NONEXIST"}
                                 """)
-    @WithMockUser(authorities = {REQ_AUTHORITY})
+    @WithMockUser(username = CREATED_BY, authorities = {REQ_AUTHORITY})
     @DisplayName(URL_TEMPLATE + " should return bad request for non valid json")
     void testBadRequests(String json) throws Exception {
         client.putJson(json, URL_TEMPLATE, existingOrderId)
@@ -75,16 +83,27 @@ class OrderChangeStatusControllerTest extends BaseControllerTest {
     }
 
 
-    @WithMockUser(authorities = {REQ_AUTHORITY})
+    @WithMockUser(username = CREATED_BY, authorities = {REQ_AUTHORITY})
     @DisplayName(URL_TEMPLATE + " should return not found for non-existing UUID")
     @Test
     void testNotFoundOrder() throws Exception {
-        Mockito.when(orderRepository.existsById(existingOrderId))
-                .thenReturn(false);
+        Mockito.when(orderRepository.findById(existingOrderId))
+                .thenReturn(Optional.empty());
 
-        ChangeStatusRequest request = new ChangeStatusRequest(OrderStatus.ACCEPTED);
+        ChangeOrderDestinationRequest request = new ChangeOrderDestinationRequest(DESTINATION_ALT);
         client.put(request, URL_TEMPLATE, existingOrderId)
                 .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").isString());
+    }
+
+    @WithMockUser(username = CREATED_BY, authorities = {REQ_AUTHORITY})
+    @DisplayName(URL_TEMPLATE + " should not be allowed for modification if status=IN_PROGRESS")
+    @Test
+    void testNotAllowedModification() throws Exception {
+        orderService.changeStatus(existingOrderId, new ChangeStatusRequest(OrderStatus.IN_PROGRESS));
+        ChangeOrderDestinationRequest request = new ChangeOrderDestinationRequest(DESTINATION_ALT);
+        client.put(request, URL_TEMPLATE, existingOrderId)
+                .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").isString());
     }
 

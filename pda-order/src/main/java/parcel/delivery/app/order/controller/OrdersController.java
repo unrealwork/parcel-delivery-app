@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import parcel.delivery.app.order.api.request.ChangeStatusRequest;
-import parcel.delivery.app.order.api.request.CreateOrderRequest;
+import parcel.delivery.app.order.controller.api.request.ChangeOrderDestinationRequest;
+import parcel.delivery.app.order.controller.api.request.ChangeStatusRequest;
+import parcel.delivery.app.order.controller.api.request.CreateOrderRequest;
 import parcel.delivery.app.order.dto.OrderDto;
 import parcel.delivery.app.order.error.exception.OrderCancellationException;
+import parcel.delivery.app.order.error.exception.OrderDestinationModificationException;
 import parcel.delivery.app.order.error.exception.OrderNotFoundException;
 import parcel.delivery.app.order.service.OrderService;
 
@@ -51,6 +53,16 @@ public class OrdersController {
     public ResponseEntity<Void> cancel(@PathVariable UUID id) throws
             OrderNotFoundException, OrderCancellationException {
         orderService.cancel(id);
+        return ResponseEntity.noContent()
+                .build();
+    }
+
+
+    @PutMapping("/{id}/destination")
+    public ResponseEntity<Void> cancel(@PathVariable UUID id,
+                                       @Valid @RequestBody ChangeOrderDestinationRequest destinationRequest) throws
+            OrderNotFoundException, OrderDestinationModificationException {
+        orderService.changeDestination(id, destinationRequest);
         return ResponseEntity.noContent()
                 .build();
     }

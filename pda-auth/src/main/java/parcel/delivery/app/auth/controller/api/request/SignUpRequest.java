@@ -1,4 +1,4 @@
-package parcel.delivery.app.auth.api.models.request;
+package parcel.delivery.app.auth.controller.api.request;
 
 
 import jakarta.validation.constraints.Email;

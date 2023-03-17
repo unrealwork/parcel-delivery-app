@@ -1,4 +1,4 @@
-package parcel.delivery.app.auth.api.models.response;
+package parcel.delivery.app.auth.controller.api.response;
 
 
 

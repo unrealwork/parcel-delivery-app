@@ -1,4 +1,4 @@
-package parcel.delivery.app.order.api.request;
+package parcel.delivery.app.order.controller.api.request;
 
 import jakarta.validation.constraints.NotNull;
 import parcel.delivery.app.order.domain.OrderStatus;
