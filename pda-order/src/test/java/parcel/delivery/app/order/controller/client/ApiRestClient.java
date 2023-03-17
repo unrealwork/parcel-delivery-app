@@ -79,4 +79,8 @@ public class ApiRestClient {
         }
         return mvc.perform(request);
     }
+
+    public ResultActions postJson(String jsonReq, String urlTemplate, Object... args) throws Exception {
+        return requestJson(HttpMethod.POST, jsonReq, null, urlTemplate, args);
+    }
 }
