@@ -8,11 +8,11 @@ import java.util.EnumMap;
 import java.util.List;
 
 
-public abstract class RoleBasedStrategyAggregator<T, S, C extends ComputationRoleBasedStrategy<T, S>> implements RoleBasedStrategy<T, S> {
+public abstract class RoleBasedAggregateStrategy<T, S, C extends ComputationRoleBasedStrategy<T, S>> implements RoleBasedStrategy<T, S> {
     private final EnumMap<UserType, C> strategiesMap;
     private final AuthenticationFacade authenticationFacade;
 
-    protected RoleBasedStrategyAggregator(List<C> strategies, AuthenticationFacade authenticationFacade) {
+    protected RoleBasedAggregateStrategy(List<C> strategies, AuthenticationFacade authenticationFacade) {
         this.authenticationFacade = authenticationFacade;
         strategiesMap = new EnumMap<>(UserType.class);
         for (C strategy : strategies) {

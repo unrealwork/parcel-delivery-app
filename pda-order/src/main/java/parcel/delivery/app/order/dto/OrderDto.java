@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import parcel.delivery.app.order.domain.Order;
 import parcel.delivery.app.order.domain.OrderStatus;
 
@@ -17,6 +18,7 @@ import java.util.UUID;
 /**
  * A DTO for the {@link Order} entity
  */
+@Builder
 public record OrderDto(UUID id, @NotBlank String description,
                        @DecimalMin("0.0") @DecimalMax("100.0") @Digits(integer = 3, fraction = 3)
                        BigDecimal weight,

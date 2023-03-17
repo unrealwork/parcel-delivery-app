@@ -28,11 +28,12 @@ import java.util.UUID;
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
-    private final ViewOrdersStrategyAggregator viewOrdersStrategyAggregator;
+    private final ViewOrdersStrategyAggregateAggregateStrategy viewOrdersStrategyAggregateStrategy;
+    private final ChangeOrderStatusAggregateStrategy changeOrderStatusAggregateStrategy;
 
     @Override
     public List<OrderDto> orders() {
-        return viewOrdersStrategyAggregator.apply(null);
+        return viewOrdersStrategyAggregateStrategy.apply(null);
     }
 
     @Override
@@ -54,10 +55,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void changeStatus(UUID id, ChangeStatusRequest changeStatusRequest) throws OrderNotFoundException {
-        if (!orderRepository.existsById(id)) {
-            throw new OrderNotFoundException(id);
-        }
-        orderRepository.updateStatus(id, changeStatusRequest.status());
+        changeOrderStatusAggregateStrategy.apply(new OrderRequest<>(id, changeStatusRequest));
     }
 
     @Override

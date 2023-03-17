@@ -9,12 +9,14 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.annotation.Transactional;
 import parcel.delivery.app.order.controller.api.request.ChangeStatusRequest;
+import parcel.delivery.app.order.domain.Order;
 import parcel.delivery.app.order.domain.OrderStatus;
-import parcel.delivery.app.order.helper.OrderDomainTestConstants;
+import parcel.delivery.app.order.helper.TestOrderService;
 import parcel.delivery.app.order.repository.OrderRepository;
 
 import java.util.UUID;
@@ -22,6 +24,8 @@ import java.util.UUID;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static parcel.delivery.app.order.helper.OrderDomainTestConstants.ASSIGNED_TO;
+import static parcel.delivery.app.order.helper.OrderDomainTestConstants.ORDER;
 
 @ExtendWith(MockitoExtension.class)
 class OrderChangeStatusControllerTest extends BaseControllerTest {
@@ -30,12 +34,14 @@ class OrderChangeStatusControllerTest extends BaseControllerTest {
 
     @SpyBean
     private OrderRepository orderRepository;
+    @Autowired
+    private TestOrderService testOrderService;
     private UUID existingOrderId;
 
     @BeforeEach
     @Transactional
     public void setup() {
-        this.existingOrderId = orderRepository.save(OrderDomainTestConstants.ORDER)
+        this.existingOrderId = testOrderService.save(ORDER)
                 .getId();
     }
 
@@ -50,7 +56,7 @@ class OrderChangeStatusControllerTest extends BaseControllerTest {
     }
 
     @Test
-    @WithMockUser(authorities = {REQ_AUTHORITY})
+    @WithMockUser(authorities = {"ROLE_ADMIN", REQ_AUTHORITY})
     @DisplayName(URL_TEMPLATE + " should return no content for valid json")
     void testValidReq() throws Exception {
         ChangeStatusRequest changeStatusRequest = new ChangeStatusRequest(OrderStatus.ACCEPTED);
@@ -75,7 +81,7 @@ class OrderChangeStatusControllerTest extends BaseControllerTest {
     }
 
 
-    @WithMockUser(authorities = {REQ_AUTHORITY})
+    @WithMockUser(authorities = {"ROLE_ADMIN", REQ_AUTHORITY})
     @DisplayName(URL_TEMPLATE + " should return not found for non-existing UUID")
     @Test
     void testNotFoundOrder() throws Exception {
@@ -88,10 +94,39 @@ class OrderChangeStatusControllerTest extends BaseControllerTest {
                 .andExpect(jsonPath("$.message").isString());
     }
 
+    @WithMockUser(authorities = {"ROLE_COURIER", REQ_AUTHORITY})
+    @DisplayName(URL_TEMPLATE + " should return bad request when try to change order not assigned to user")
+    @Test
+    void testChangingRequestNotAssignedToCourier() throws Exception {
+        ChangeStatusRequest request = new ChangeStatusRequest(OrderStatus.ACCEPTED);
+        client.put(request, URL_TEMPLATE, existingOrderId)
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.message").isString());
+    }
+
+    @ParameterizedTest
+    @CsvSource(textBlock = """
+            INITIAL,ACCEPTED,400
+            PENDING,ACCEPTED,204
+            IN_PROGRESS,DELIVERED,204
+            """)
+    @WithMockUser(username = ASSIGNED_TO, authorities = {"ROLE_COURIER", REQ_AUTHORITY})
+    @Transactional
+    @DisplayName(URL_TEMPLATE + " should allow courier change status according to strategy")
+    void testChangingForCourier(OrderStatus fromStatus, OrderStatus toStatus, int status) throws Exception {
+        Order order = testOrderService.save(
+                ORDER.toBuilder()
+                        .status(fromStatus)
+                        .assignedTo(ASSIGNED_TO)
+                        .build());
+        ChangeStatusRequest req = new ChangeStatusRequest(toStatus);
+        client.put(req, URL_TEMPLATE, order.getId())
+                .andExpect(status().is(status));
+    }
 
     @AfterEach
     @Transactional
     public void cleanup() {
-        orderRepository.deleteAll();
+        testOrderService.deleteAll();
     }
 }

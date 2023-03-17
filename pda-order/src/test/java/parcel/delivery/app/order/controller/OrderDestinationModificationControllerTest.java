@@ -14,10 +14,8 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.annotation.Transactional;
 import parcel.delivery.app.order.controller.api.request.ChangeOrderDestinationRequest;
-import parcel.delivery.app.order.controller.api.request.ChangeStatusRequest;
-import parcel.delivery.app.order.domain.OrderStatus;
+import parcel.delivery.app.order.helper.TestOrderService;
 import parcel.delivery.app.order.repository.OrderRepository;
-import parcel.delivery.app.order.service.OrderService;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -25,6 +23,7 @@ import java.util.UUID;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static parcel.delivery.app.order.domain.OrderStatus.IN_PROGRESS;
 import static parcel.delivery.app.order.helper.OrderDomainTestConstants.CREATED_BY;
 import static parcel.delivery.app.order.helper.OrderDomainTestConstants.DESTINATION_ALT;
 import static parcel.delivery.app.order.helper.OrderDomainTestConstants.ORDER;
@@ -37,13 +36,13 @@ class OrderDestinationModificationControllerTest extends BaseControllerTest {
     private OrderRepository orderRepository;
 
     @Autowired
-    private OrderService orderService;
+    private TestOrderService testOrderService;
     private UUID existingOrderId;
 
     @BeforeEach
     @Transactional
     public void setup() {
-        this.existingOrderId = orderRepository.save(ORDER)
+        this.existingOrderId = testOrderService.save(ORDER)
                 .getId();
     }
 
@@ -96,11 +95,12 @@ class OrderDestinationModificationControllerTest extends BaseControllerTest {
                 .andExpect(jsonPath("$.message").isString());
     }
 
-    @WithMockUser(username = CREATED_BY, authorities = {REQ_AUTHORITY})
+    @WithMockUser(username = CREATED_BY, authorities = {"ROLE_USER", REQ_AUTHORITY})
     @DisplayName(URL_TEMPLATE + " should not be allowed for modification if status=IN_PROGRESS")
     @Test
+    @Transactional
     void testNotAllowedModification() throws Exception {
-        orderService.changeStatus(existingOrderId, new ChangeStatusRequest(OrderStatus.IN_PROGRESS));
+        testOrderService.changeStatus(existingOrderId, IN_PROGRESS);
         ChangeOrderDestinationRequest request = new ChangeOrderDestinationRequest(DESTINATION_ALT);
         client.put(request, URL_TEMPLATE, existingOrderId)
                 .andExpect(status().isBadRequest())

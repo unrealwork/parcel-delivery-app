@@ -8,11 +8,9 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.transaction.annotation.Transactional;
-import parcel.delivery.app.order.controller.api.request.ChangeStatusRequest;
 import parcel.delivery.app.order.domain.OrderStatus;
+import parcel.delivery.app.order.helper.TestOrderService;
 import parcel.delivery.app.order.repository.OrderRepository;
-import parcel.delivery.app.order.service.OrderService;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -32,14 +30,13 @@ class OrderCancelControllerTest extends BaseControllerTest {
     @SpyBean
     private OrderRepository orderRepository;
     @Autowired
-    private OrderService orderService;
+    private TestOrderService testOrderService;
 
     private UUID existingOrderId;
 
     @BeforeEach
-    @Transactional
     public void setup() {
-        this.existingOrderId = orderRepository.save(ORDER)
+        this.existingOrderId = testOrderService.save(ORDER)
                 .getId();
     }
 
@@ -85,11 +82,11 @@ class OrderCancelControllerTest extends BaseControllerTest {
                 .andExpect(jsonPath("$.message").isString());
     }
 
-    @WithMockUser(username = CREATED_BY, authorities = {REQ_AUTHORITY})
+    @WithMockUser(username = CREATED_BY, authorities = {"ROLE_USER", REQ_AUTHORITY})
     @DisplayName(URL_TEMPLATE + " should return bad request when order status is unable to change")
     @Test
     void testOrderUnableToCancel() throws Exception {
-        orderService.changeStatus(existingOrderId, new ChangeStatusRequest(OrderStatus.IN_PROGRESS));
+        testOrderService.changeStatus(existingOrderId, OrderStatus.IN_PROGRESS);
         client.put(URL_TEMPLATE, existingOrderId)
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").isString());
@@ -97,8 +94,7 @@ class OrderCancelControllerTest extends BaseControllerTest {
 
 
     @AfterEach
-    @Transactional
     public void cleanup() {
-        orderRepository.deleteAll();
+        testOrderService.deleteAll();
     }
 }
