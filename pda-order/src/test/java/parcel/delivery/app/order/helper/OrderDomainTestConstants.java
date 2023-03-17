@@ -11,6 +11,8 @@ import static parcel.delivery.app.order.domain.OrderStatus.INITIAL;
 public class OrderDomainTestConstants {
     public static final String CREATED_BY = "john@doe.com";
     public static final String CREATED_BY_ALT = "jane@doe.com";
+
+    public static final String ASSIGNED_TO = "jack@doe.com";
     public static final String DESCRIPTION = "Test description";
     public static final String DESTINATION = "20 W 34th St., New York, NY 10001, USA";
     public static final String DESTINATION_ALT = "11 Aleksandr Pushkin St, T'bilisi 0105";
@@ -20,5 +22,13 @@ public class OrderDomainTestConstants {
             .description(DESCRIPTION)
             .weight(BigDecimal.ONE)
             .destination(DESTINATION)
+            .build();
+
+    public static final Order ORDER_ALT = Order.builder()
+            .createdBy(CREATED_BY_ALT)
+            .status(INITIAL)
+            .description(DESCRIPTION)
+            .weight(BigDecimal.ONE)
+            .destination(DESTINATION_ALT)
             .build();
 }

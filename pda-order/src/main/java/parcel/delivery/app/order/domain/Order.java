@@ -11,6 +11,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -32,7 +33,7 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Builder(toBuilder = true)
 @Setter
 public class Order implements Serializable {
     @Serial
@@ -56,8 +57,12 @@ public class Order implements Serializable {
     private OrderStatus status;
 
     @NotNull
+    @Email
     @Column(nullable = false)
     private String createdBy;
+
+    @Email
+    private String assignedTo;
 
     @NotNull
     @Column(nullable = false)

@@ -25,21 +25,18 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
+    private final ViewOrdersStrategyAggregator viewOrdersStrategyAggregator;
 
     @Override
-    @Transactional(readOnly = true)
-    public List<OrderDto> ordersForUser(@NonNull String username) {
-        return orderRepository.findAllByCreatedByEqualsIgnoreCase(username)
-                .stream()
-                .map(orderMapper::toDto)
-                .toList();
+    public List<OrderDto> orders() {
+        return viewOrdersStrategyAggregator.apply(null);
     }
 
     @Override
+    @Transactional
     public OrderDto create(CreateOrderRequest order) {
         Authentication authentication = SecurityContextHolder.getContext()
                 .getAuthentication();
@@ -55,6 +52,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public void changeStatus(UUID id, ChangeStatusRequest changeStatusRequest) throws OrderNotFoundException {
         if (!orderRepository.existsById(id)) {
             throw new OrderNotFoundException(id);
@@ -63,6 +61,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public void cancel(UUID id) throws OrderNotFoundException, AccessDeniedException, OrderCancellationException {
         Order order = findUserOrder(id);
         if (order.getStatus()
