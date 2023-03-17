@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
-import parcel.delivery.app.auth.api.models.request.SignUpRequest;
+import parcel.delivery.app.auth.controller.api.request.SignUpRequest;
 import parcel.delivery.app.auth.controller.client.ApiRestClient;
 import parcel.delivery.app.auth.repository.UserRepository;
 import parcel.delivery.app.auth.service.AuthenticationService;

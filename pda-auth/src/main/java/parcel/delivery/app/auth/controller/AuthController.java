@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import parcel.delivery.app.auth.api.models.request.SignInRequest;
-import parcel.delivery.app.auth.api.models.request.SignUpRequest;
-import parcel.delivery.app.auth.api.models.response.AuthData;
-import parcel.delivery.app.auth.api.models.response.SignInResponse;
+import parcel.delivery.app.auth.controller.api.request.SignInRequest;
+import parcel.delivery.app.auth.controller.api.request.SignUpRequest;
+import parcel.delivery.app.auth.controller.api.response.AuthData;
+import parcel.delivery.app.auth.controller.api.response.SignInResponse;
 import parcel.delivery.app.auth.service.AuthenticationService;
 import parcel.delivery.app.common.security.core.UserType;
 

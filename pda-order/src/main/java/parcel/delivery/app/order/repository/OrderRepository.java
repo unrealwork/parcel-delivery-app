@@ -15,7 +15,11 @@ import java.util.UUID;
 public interface OrderRepository extends JpaRepository<Order, UUID> {
     List<Order> findAllByCreatedByEqualsIgnoreCase(String createdBy);
 
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Query("update Order o set o.status = :status where o.id = :id")
     void updateStatus(@Param("id") UUID id, @Param("status") OrderStatus status);
+
+    @Modifying(clearAutomatically = true)
+    @Query("update Order o set o.destination = :destination where o.id = :id")
+    void updateDestination(@Param("id") UUID id, @Param("destination") String destination);
 }

@@ -17,7 +17,11 @@ import java.util.UUID;
  * A DTO for the {@link Order} entity
  */
 public record OrderDto(UUID id, @NotBlank String description,
-                       @DecimalMin("0.0") @DecimalMax("100.0") @Digits(integer = 3, fraction = 3) BigDecimal weight,
-                       @NotNull OrderStatus status, @NotNull String createdBy, Instant createdAt,
+                       @DecimalMin("0.0") @DecimalMax("100.0") @Digits(integer = 3, fraction = 3)
+                       BigDecimal weight,
+                       @NotNull OrderStatus status,
+                       @NotNull String createdBy,
+                       @NotNull String destination,
+                       Instant createdAt,
                        Instant updatedAt) implements Serializable {
 }

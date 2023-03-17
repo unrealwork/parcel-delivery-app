@@ -9,23 +9,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.annotation.Transactional;
-import parcel.delivery.app.order.api.request.ChangeStatusRequest;
-import parcel.delivery.app.order.domain.Order;
+import parcel.delivery.app.order.controller.api.request.ChangeStatusRequest;
 import parcel.delivery.app.order.domain.OrderStatus;
 import parcel.delivery.app.order.repository.OrderRepository;
 import parcel.delivery.app.order.service.OrderService;
 
-import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static parcel.delivery.app.order.helper.OrderDomainTestConstants.CREATED_BY;
+import static parcel.delivery.app.order.helper.OrderDomainTestConstants.CREATED_BY_ALT;
+import static parcel.delivery.app.order.helper.OrderDomainTestConstants.ORDER;
 
 class OrderCancelControllerTest extends BaseControllerTest {
 
     private static final String URL_TEMPLATE = "/orders/{id}/cancel";
+    public static final String REQ_AUTHORITY = "CANCEL_ORDER";
 
     @SpyBean
     private OrderRepository orderRepository;
@@ -37,13 +39,7 @@ class OrderCancelControllerTest extends BaseControllerTest {
     @BeforeEach
     @Transactional
     public void setup() {
-        Order order = Order.builder()
-                .createdBy("john@doe.com")
-                .weight(BigDecimal.ONE)
-                .description("Test")
-                .status(OrderStatus.INITIAL)
-                .build();
-        this.existingOrderId = orderRepository.save(order)
+        this.existingOrderId = orderRepository.save(ORDER)
                 .getId();
     }
 
@@ -58,7 +54,7 @@ class OrderCancelControllerTest extends BaseControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "john@doe.com", authorities = {"CANCEL_ORDER"})
+    @WithMockUser(username = "john@doe.com", authorities = {REQ_AUTHORITY})
     @DisplayName(URL_TEMPLATE + " should return no content for valid request")
     void testValidReq() throws Exception {
         client.put(URL_TEMPLATE, existingOrderId)
@@ -67,7 +63,7 @@ class OrderCancelControllerTest extends BaseControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "jane@doe.com", authorities = {"CANCEL_ORDER"})
+    @WithMockUser(username = CREATED_BY_ALT, authorities = {REQ_AUTHORITY})
     @DisplayName(URL_TEMPLATE + " should be forbidden to cancel ")
     void testAccessDeniedToSpecificOrder() throws Exception {
         client.put(URL_TEMPLATE, existingOrderId)
@@ -77,7 +73,7 @@ class OrderCancelControllerTest extends BaseControllerTest {
     }
 
 
-    @WithMockUser(username = "john@doe.com", authorities = {"CANCEL_ORDER"})
+    @WithMockUser(username = "john@doe.com", authorities = {REQ_AUTHORITY})
     @DisplayName(URL_TEMPLATE + " should return not found for non-existing UUID")
     @Test
     void testNotFoundOrder() throws Exception {
@@ -89,7 +85,7 @@ class OrderCancelControllerTest extends BaseControllerTest {
                 .andExpect(jsonPath("$.message").isString());
     }
 
-    @WithMockUser(username = "john@doe.com", authorities = {"CANCEL_ORDER"})
+    @WithMockUser(username = CREATED_BY, authorities = {REQ_AUTHORITY})
     @DisplayName(URL_TEMPLATE + " should return bad request when order status is unable to change")
     @Test
     void testOrderUnableToCancel() throws Exception {
