@@ -5,10 +5,12 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+@Builder
 public record CreateOrderRequest(@NotBlank String description,
 
                                  @NotBlank String destination,

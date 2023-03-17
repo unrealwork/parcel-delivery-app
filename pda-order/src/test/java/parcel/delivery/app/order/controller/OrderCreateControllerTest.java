@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.annotation.Transactional;
 import parcel.delivery.app.order.controller.api.request.CreateOrderRequest;
-import parcel.delivery.app.order.repository.OrderRepository;
+import parcel.delivery.app.order.helper.TestOrderService;
 
 import java.math.BigDecimal;
 
@@ -23,7 +23,7 @@ import static parcel.delivery.app.order.helper.OrderDomainTestConstants.DESTINAT
 class OrderCreateControllerTest extends BaseControllerTest {
     private static final String URL = "/orders";
     @Autowired
-    private OrderRepository orderRepository;
+    private TestOrderService orderService;
 
     @Test
     @WithMockUser
@@ -71,6 +71,6 @@ class OrderCreateControllerTest extends BaseControllerTest {
     @AfterEach
     @Transactional
     public void cleanUp() {
-        orderRepository.deleteAll();
+        orderService.deleteAll();
     }
 }

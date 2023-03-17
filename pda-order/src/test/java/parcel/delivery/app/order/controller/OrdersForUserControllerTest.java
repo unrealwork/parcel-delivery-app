@@ -9,7 +9,7 @@ import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.annotation.Transactional;
 import parcel.delivery.app.order.domain.Order;
-import parcel.delivery.app.order.repository.OrderRepository;
+import parcel.delivery.app.order.helper.TestOrderService;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -25,14 +25,13 @@ class OrdersForUserControllerTest extends BaseControllerTest {
     private static final String URL = "/orders";
     public static final String REQ_AUTHORITY = "VIEW_ORDERS";
     @Autowired
-    private OrderRepository orderRepository;
+    private TestOrderService testOrderService;
 
 
     @BeforeEach
-    @Transactional
     public void init() {
-        orderRepository.save(ORDER);
-        orderRepository.save(ORDER_ALT);
+        testOrderService.save(ORDER);
+        testOrderService.save(ORDER_ALT);
     }
 
     @Test
@@ -72,10 +71,9 @@ class OrdersForUserControllerTest extends BaseControllerTest {
     @DisplayName("Should correctly return orders assigned to courier")
     void testCourierReceiveOrderAssignedToHim() throws Exception {
         Order order = ORDER.toBuilder()
-                .id(null)
                 .assignedTo(ASSIGNED_TO)
                 .build();
-        orderRepository.saveAndFlush(order);
+        testOrderService.save(order);
         client.get(URL)
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()").value(1))
@@ -86,6 +84,6 @@ class OrdersForUserControllerTest extends BaseControllerTest {
     @AfterEach
     @Transactional
     public void cleanup() {
-        orderRepository.deleteAll();
+        testOrderService.deleteAll();
     }
 }

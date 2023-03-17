@@ -9,8 +9,8 @@ import java.util.List;
 
 
 @Service
-public class ViewOrdersStrategyAggregator extends RoleBasedStrategyAggregator<Void, List<OrderDto>, ViewOrdersStrategy> {
-    protected ViewOrdersStrategyAggregator(List<ViewOrdersStrategy> strategies, AuthenticationFacade authenticationFacade) {
+public class ViewOrdersStrategyAggregateAggregateStrategy extends RoleBasedAggregateStrategy<Void, List<OrderDto>, ViewOrdersStrategy> {
+    protected ViewOrdersStrategyAggregateAggregateStrategy(List<ViewOrdersStrategy> strategies, AuthenticationFacade authenticationFacade) {
         super(strategies, authenticationFacade);
     }
 
