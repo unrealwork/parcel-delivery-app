@@ -20,7 +20,6 @@ import parcel.delivery.app.order.error.exception.OrderDestinationModificationExc
 import parcel.delivery.app.order.error.exception.OrderNotFoundException;
 import parcel.delivery.app.order.service.OrderService;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,8 +31,7 @@ public class OrdersController {
 
     @GetMapping
     public ResponseEntity<List<OrderDto>> orders(HttpServletRequest request) {
-        Principal userPrincipal = request.getUserPrincipal();
-        List<OrderDto> orders = orderService.ordersForUser(userPrincipal.getName());
+        List<OrderDto> orders = orderService.orders();
         return ResponseEntity.ok(orders);
     }
 

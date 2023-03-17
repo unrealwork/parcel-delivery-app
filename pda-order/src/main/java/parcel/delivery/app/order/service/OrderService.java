@@ -1,6 +1,5 @@
 package parcel.delivery.app.order.service;
 
-import org.springframework.lang.NonNull;
 import parcel.delivery.app.order.controller.api.request.ChangeOrderDestinationRequest;
 import parcel.delivery.app.order.controller.api.request.ChangeStatusRequest;
 import parcel.delivery.app.order.controller.api.request.CreateOrderRequest;
@@ -13,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface OrderService {
-    List<OrderDto> ordersForUser(@NonNull String username);
+    List<OrderDto> orders();
 
     OrderDto create(CreateOrderRequest order);
 

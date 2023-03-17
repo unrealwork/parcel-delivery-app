@@ -15,6 +15,8 @@ import java.util.UUID;
 public interface OrderRepository extends JpaRepository<Order, UUID> {
     List<Order> findAllByCreatedByEqualsIgnoreCase(String createdBy);
 
+    List<Order> findAllByAssignedToEqualsIgnoreCase(String assignedTo);
+
     @Modifying(clearAutomatically = true)
     @Query("update Order o set o.status = :status where o.id = :id")
     void updateStatus(@Param("id") UUID id, @Param("status") OrderStatus status);

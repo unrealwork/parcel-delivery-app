@@ -35,6 +35,9 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: assigned_to
+                  type: varchar(255)
+              - column:
                   name: destination
                   type: varchar(255)
                   constraints:
