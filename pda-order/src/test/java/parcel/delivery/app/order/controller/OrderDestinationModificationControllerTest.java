@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.annotation.Transactional;
+import parcel.delivery.app.common.test.security.annotations.WithUserRole;
 import parcel.delivery.app.order.controller.api.request.ChangeOrderDestinationRequest;
 import parcel.delivery.app.order.helper.TestOrderService;
 import parcel.delivery.app.order.repository.OrderRepository;
@@ -24,13 +25,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static parcel.delivery.app.order.domain.OrderStatus.IN_PROGRESS;
-import static parcel.delivery.app.order.helper.OrderDomainTestConstants.CREATED_BY;
 import static parcel.delivery.app.order.helper.OrderDomainTestConstants.DESTINATION_ALT;
 import static parcel.delivery.app.order.helper.OrderDomainTestConstants.ORDER;
 
 @ExtendWith(MockitoExtension.class)
 class OrderDestinationModificationControllerTest extends BaseControllerTest {
-    public static final String REQ_AUTHORITY = "CHANGE_ORDER_STATUS";
     private static final String URL_TEMPLATE = "/orders/{id}/destination";
     @SpyBean
     private OrderRepository orderRepository;
@@ -57,7 +56,7 @@ class OrderDestinationModificationControllerTest extends BaseControllerTest {
     }
 
     @Test
-    @WithMockUser(username = CREATED_BY, authorities = {REQ_AUTHORITY})
+    @WithUserRole
     @DisplayName(URL_TEMPLATE + " should return no content for valid json")
     void testValidReq() throws Exception {
         ChangeOrderDestinationRequest request = new ChangeOrderDestinationRequest(DESTINATION_ALT);
@@ -72,7 +71,7 @@ class OrderDestinationModificationControllerTest extends BaseControllerTest {
             aavfv
             {"status":"NONEXIST"}
                                 """)
-    @WithMockUser(username = CREATED_BY, authorities = {REQ_AUTHORITY})
+    @WithUserRole
     @DisplayName(URL_TEMPLATE + " should return bad request for non valid json")
     void testBadRequests(String json) throws Exception {
         client.putJson(json, URL_TEMPLATE, existingOrderId)
@@ -82,7 +81,7 @@ class OrderDestinationModificationControllerTest extends BaseControllerTest {
     }
 
 
-    @WithMockUser(username = CREATED_BY, authorities = {REQ_AUTHORITY})
+    @WithUserRole
     @DisplayName(URL_TEMPLATE + " should return not found for non-existing UUID")
     @Test
     void testNotFoundOrder() throws Exception {
@@ -95,7 +94,7 @@ class OrderDestinationModificationControllerTest extends BaseControllerTest {
                 .andExpect(jsonPath("$.message").isString());
     }
 
-    @WithMockUser(username = CREATED_BY, authorities = {"ROLE_USER", REQ_AUTHORITY})
+    @WithUserRole
     @DisplayName(URL_TEMPLATE + " should not be allowed for modification if status=IN_PROGRESS")
     @Test
     @Transactional
