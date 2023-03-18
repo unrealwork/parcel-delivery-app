@@ -1,5 +1,6 @@
 package parcel.delivery.app.delivery.repository;
 
+import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,7 @@ import parcel.delivery.app.delivery.domain.CourierStatus;
 import parcel.delivery.app.delivery.domain.Delivery;
 import parcel.delivery.app.delivery.domain.DeliveryStatus;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -41,11 +43,17 @@ class DeliveryRepositoryTest {
         Delivery delivery = Delivery.builder()
                 .orderId(ORDER_ID)
                 .status(DeliveryStatus.INITIAL)
+                .latitude(BigDecimal.ONE)
+                .latitude(BigDecimal.ONE)
                 .orderedBy(WithUserRole.USERNAME)
                 .courier(courier)
                 .build();
         Delivery savedDelivery = deliveryRepository.saveAndFlush(delivery);
         assertThat(savedDelivery.getOrderId(), equalTo(ORDER_ID));
+        assertThat(savedDelivery.getCourier(), CoreMatchers.notNullValue());
+        assertThat(savedDelivery.getStatus(), equalTo(DeliveryStatus.INITIAL));
+        assertThat(savedDelivery.getCreatedAt(), CoreMatchers.notNullValue());
+        assertThat(savedDelivery.getUpdatedAt(), CoreMatchers.notNullValue());
     }
 
     @AfterEach
