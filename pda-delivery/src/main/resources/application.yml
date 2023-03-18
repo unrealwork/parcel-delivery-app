@@ -13,9 +13,9 @@ spring:
     fallback-to-system-locale: true
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:25432/pda_order_db
-    username: pda_order_user
-    password: pda_order_pwd
+    url: jdbc:postgresql://localhost:35432/pda_delivery_db
+    username: pda_delivery_user
+    password: pda_delivery_pwd
   liquibase:
     change-log: classpath:/db/changelog-master.yaml
   jpa:
@@ -25,7 +25,7 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
         implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
-      ddl-auto: none
+      ddl-auto: validate
     properties:
       hibernate.id.new_generator_mappings: true
       hibernate.connection.provider_disables_autocommit: true

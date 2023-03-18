@@ -1,5 +1,5 @@
 databaseChangeLog:
-  - include:
-      file: changelog/20230312_001_initial_schema.yml
+  - includeAll:
+      path: changelog
       relativeToChangelogFile: true
       
