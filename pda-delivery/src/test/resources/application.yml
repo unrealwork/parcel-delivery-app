@@ -1,0 +1,22 @@
+spring:
+  test:
+    database:
+      replace: none
+  datasource:
+    url: jdbc:tc:postgresql:14:///pda-auth-test
+  liquibase:
+    drop-first: true
+    change-log: classpath:/db/changelog-master.yaml
+  jpa:
+    show-sql: true
+  messages:
+    basename: i18n/messages
+application:
+  security:
+    jwt:
+      provider:
+        secretKey: 2A462D4A614E645267556B58703273357638782F413F4428472B4B6250655368
+        expirationDuration: 1h
+logging:
+  level:
+    root: info

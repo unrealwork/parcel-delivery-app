@@ -10,9 +10,9 @@ import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import parcel.delivery.app.auth.controller.api.request.SignUpRequest;
-import parcel.delivery.app.auth.controller.client.ApiRestClient;
 import parcel.delivery.app.auth.repository.UserRepository;
 import parcel.delivery.app.auth.service.AuthenticationService;
+import parcel.delivery.app.common.test.client.ApiRestClient;
 
 import static org.hamcrest.Matchers.containsStringIgnoringCase;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -44,7 +44,7 @@ class AuthSignUpControllerItTest {
                 "+123456789",
                 "password"
         );
-        apiRestClient.post(URL, requestDto)
+        apiRestClient.post(requestDto, URL)
                 .andDo(print())
                 .andExpect(status().isNoContent());
     }
@@ -61,7 +61,7 @@ class AuthSignUpControllerItTest {
                 .password("12345678")
                 .build();
         authenticationService.signUp(signUpRequest);
-        apiRestClient.post(URL, signUpRequest)
+        apiRestClient.post(signUpRequest, URL)
                 .andDo(print())
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.message")

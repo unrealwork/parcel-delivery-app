@@ -1,4 +1,4 @@
-package parcel.delivery.app.order.controller.client;
+package parcel.delivery.app.common.test.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpHeaders;
@@ -39,11 +39,11 @@ public class ApiRestClient {
         return request(HttpMethod.GET, null, accessToken, url);
     }
 
-    public ResultActions post(String url, Object object) throws Exception {
-        return post(url, null, object);
+    public ResultActions post(Object object, String url) throws Exception {
+        return post(object, null, url);
     }
 
-    public ResultActions post(String url, String accessToken, Object object) throws Exception {
+    public ResultActions post(Object object, String accessToken, String url) throws Exception {
         return request(HttpMethod.POST, object, accessToken, url);
     }
 

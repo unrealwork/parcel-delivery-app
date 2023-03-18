@@ -14,9 +14,9 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 import parcel.delivery.app.auth.controller.api.request.SignInRequest;
 import parcel.delivery.app.auth.controller.api.request.SignUpRequest;
-import parcel.delivery.app.auth.controller.client.ApiRestClient;
 import parcel.delivery.app.auth.repository.UserRepository;
 import parcel.delivery.app.auth.service.AuthenticationService;
+import parcel.delivery.app.common.test.client.ApiRestClient;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -69,7 +69,7 @@ class AuthSignInControllerTest {
     }
 
     private ResultActions signInRequest(SignInRequest requestDto) throws Exception {
-        return client.post(URL, requestDto);
+        return client.post(requestDto, URL);
     }
 
     @AfterEach

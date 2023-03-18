@@ -1,0 +1,7 @@
+spring:
+  liquibase:
+    drop-first: true
+  
+  datasource:
+    hikari:
+      auto-commit: false

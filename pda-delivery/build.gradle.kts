@@ -47,7 +47,7 @@ tasks.test {
 }
 
 dockerCompose {
-    val serviceList = mutableListOf("db_pda_auth")
+    val serviceList = mutableListOf("db_pda_delivery")
     useComposeFiles.set(listOf("../docker-compose.yml"))
     startedServices.set(serviceList)
     setProjectName("parcel-delivery-app")

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import parcel.delivery.app.common.error.exception.MessageResolvableAccessDeniedException;
 import parcel.delivery.app.common.error.exception.MessageResolvableException;
@@ -84,6 +85,14 @@ public class PdaRestExceptionHandler extends ResponseEntityExceptionHandler {
     public ErrorResponse handleGenericException(Exception ex) {
         log.warn("Unexpected server error during request", ex);
         return new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getLocalizedMessage());
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+        final String errorMessage = "Url " + request.getContextPath() + " is not found";
+        final ErrorResponse body = new ErrorResponse(HttpStatus.NOT_FOUND, errorMessage);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(body);
     }
 
     @Override
