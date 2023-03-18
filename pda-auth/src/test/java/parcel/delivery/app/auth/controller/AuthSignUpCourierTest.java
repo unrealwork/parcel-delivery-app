@@ -15,10 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 import parcel.delivery.app.auth.controller.api.request.SignInRequest;
 import parcel.delivery.app.auth.controller.api.request.SignUpRequest;
 import parcel.delivery.app.auth.controller.api.response.SignInResponse;
-import parcel.delivery.app.auth.controller.client.ApiRestClient;
 import parcel.delivery.app.auth.repository.UserRepository;
 import parcel.delivery.app.auth.service.AuthenticationService;
 import parcel.delivery.app.common.security.core.UserType;
+import parcel.delivery.app.common.test.client.ApiRestClient;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -49,7 +49,7 @@ class AuthSignUpCourierTest {
     @DisplayName("/auth/courier/signup Should be unavailable for ROLE_USER")
     @WithMockUser
     void testUnavailabilityForNonAdminUser() throws Exception {
-        client.post(URL, COURIER_ACC)
+        client.post(COURIER_ACC, URL)
                 .andDo(print())
                 .andExpect(status().isForbidden())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -60,7 +60,7 @@ class AuthSignUpCourierTest {
     @DisplayName("/auth/courier/signup Should be available for user with authority CREATE_COURIER_USER")
     @WithMockUser(authorities = {"CREATE_COURIER_USER"})
     void testAvailabilityForCorrectAuthority() throws Exception {
-        client.post(URL, COURIER_ACC)
+        client.post(COURIER_ACC, URL)
                 .andDo(print())
                 .andExpect(status().isNoContent());
     }
@@ -80,7 +80,7 @@ class AuthSignUpCourierTest {
         SignInRequest adminSignin = new SignInRequest(adminSignUp.clientId(), adminSignUp.password());
         SignInResponse signInResponse = authenticationService.signIn(adminSignin);
         // Courier acc
-        client.post(URL, signInResponse.accessToken(), COURIER_ACC)
+        client.post(COURIER_ACC, signInResponse.accessToken(), URL)
                 .andExpect(status().isNoContent());
 
     }

@@ -29,6 +29,7 @@ dependencies {
     implementation(libs.psql.db)
     implementation(libs.liquibase.core)
     // testing
+    testImplementation(project(":pda-shared-test"))
     testCompileOnly(libs.psql.db)
     testCompileOnly(libs.lombok)
     testAnnotationProcessor(libs.lombok)

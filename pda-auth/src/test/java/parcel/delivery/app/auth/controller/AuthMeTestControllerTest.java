@@ -12,10 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 import parcel.delivery.app.auth.controller.api.request.SignInRequest;
 import parcel.delivery.app.auth.controller.api.request.SignUpRequest;
 import parcel.delivery.app.auth.controller.api.response.SignInResponse;
-import parcel.delivery.app.auth.controller.client.ApiRestClient;
 import parcel.delivery.app.auth.repository.UserRepository;
 import parcel.delivery.app.auth.service.AuthenticationService;
 import parcel.delivery.app.common.security.core.UserType;
+import parcel.delivery.app.common.test.client.ApiRestClient;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;

@@ -1,0 +1,35 @@
+application:
+  security:
+    jwt:
+      provider:
+        secretKey: 2A462D4A614E645267556B58703273357638782F413F4428472B4B6250655368
+server:
+  port: 8081
+spring:
+  application:
+    name: pda-auth
+  messages:
+    basename: i18n/messages
+    fallback-to-system-locale: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:25432/pda_order_db
+    username: pda_order_user
+    password: pda_order_pwd
+  liquibase:
+    change-log: classpath:/db/changelog-master.yaml
+  jpa:
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+      ddl-auto: none
+    properties:
+      hibernate.id.new_generator_mappings: true
+      hibernate.connection.provider_disables_autocommit: true
+      hibernate.format_sql: true
+  jackson:
+    deserialization:
+      use-big-decimal-for-floats: true        

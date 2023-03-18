@@ -29,7 +29,7 @@ class OrderCreateControllerTest extends BaseControllerTest {
     @WithMockUser
     @DisplayName("Should not be allowed to access endpoint without CREATE_ORDER privilege")
     void testOrderCreationWithoutPrivilege() throws Exception {
-        client.post(URL, null)
+        client.post(null, URL)
                 .andExpect(status().isForbidden());
     }
 
@@ -38,7 +38,7 @@ class OrderCreateControllerTest extends BaseControllerTest {
     @WithMockUser(username = CREATED_BY, authorities = {"ROLE_USER", "CREATE_ORDER"})
     void testOrderCreation() throws Exception {
         CreateOrderRequest createOrderRequest = new CreateOrderRequest(DESCRIPTION, DESTINATION, BigDecimal.ONE);
-        client.post(URL, createOrderRequest)
+        client.post(createOrderRequest, URL)
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isString())
                 .andExpect(jsonPath("$.description").value(createOrderRequest.description()))
