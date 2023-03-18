@@ -39,4 +39,24 @@ services:
     depends_on:
       - db_pda_order
     env_file:
-      - config/env/pda-order.env    
+      - config/env/pda-order.env
+  db_pda_delivery:
+    container_name: pda_delivery_db
+    image: postgres
+    ports:
+      - "35432:5432"
+    env_file:
+      - config/env/pda-delivery-db.env
+  pda_delivery:
+    build:
+      dockerfile: pda-delivery/Dockerfile
+      context: .
+    restart: unless-stopped
+    expose:
+      - "8083"
+    ports:
+      - "8083:8083"
+    depends_on:
+      - db_pda_delivery
+    env_file:
+      - config/env/pda-delivery.env    

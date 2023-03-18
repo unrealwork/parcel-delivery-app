@@ -1,3 +1,3 @@
-# pda-order
+# pda-delivery
 
-Microservice related to order domain
+Microservice related to delivery domain
