@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import parcel.delivery.app.auth.controller.api.request.SignInRequest;
@@ -16,6 +15,7 @@ import parcel.delivery.app.auth.repository.UserRepository;
 import parcel.delivery.app.auth.service.AuthenticationService;
 import parcel.delivery.app.common.security.core.UserType;
 import parcel.delivery.app.common.test.client.ApiRestClient;
+import parcel.delivery.app.common.test.security.annotations.WithUserRole;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -66,12 +66,12 @@ class AuthMeTestControllerTest {
 
     @Test
     @DisplayName("/auth/me should be available for authenticated user")
-    @WithMockUser(username = "test@mail.com")
+    @WithUserRole
     void testAvailabilityForAuthenticated() throws Exception {
         client.get(URL)
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.clientId").value("test@mail.com"));
+                .andExpect(jsonPath("$.clientId").value(WithUserRole.USERNAME));
     }
 
     @AfterEach

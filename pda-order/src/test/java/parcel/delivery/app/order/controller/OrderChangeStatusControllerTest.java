@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.annotation.Transactional;
+import parcel.delivery.app.common.test.security.annotations.WithAdminRole;
+import parcel.delivery.app.common.test.security.annotations.WithCourierRole;
 import parcel.delivery.app.order.controller.api.request.ChangeStatusRequest;
 import parcel.delivery.app.order.domain.Order;
 import parcel.delivery.app.order.domain.OrderStatus;
@@ -24,7 +26,6 @@ import java.util.UUID;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static parcel.delivery.app.order.helper.OrderDomainTestConstants.ASSIGNED_TO;
 import static parcel.delivery.app.order.helper.OrderDomainTestConstants.ORDER;
 
 @ExtendWith(MockitoExtension.class)
@@ -56,7 +57,7 @@ class OrderChangeStatusControllerTest extends BaseControllerTest {
     }
 
     @Test
-    @WithMockUser(authorities = {"ROLE_ADMIN", REQ_AUTHORITY})
+    @WithAdminRole
     @DisplayName(URL_TEMPLATE + " should return no content for valid json")
     void testValidReq() throws Exception {
         ChangeStatusRequest changeStatusRequest = new ChangeStatusRequest(OrderStatus.ACCEPTED);
@@ -71,7 +72,7 @@ class OrderChangeStatusControllerTest extends BaseControllerTest {
             aavfv
             {"status":"NONEXIST"}
                                 """)
-    @WithMockUser(authorities = {REQ_AUTHORITY})
+    @WithAdminRole
     @DisplayName(URL_TEMPLATE + " should return bad request for non valid json")
     void testBadRequests(String json) throws Exception {
         client.putJson(json, URL_TEMPLATE, existingOrderId)
@@ -81,7 +82,7 @@ class OrderChangeStatusControllerTest extends BaseControllerTest {
     }
 
 
-    @WithMockUser(authorities = {"ROLE_ADMIN", REQ_AUTHORITY})
+    @WithAdminRole
     @DisplayName(URL_TEMPLATE + " should return not found for non-existing UUID")
     @Test
     void testNotFoundOrder() throws Exception {
@@ -94,8 +95,8 @@ class OrderChangeStatusControllerTest extends BaseControllerTest {
                 .andExpect(jsonPath("$.message").isString());
     }
 
-    @WithMockUser(authorities = {"ROLE_COURIER", REQ_AUTHORITY})
-    @DisplayName(URL_TEMPLATE + " should return bad request when try to change order not assigned to user")
+    @WithCourierRole
+    @DisplayName(URL_TEMPLATE + " should return forbidden when try to change order not assigned to user")
     @Test
     void testChangingRequestNotAssignedToCourier() throws Exception {
         ChangeStatusRequest request = new ChangeStatusRequest(OrderStatus.ACCEPTED);
@@ -110,14 +111,14 @@ class OrderChangeStatusControllerTest extends BaseControllerTest {
             PENDING,ACCEPTED,204
             IN_PROGRESS,DELIVERED,204
             """)
-    @WithMockUser(username = ASSIGNED_TO, authorities = {"ROLE_COURIER", REQ_AUTHORITY})
+    @WithCourierRole
     @Transactional
     @DisplayName(URL_TEMPLATE + " should allow courier change status according to strategy")
     void testChangingForCourier(OrderStatus fromStatus, OrderStatus toStatus, int status) throws Exception {
         Order order = testOrderService.save(
                 ORDER.toBuilder()
                         .status(fromStatus)
-                        .assignedTo(ASSIGNED_TO)
+                        .assignedTo(WithCourierRole.USERNAME)
                         .build());
         ChangeStatusRequest req = new ChangeStatusRequest(toStatus);
         client.put(req, URL_TEMPLATE, order.getId())

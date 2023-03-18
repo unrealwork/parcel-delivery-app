@@ -8,6 +8,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.annotation.Transactional;
+import parcel.delivery.app.common.test.security.annotations.WithUserRole;
 import parcel.delivery.app.order.controller.api.request.CreateOrderRequest;
 import parcel.delivery.app.order.helper.TestOrderService;
 
@@ -16,7 +17,6 @@ import java.math.BigDecimal;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static parcel.delivery.app.order.domain.OrderStatus.INITIAL;
-import static parcel.delivery.app.order.helper.OrderDomainTestConstants.CREATED_BY;
 import static parcel.delivery.app.order.helper.OrderDomainTestConstants.DESCRIPTION;
 import static parcel.delivery.app.order.helper.OrderDomainTestConstants.DESTINATION;
 
@@ -35,7 +35,7 @@ class OrderCreateControllerTest extends BaseControllerTest {
 
     @Test
     @DisplayName("Should be allowed to access endpoint with CREATE_ORDER privilege")
-    @WithMockUser(username = CREATED_BY, authorities = {"ROLE_USER", "CREATE_ORDER"})
+    @WithUserRole
     void testOrderCreation() throws Exception {
         CreateOrderRequest createOrderRequest = new CreateOrderRequest(DESCRIPTION, DESTINATION, BigDecimal.ONE);
         client.post(createOrderRequest, URL)
@@ -58,7 +58,7 @@ class OrderCreateControllerTest extends BaseControllerTest {
                 {"weight": "101.00"},weight,must be less than or equal to 100.0
             """)
     @DisplayName("Should validate fields correctly")
-    @WithMockUser(username = CREATED_BY, authorities = {"ROLE_USER", "CREATE_ORDER"})
+    @WithUserRole
     void testRequestBodyValidation(String jsonReq, String field, String expectedFieldError) throws Exception {
         String fieldJsonPath = "$.fieldErrors." + field;
         client.postJson(jsonReq, URL)

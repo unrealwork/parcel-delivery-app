@@ -8,6 +8,8 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.security.test.context.support.WithMockUser;
+import parcel.delivery.app.common.test.security.annotations.WithAdminRole;
+import parcel.delivery.app.common.test.security.annotations.WithUserRole;
 import parcel.delivery.app.order.domain.OrderStatus;
 import parcel.delivery.app.order.helper.TestOrderService;
 import parcel.delivery.app.order.repository.OrderRepository;
@@ -18,8 +20,6 @@ import java.util.UUID;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static parcel.delivery.app.order.helper.OrderDomainTestConstants.CREATED_BY;
-import static parcel.delivery.app.order.helper.OrderDomainTestConstants.CREATED_BY_ALT;
 import static parcel.delivery.app.order.helper.OrderDomainTestConstants.ORDER;
 
 class OrderCancelControllerTest extends BaseControllerTest {
@@ -51,7 +51,7 @@ class OrderCancelControllerTest extends BaseControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "john@doe.com", authorities = {REQ_AUTHORITY})
+    @WithUserRole
     @DisplayName(URL_TEMPLATE + " should return no content for valid request")
     void testValidReq() throws Exception {
         client.put(URL_TEMPLATE, existingOrderId)
@@ -60,7 +60,7 @@ class OrderCancelControllerTest extends BaseControllerTest {
     }
 
     @Test
-    @WithMockUser(username = CREATED_BY_ALT, authorities = {REQ_AUTHORITY})
+    @WithMockUser(username = WithAdminRole.USERNAME, authorities = {REQ_AUTHORITY})
     @DisplayName(URL_TEMPLATE + " should be forbidden to cancel ")
     void testAccessDeniedToSpecificOrder() throws Exception {
         client.put(URL_TEMPLATE, existingOrderId)
@@ -70,7 +70,7 @@ class OrderCancelControllerTest extends BaseControllerTest {
     }
 
 
-    @WithMockUser(username = "john@doe.com", authorities = {REQ_AUTHORITY})
+    @WithUserRole
     @DisplayName(URL_TEMPLATE + " should return not found for non-existing UUID")
     @Test
     void testNotFoundOrder() throws Exception {
@@ -82,7 +82,7 @@ class OrderCancelControllerTest extends BaseControllerTest {
                 .andExpect(jsonPath("$.message").isString());
     }
 
-    @WithMockUser(username = CREATED_BY, authorities = {"ROLE_USER", REQ_AUTHORITY})
+    @WithUserRole
     @DisplayName(URL_TEMPLATE + " should return bad request when order status is unable to change")
     @Test
     void testOrderUnableToCancel() throws Exception {

@@ -71,6 +71,5 @@ class AuthenticationFacadeTest {
     @EnableWebSecurity
     @Import( {AuthenticationFacade.class})
     static class Config {
-
     }
 }
