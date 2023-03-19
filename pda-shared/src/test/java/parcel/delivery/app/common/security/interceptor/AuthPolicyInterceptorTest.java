@@ -1,6 +1,9 @@
 package parcel.delivery.app.common.security.interceptor;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,9 +38,13 @@ import static parcel.delivery.app.common.security.core.RolePrivilege.CANCEL_ORDE
 @Import(AuthPolicyInterceptorTest.Config.class)
 @ExtendWith( {SpringExtension.class})
 class AuthPolicyInterceptorTest {
+    public static final String TEST_URL_2 = "/test2";
     private static final String TEST_URL = "/test";
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private AuthPolicyInterceptor interceptor;
 
     @MockBean
     private AuthenticationFacade facade;
@@ -62,6 +69,24 @@ class AuthPolicyInterceptorTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    @WithMockUser
+    @DisplayName("Should pass hanlder without AuthPolicy")
+    void testPassingNoPolicy() throws Exception {
+        Mockito.when(facade.privileges())
+                .thenReturn(Set.of(CANCEL_ORDER));
+        mockMvc.perform(get(TEST_URL_2))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("Test unusual Handler class")
+    void testUnusualHandler() {
+        HttpServletRequest reqMock = Mockito.mock(HttpServletRequest.class);
+        HttpServletResponse respMock = Mockito.mock(HttpServletResponse.class);
+        Assertions.assertDoesNotThrow(() -> interceptor.preHandle(reqMock, respMock, Mockito.mock(Object.class)));
+    }
+
     @Configuration
     @EnableWebSecurity
     @EnableAutoConfiguration
@@ -82,6 +107,11 @@ class AuthPolicyInterceptorTest {
         @GetMapping(TEST_URL)
         @AuthPolicy(CANCEL_ORDER)
         void test() {
+        }
+
+
+        @GetMapping(TEST_URL_2)
+        void test2() {
         }
     }
 }
