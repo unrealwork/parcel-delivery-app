@@ -23,6 +23,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import parcel.delivery.app.common.error.exception.MessageResolvableAccessDeniedException;
 import parcel.delivery.app.common.error.exception.MessageResolvableException;
+import parcel.delivery.app.common.error.exception.MessageResolvableNotFoundException;
 import parcel.delivery.app.common.error.model.ErrorResponse;
 import parcel.delivery.app.common.error.model.ValidationErrorResponse;
 
@@ -77,6 +78,12 @@ public class PdaRestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler( {MessageResolvableAccessDeniedException.class})
     public ErrorResponse handleMessageResolvableAccessDeniedException(MessageResolvableAccessDeniedException ex, HttpServletRequest request) {
         return messageResolvableResponse(HttpStatus.FORBIDDEN, request, ex.resolvableMessage());
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler( {MessageResolvableNotFoundException.class})
+    public ErrorResponse handleMessageResolvableNotFoundException(MessageResolvableNotFoundException ex, HttpServletRequest request) {
+        return messageResolvableResponse(HttpStatus.NOT_FOUND, request, ex.resolvableMessage());
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

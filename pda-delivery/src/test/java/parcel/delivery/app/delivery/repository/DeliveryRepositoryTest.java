@@ -15,9 +15,9 @@ import parcel.delivery.app.delivery.domain.Courier;
 import parcel.delivery.app.delivery.domain.CourierStatus;
 import parcel.delivery.app.delivery.domain.Delivery;
 import parcel.delivery.app.delivery.domain.DeliveryStatus;
+import parcel.delivery.app.delivery.helper.DeliveryDomainConstants;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -25,8 +25,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @DataJpaTest
 @ExtendWith(SpringExtension.class)
 class DeliveryRepositoryTest {
-    private static final UUID ORDER_ID = UUID.fromString("4843a6c6-28e7-4a85-8f8d-f7e343389350");
-
     @Autowired
     private CourierRepository courierRepository;
     @Autowired
@@ -41,7 +39,7 @@ class DeliveryRepositoryTest {
                 .build();
         courierRepository.saveAndFlush(courier);
         Delivery delivery = Delivery.builder()
-                .orderId(ORDER_ID)
+                .orderId(DeliveryDomainConstants.ORDER_ID)
                 .status(DeliveryStatus.INITIAL)
                 .latitude(BigDecimal.ONE)
                 .latitude(BigDecimal.ONE)
@@ -49,7 +47,7 @@ class DeliveryRepositoryTest {
                 .courier(courier)
                 .build();
         Delivery savedDelivery = deliveryRepository.saveAndFlush(delivery);
-        assertThat(savedDelivery.getOrderId(), equalTo(ORDER_ID));
+        assertThat(savedDelivery.getOrderId(), equalTo(DeliveryDomainConstants.ORDER_ID));
         assertThat(savedDelivery.getCourier(), CoreMatchers.notNullValue());
         assertThat(savedDelivery.getStatus(), equalTo(DeliveryStatus.INITIAL));
         assertThat(savedDelivery.getCreatedAt(), CoreMatchers.notNullValue());

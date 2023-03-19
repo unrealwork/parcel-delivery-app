@@ -1,4 +1,4 @@
-package parcel.delivery.app.order.controller;
+package parcel.delivery.app.common.test.controller;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

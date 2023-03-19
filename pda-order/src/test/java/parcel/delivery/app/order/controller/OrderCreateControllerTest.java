@@ -8,6 +8,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.annotation.Transactional;
+import parcel.delivery.app.common.test.controller.BaseControllerTest;
 import parcel.delivery.app.common.test.security.annotations.WithUserRole;
 import parcel.delivery.app.order.controller.api.request.CreateOrderRequest;
 import parcel.delivery.app.order.helper.TestOrderService;

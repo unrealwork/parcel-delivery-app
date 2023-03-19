@@ -35,6 +35,10 @@ public class ApiRestClient {
         return request(HttpMethod.GET, null, null, url);
     }
 
+    public ResultActions get(String url, Object... args) throws Exception {
+        return request(HttpMethod.GET, null, null, url, args);
+    }
+
     public ResultActions get(String url, String accessToken) throws Exception {
         return request(HttpMethod.GET, null, accessToken, url);
     }
