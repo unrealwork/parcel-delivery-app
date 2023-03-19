@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.spring.dm)
     alias(libs.plugins.docker.compose)
+    alias(libs.plugins.liquibase)
 }
 
 dependencies {
@@ -28,6 +29,10 @@ dependencies {
     //db
     implementation(libs.psql.db)
     implementation(libs.liquibase.core)
+    liquibaseRuntime(libs.liquibase.core)
+    liquibaseRuntime(libs.psql.db)
+    liquibaseRuntime(libs.snake.yaml)
+    liquibaseRuntime(libs.picoli)
     // testing
     testImplementation(project(":pda-shared-test"))
     testCompileOnly(libs.psql.db)
@@ -52,4 +57,23 @@ dockerCompose {
     startedServices.set(serviceList)
     setProjectName("parcel-delivery-app")
     noRecreate.set(true)
+}
+
+liquibase {
+    activities.register("main") {
+        val ext = project.extra.properties
+        val dbUrl = ext["dbUrl"] ?: "jdbc:postgresql://localhost:35432/pda_delivery_db"
+        val dbUser = ext["dbUser"] ?: "pda_delivery_user"
+        val dbPassword = ext["dbPassword"] ?: "pda_delivery_pwd"
+
+        this.arguments = mapOf(
+            "logLevel" to "debug",
+            "changeLogFile" to "src/main/resources/db/changelog/changelog.yml",
+            "url" to dbUrl,
+            "username" to dbUser,
+            "password" to dbPassword,
+            "driver" to "org.postgresql.Driver"
+        )
+    }
+    runList = "main"
 }

@@ -14,8 +14,7 @@ import java.lang.annotation.Target;
 @Target( {ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
-@WithMockUser(username = WithUserRole.USERNAME,
-        authorities = {"ROLE_USER", "BASIC", "VIEW_ORDERS", "CREATE_ORDER", "CANCEL_ORDER", "CHANGE_DESTINATION"})
+@WithMockUser(username = WithUserRole.USERNAME, authorities = {"ROLE_USER", "BASIC", "VIEW_ORDERS", "CREATE_ORDER", "CANCEL_ORDER", "CHANGE_DESTINATION", "VIEW_DELIVERY_DETAILS"})
 public @interface WithUserRole {
     String USERNAME = "john@doe.com";
 }

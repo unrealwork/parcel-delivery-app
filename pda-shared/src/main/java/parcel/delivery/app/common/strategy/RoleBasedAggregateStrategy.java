@@ -1,4 +1,4 @@
-package parcel.delivery.app.order.service;
+package parcel.delivery.app.common.strategy;
 
 import org.springframework.security.access.AccessDeniedException;
 import parcel.delivery.app.common.security.AuthenticationFacade;

@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.lang.NonNull;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
@@ -26,7 +27,8 @@ public class AuthPolicyInterceptor implements HandlerInterceptor {
     private final Map<HandlerMethod, Optional<RolePrivilege>> handlerPrivilges = new ConcurrentHashMap<>();
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
+                             @NonNull Object handler) throws Exception {
         if (handler instanceof HandlerMethod handlerMethod) {
             Optional<RolePrivilege> rolePrivilege = handlerPrivilges.computeIfAbsent(handlerMethod, this::privilegeForHandler);
             if (rolePrivilege.isPresent()) {
@@ -41,7 +43,7 @@ public class AuthPolicyInterceptor implements HandlerInterceptor {
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }
 
-    Optional<RolePrivilege> privilegeForHandler(HandlerMethod handlerMethod) {
+    private Optional<RolePrivilege> privilegeForHandler(HandlerMethod handlerMethod) {
         Method method = handlerMethod.getMethod();
         if (method.isAnnotationPresent(AuthPolicy.class)) {
             AuthPolicy annotation = method.getAnnotation(AuthPolicy.class);

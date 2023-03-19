@@ -1,4 +1,4 @@
-package parcel.delivery.app.order.service;
+package parcel.delivery.app.common.strategy;
 
 import jakarta.validation.constraints.NotNull;
 import parcel.delivery.app.common.security.core.UserType;

@@ -38,7 +38,7 @@ import static parcel.delivery.app.common.security.core.RolePrivilege.CANCEL_ORDE
 @Import(AuthPolicyInterceptorTest.Config.class)
 @ExtendWith( {SpringExtension.class})
 class AuthPolicyInterceptorTest {
-    public static final String TEST_URL_2 = "/test2";
+    private static final String TEST_URL_2 = "/test2";
     private static final String TEST_URL = "/test";
     @Autowired
     private MockMvc mockMvc;

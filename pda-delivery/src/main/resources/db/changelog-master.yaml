@@ -2,4 +2,3 @@ databaseChangeLog:
   - includeAll:
       path: changelog
       relativeToChangelogFile: true
-      

@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @WithMockUser(username = WithCourierRole.USERNAME,
-        authorities = {"ROLE_COURIER", "BASIC", "VIEW_ORDERS", "CHANGE_ORDER_STATUS"})
+        authorities = {"ROLE_COURIER", "BASIC", "VIEW_ORDERS", "CHANGE_ORDER_STATUS", "VIEW_DELIVERY_DETAILS"})
 public @interface WithCourierRole {
     String USERNAME = "jack@doe.com";
 }

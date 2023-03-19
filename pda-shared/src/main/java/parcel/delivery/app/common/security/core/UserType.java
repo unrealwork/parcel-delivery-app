@@ -13,12 +13,13 @@ import static parcel.delivery.app.common.security.core.RolePrivilege.CHANGE_DEST
 import static parcel.delivery.app.common.security.core.RolePrivilege.CHANGE_ORDER_STATUS;
 import static parcel.delivery.app.common.security.core.RolePrivilege.CREATE_COURIER_USER;
 import static parcel.delivery.app.common.security.core.RolePrivilege.CREATE_ORDER;
+import static parcel.delivery.app.common.security.core.RolePrivilege.VIEW_DELIVERY_DETAILS;
 import static parcel.delivery.app.common.security.core.RolePrivilege.VIEW_ORDERS;
 
 public enum UserType implements GrantedAuthority {
-    USER(BASIC, VIEW_ORDERS, CREATE_ORDER, CANCEL_ORDER, CHANGE_DESTINATION),
+    USER(BASIC, VIEW_ORDERS, CREATE_ORDER, CANCEL_ORDER, CHANGE_DESTINATION, VIEW_DELIVERY_DETAILS),
     ADMIN(BASIC, CREATE_COURIER_USER, CHANGE_ORDER_STATUS, VIEW_ORDERS),
-    COURIER(BASIC, CHANGE_ORDER_STATUS, VIEW_ORDERS);
+    COURIER(BASIC, CHANGE_ORDER_STATUS, VIEW_ORDERS, VIEW_DELIVERY_DETAILS);
 
     public static final String ROLE_PREFIX = "ROLE_";
     private final Set<RolePrivilege> priviligesSet;

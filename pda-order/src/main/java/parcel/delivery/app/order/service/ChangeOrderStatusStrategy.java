@@ -1,6 +1,7 @@
 package parcel.delivery.app.order.service;
 
 import parcel.delivery.app.common.security.core.RolePrivilege;
+import parcel.delivery.app.common.strategy.ComputationRoleBasedStrategy;
 import parcel.delivery.app.order.controller.api.request.ChangeStatusRequest;
 
 public interface ChangeOrderStatusStrategy extends ComputationRoleBasedStrategy<OrderRequest<ChangeStatusRequest>, Void> {
