@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import java.util.Collection;
 import java.util.Set;
 
+import static parcel.delivery.app.common.security.core.RolePrivilege.BASIC;
 import static parcel.delivery.app.common.security.core.RolePrivilege.CANCEL_ORDER;
 import static parcel.delivery.app.common.security.core.RolePrivilege.CHANGE_DESTINATION;
 import static parcel.delivery.app.common.security.core.RolePrivilege.CHANGE_ORDER_STATUS;
@@ -15,9 +16,9 @@ import static parcel.delivery.app.common.security.core.RolePrivilege.CREATE_ORDE
 import static parcel.delivery.app.common.security.core.RolePrivilege.VIEW_ORDERS;
 
 public enum UserType implements GrantedAuthority {
-    USER(VIEW_ORDERS, CREATE_ORDER, CANCEL_ORDER, CHANGE_DESTINATION),
-    ADMIN(CREATE_COURIER_USER, CHANGE_ORDER_STATUS, VIEW_ORDERS),
-    COURIER(CHANGE_ORDER_STATUS, VIEW_ORDERS);
+    USER(BASIC, VIEW_ORDERS, CREATE_ORDER, CANCEL_ORDER, CHANGE_DESTINATION),
+    ADMIN(BASIC, CREATE_COURIER_USER, CHANGE_ORDER_STATUS, VIEW_ORDERS),
+    COURIER(BASIC, CHANGE_ORDER_STATUS, VIEW_ORDERS);
 
     public static final String ROLE_PREFIX = "ROLE_";
     private final Set<RolePrivilege> priviligesSet;
@@ -42,7 +43,7 @@ public enum UserType implements GrantedAuthority {
             try {
                 return UserType.valueOf(authority.substring(ROLE_PREFIX.length()));
             } catch (IllegalArgumentException e) {
-                throw new BadCredentialsException("Unable to parse UserType", e);
+                throw new BadCredentialsException("Unknown role for authentication:  " + authority, e);
             }
         }
         throw new BadCredentialsException("ROLE authority should start with " + ROLE_PREFIX);

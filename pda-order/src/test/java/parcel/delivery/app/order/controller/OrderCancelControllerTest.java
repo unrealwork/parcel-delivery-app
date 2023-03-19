@@ -60,7 +60,7 @@ class OrderCancelControllerTest extends BaseControllerTest {
     }
 
     @Test
-    @WithMockUser(username = WithAdminRole.USERNAME, authorities = {REQ_AUTHORITY})
+    @WithMockUser(username = WithAdminRole.USERNAME, authorities = {"ROLE_USER", REQ_AUTHORITY})
     @DisplayName(URL_TEMPLATE + " should be forbidden to cancel ")
     void testAccessDeniedToSpecificOrder() throws Exception {
         client.put(URL_TEMPLATE, existingOrderId)

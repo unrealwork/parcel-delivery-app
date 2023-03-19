@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import parcel.delivery.app.common.annotations.AuthPolicy;
 import parcel.delivery.app.order.controller.api.request.ChangeOrderDestinationRequest;
 import parcel.delivery.app.order.controller.api.request.ChangeStatusRequest;
 import parcel.delivery.app.order.controller.api.request.CreateOrderRequest;
@@ -23,6 +24,12 @@ import parcel.delivery.app.order.service.OrderService;
 import java.util.List;
 import java.util.UUID;
 
+import static parcel.delivery.app.common.security.core.RolePrivilege.CANCEL_ORDER;
+import static parcel.delivery.app.common.security.core.RolePrivilege.CHANGE_DESTINATION;
+import static parcel.delivery.app.common.security.core.RolePrivilege.CHANGE_ORDER_STATUS;
+import static parcel.delivery.app.common.security.core.RolePrivilege.CREATE_ORDER;
+import static parcel.delivery.app.common.security.core.RolePrivilege.VIEW_ORDERS;
+
 @RestController
 @RequestMapping("orders")
 @RequiredArgsConstructor
@@ -30,17 +37,20 @@ public class OrdersController {
     private final OrderService orderService;
 
     @GetMapping
+    @AuthPolicy(VIEW_ORDERS)
     public ResponseEntity<List<OrderDto>> orders(HttpServletRequest request) {
         List<OrderDto> orders = orderService.orders();
         return ResponseEntity.ok(orders);
     }
 
     @PostMapping
+    @AuthPolicy(CREATE_ORDER)
     public ResponseEntity<OrderDto> create(@Valid @RequestBody CreateOrderRequest createOrderRequest) {
         return ResponseEntity.ok(orderService.create(createOrderRequest));
     }
 
     @PutMapping("/{id}/status")
+    @AuthPolicy(CHANGE_ORDER_STATUS)
     public ResponseEntity<Void> changeStatus(@PathVariable UUID id, @Valid @RequestBody ChangeStatusRequest changeStatusRequest) throws OrderNotFoundException {
         orderService.changeStatus(id, changeStatusRequest);
         return ResponseEntity.noContent()
@@ -48,6 +58,7 @@ public class OrdersController {
     }
 
     @PutMapping("/{id}/cancel")
+    @AuthPolicy(CANCEL_ORDER)
     public ResponseEntity<Void> cancel(@PathVariable UUID id) throws
             OrderNotFoundException, OrderCancellationException {
         orderService.cancel(id);
@@ -57,8 +68,9 @@ public class OrdersController {
 
 
     @PutMapping("/{id}/destination")
-    public ResponseEntity<Void> cancel(@PathVariable UUID id,
-                                       @Valid @RequestBody ChangeOrderDestinationRequest destinationRequest) throws
+    @AuthPolicy(CHANGE_DESTINATION)
+    public ResponseEntity<Void> destination(@PathVariable UUID id,
+                                            @Valid @RequestBody ChangeOrderDestinationRequest destinationRequest) throws
             OrderNotFoundException, OrderDestinationModificationException {
         orderService.changeDestination(id, destinationRequest);
         return ResponseEntity.noContent()
