@@ -8,6 +8,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @Configuration
 @RequiredArgsConstructor
@@ -17,6 +18,7 @@ public class SecuredTestingConfig {
     public MockMvc mockMvc(WebApplicationContext context) {
         return MockMvcBuilders.webAppContextSetup(context)
                 .apply(springSecurity())
+                .alwaysDo(print())
                 .build();
     }
 }

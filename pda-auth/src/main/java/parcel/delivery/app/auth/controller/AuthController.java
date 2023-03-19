@@ -14,6 +14,8 @@ import parcel.delivery.app.auth.controller.api.request.SignUpRequest;
 import parcel.delivery.app.auth.controller.api.response.AuthData;
 import parcel.delivery.app.auth.controller.api.response.SignInResponse;
 import parcel.delivery.app.auth.service.AuthenticationService;
+import parcel.delivery.app.common.annotations.AuthPolicy;
+import parcel.delivery.app.common.security.core.RolePrivilege;
 import parcel.delivery.app.common.security.core.UserType;
 
 @RestController
@@ -24,6 +26,7 @@ public class AuthController {
     private final AuthenticationService authenticationService;
 
     @GetMapping("/me")
+    @AuthPolicy
     public ResponseEntity<AuthData> me() {
         AuthData authData = authenticationService.me();
         return ResponseEntity.ok(authData);
@@ -43,6 +46,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup/courier")
+    @AuthPolicy(RolePrivilege.CREATE_COURIER_USER)
     public ResponseEntity<Void> courierSignup(@RequestBody SignUpRequest courierSignUp) {
         authenticationService.signUp(courierSignUp, UserType.COURIER);
         return ResponseEntity.noContent()

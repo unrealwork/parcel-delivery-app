@@ -1,28 +1,31 @@
 package parcel.delivery.app.order.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import parcel.delivery.app.common.annotations.PdaSpringApp;
 import parcel.delivery.app.common.error.ErrorHandler;
 import parcel.delivery.app.common.security.config.JwtAuthConfigurer;
-
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
-import static org.springframework.http.HttpMethod.PUT;
-import static parcel.delivery.app.common.security.core.RolePrivilege.CANCEL_ORDER;
-import static parcel.delivery.app.common.security.core.RolePrivilege.CHANGE_DESTINATION;
-import static parcel.delivery.app.common.security.core.RolePrivilege.CHANGE_ORDER_STATUS;
-import static parcel.delivery.app.common.security.core.RolePrivilege.CREATE_ORDER;
-import static parcel.delivery.app.common.security.core.RolePrivilege.VIEW_ORDERS;
+import parcel.delivery.app.common.security.interceptor.AuthPolicyInterceptor;
 
 @Configuration
 @EnableWebSecurity
 @ComponentScan(basePackages = PdaSpringApp.ROOT_PACKAGE)
-public class SecurityConfig {
+@RequiredArgsConstructor
+public class SecurityConfig implements WebMvcConfigurer {
+    private final AuthPolicyInterceptor interceptor;
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(interceptor);
+    }
+
     @Bean
     @SuppressWarnings("squid:S4502")
     public SecurityFilterChain configure(HttpSecurity http, ErrorHandler errorHandler, JwtAuthConfigurer jwtAuthConfigurer) throws Exception {
@@ -30,17 +33,6 @@ public class SecurityConfig {
         return http
                 .csrf().disable()
                 .apply(jwtAuthConfigurer)
-                .and()
-                
-                .authorizeHttpRequests()
-                    .requestMatchers("/actuator/**").permitAll()
-                    .requestMatchers(GET,"/orders").hasAuthority(VIEW_ORDERS.getAuthority())
-                    .requestMatchers(POST, "/orders").hasAuthority(CREATE_ORDER.getAuthority())
-                    .requestMatchers(PUT, "/orders/{id}/status")
-                        .hasAuthority(CHANGE_ORDER_STATUS.getAuthority())
-                    .requestMatchers(PUT, "/orders/{id}/cancel").hasAuthority(CANCEL_ORDER.getAuthority())
-                .requestMatchers(PUT, "/orders/{id}/destination").hasAuthority(CHANGE_DESTINATION.getAuthority())
-                .anyRequest().denyAll()
                 .and()
                 .exceptionHandling()
                     .authenticationEntryPoint(errorHandler)

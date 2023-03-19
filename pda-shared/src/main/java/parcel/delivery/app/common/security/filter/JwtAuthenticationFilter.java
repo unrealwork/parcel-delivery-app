@@ -1,4 +1,4 @@
-package parcel.delivery.app.common.security.filters;
+package parcel.delivery.app.common.security.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

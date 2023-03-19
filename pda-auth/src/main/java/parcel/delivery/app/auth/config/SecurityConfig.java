@@ -1,5 +1,6 @@
 package parcel.delivery.app.auth.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -12,13 +13,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import parcel.delivery.app.common.annotations.PdaSpringApp;
 import parcel.delivery.app.common.error.ErrorHandler;
 import parcel.delivery.app.common.security.config.JwtAuthConfigurer;
-
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
-import static parcel.delivery.app.common.security.core.RolePrivilege.CREATE_COURIER_USER;
+import parcel.delivery.app.common.security.interceptor.AuthPolicyInterceptor;
 
 /**
  * Security configuration
@@ -27,8 +27,16 @@ import static parcel.delivery.app.common.security.core.RolePrivilege.CREATE_COUR
  */
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 @ComponentScan(basePackages = PdaSpringApp.ROOT_PACKAGE)
-public class SecurityConfig {
+public class SecurityConfig implements WebMvcConfigurer {
+    private final AuthPolicyInterceptor interceptor;
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(interceptor);
+    }
+
     @Bean
     @SuppressWarnings("squid:S4502")
     public SecurityFilterChain configure(HttpSecurity http, ErrorHandler errorHandler, JwtAuthConfigurer jwtAuthConfigurer) throws Exception {
@@ -36,15 +44,6 @@ public class SecurityConfig {
         return http
                 .csrf().disable()
                 .apply(jwtAuthConfigurer)
-                .and()
-                .authorizeHttpRequests()
-                    .requestMatchers("/actuator/**").permitAll()
-                    .requestMatchers(POST,"/auth/signup").permitAll()
-                    .requestMatchers(POST,"/auth/signin").permitAll()
-                    .requestMatchers(POST,"/auth/signup/courier")
-                        .hasAuthority(CREATE_COURIER_USER.getAuthority())    
-                    .requestMatchers(GET,"/auth/me").authenticated()
-                    .requestMatchers("/**").denyAll()
                 .and()
                 .exceptionHandling()
                     .authenticationEntryPoint(errorHandler)
