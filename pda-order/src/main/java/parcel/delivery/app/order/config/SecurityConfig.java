@@ -10,14 +10,10 @@ import parcel.delivery.app.common.annotations.PdaSpringApp;
 import parcel.delivery.app.common.error.ErrorHandler;
 import parcel.delivery.app.common.security.config.JwtAuthConfigurer;
 
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.http.HttpMethod.PUT;
 import static parcel.delivery.app.common.security.core.RolePrivilege.CANCEL_ORDER;
 import static parcel.delivery.app.common.security.core.RolePrivilege.CHANGE_DESTINATION;
 import static parcel.delivery.app.common.security.core.RolePrivilege.CHANGE_ORDER_STATUS;
-import static parcel.delivery.app.common.security.core.RolePrivilege.CREATE_ORDER;
-import static parcel.delivery.app.common.security.core.RolePrivilege.VIEW_ORDERS;
 
 @Configuration
 @EnableWebSecurity
@@ -31,16 +27,13 @@ public class SecurityConfig {
                 .csrf().disable()
                 .apply(jwtAuthConfigurer)
                 .and()
-                
                 .authorizeHttpRequests()
                     .requestMatchers("/actuator/**").permitAll()
-                    .requestMatchers(GET,"/orders").hasAuthority(VIEW_ORDERS.getAuthority())
-                    .requestMatchers(POST, "/orders").hasAuthority(CREATE_ORDER.getAuthority())
                     .requestMatchers(PUT, "/orders/{id}/status")
                         .hasAuthority(CHANGE_ORDER_STATUS.getAuthority())
                     .requestMatchers(PUT, "/orders/{id}/cancel").hasAuthority(CANCEL_ORDER.getAuthority())
                 .requestMatchers(PUT, "/orders/{id}/destination").hasAuthority(CHANGE_DESTINATION.getAuthority())
-                .anyRequest().denyAll()
+                .anyRequest().permitAll()
                 .and()
                 .exceptionHandling()
                     .authenticationEntryPoint(errorHandler)

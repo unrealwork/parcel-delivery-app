@@ -25,6 +25,7 @@ spring-test = { module = "org.springframework.boot:spring-boot-starter-test" }
 spring-security-test = { module = "org.springframework.security:spring-security-test" }
 spring-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
 spring-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
+spring-aop = { module = "org.springframework.boot:spring-boot-starter-aop" }
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
 jjwt-api = { module = "io.jsonwebtoken:jjwt-api", version.ref = "jjwt" }
 jjwt-impl = { module = "io.jsonwebtoken:jjwt-impl", version.ref = "jjwt" }

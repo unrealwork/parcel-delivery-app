@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import parcel.delivery.app.common.annotations.ApiEndpoint;
+import parcel.delivery.app.common.security.core.RolePrivilege;
 import parcel.delivery.app.order.controller.api.request.ChangeOrderDestinationRequest;
 import parcel.delivery.app.order.controller.api.request.ChangeStatusRequest;
 import parcel.delivery.app.order.controller.api.request.CreateOrderRequest;
@@ -30,12 +32,14 @@ public class OrdersController {
     private final OrderService orderService;
 
     @GetMapping
+    @ApiEndpoint(RolePrivilege.VIEW_ORDERS)
     public ResponseEntity<List<OrderDto>> orders(HttpServletRequest request) {
         List<OrderDto> orders = orderService.orders();
         return ResponseEntity.ok(orders);
     }
 
     @PostMapping
+    @ApiEndpoint(RolePrivilege.CREATE_ORDER)
     public ResponseEntity<OrderDto> create(@Valid @RequestBody CreateOrderRequest createOrderRequest) {
         return ResponseEntity.ok(orderService.create(createOrderRequest));
     }
