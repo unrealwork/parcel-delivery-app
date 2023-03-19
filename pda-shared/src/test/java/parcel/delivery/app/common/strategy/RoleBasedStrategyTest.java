@@ -1,5 +1,6 @@
 package parcel.delivery.app.common.strategy;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -8,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import parcel.delivery.app.common.security.AuthenticationFacade;
@@ -42,6 +44,14 @@ class RoleBasedStrategyTest {
         Mockito.when(authenticationFacade.role())
                 .thenReturn(UserType.COURIER);
         assertThat(testAggregateStrategy.apply(null), equalTo(UserType.COURIER));
+    }
+
+    @Test
+    @DisplayName("Should throw access denied for not defined strategy")
+    void testNotDefinedStrategy() {
+        Mockito.when(authenticationFacade.role())
+                .thenReturn(UserType.ADMIN);
+        Assertions.assertThrows(AccessDeniedException.class, () -> testAggregateStrategy.apply(null));
     }
 
 
