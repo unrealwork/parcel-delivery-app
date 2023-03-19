@@ -23,7 +23,7 @@ import parcel.delivery.app.common.config.properties.JwtProviderProperties;
 import parcel.delivery.app.common.helper.SecuredTestingConfig;
 import parcel.delivery.app.common.security.core.RolePrivilege;
 import parcel.delivery.app.common.security.core.UserType;
-import parcel.delivery.app.common.security.filters.JwtAuthenticationFilter;
+import parcel.delivery.app.common.security.filter.JwtAuthenticationFilter;
 import parcel.delivery.app.common.security.jwt.JwtProvider;
 import parcel.delivery.app.common.security.jwt.JwtProviderImpl;
 import parcel.delivery.app.common.security.jwt.JwtToken;

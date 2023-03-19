@@ -1,4 +1,4 @@
-package parcel.delivery.app.common.security.filters;
+package parcel.delivery.app.common.security.interceptor;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class ApiEndpointAuthorizationInterceptor implements HandlerInterceptor {
+public class AuthPolicyInterceptor implements HandlerInterceptor {
     private final AuthenticationFacade authenticationFacade;
     private final Map<HandlerMethod, Optional<RolePrivilege>> handlerPrivilges = new ConcurrentHashMap<>();
 

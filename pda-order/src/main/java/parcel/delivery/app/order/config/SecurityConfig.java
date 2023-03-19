@@ -12,14 +12,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import parcel.delivery.app.common.annotations.PdaSpringApp;
 import parcel.delivery.app.common.error.ErrorHandler;
 import parcel.delivery.app.common.security.config.JwtAuthConfigurer;
-import parcel.delivery.app.common.security.filters.ApiEndpointAuthorizationInterceptor;
+import parcel.delivery.app.common.security.interceptor.AuthPolicyInterceptor;
 
 @Configuration
 @EnableWebSecurity
 @ComponentScan(basePackages = PdaSpringApp.ROOT_PACKAGE)
 @RequiredArgsConstructor
 public class SecurityConfig implements WebMvcConfigurer {
-    private final ApiEndpointAuthorizationInterceptor interceptor;
+    private final AuthPolicyInterceptor interceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
