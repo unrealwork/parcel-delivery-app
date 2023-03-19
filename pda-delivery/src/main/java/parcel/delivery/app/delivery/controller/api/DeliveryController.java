@@ -1,12 +1,17 @@
 package parcel.delivery.app.delivery.controller.api;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import parcel.delivery.app.common.annotations.AuthPolicy;
+import parcel.delivery.app.common.security.core.RolePrivilege;
+import parcel.delivery.app.delivery.controller.api.request.AssignCourierRequest;
 import parcel.delivery.app.delivery.domain.DeliveryDto;
 import parcel.delivery.app.delivery.service.DelvieryService;
 
@@ -24,5 +29,14 @@ public class DeliveryController {
     @AuthPolicy(VIEW_DELIVERY_DETAILS)
     public ResponseEntity<DeliveryDto> delivery(@PathVariable UUID orderId) {
         return ResponseEntity.ok(delvieryService.get(orderId));
+    }
+
+    @PutMapping("/{orderId}/assign")
+    @AuthPolicy(RolePrivilege.ASSIGN_COURIERS)
+    public ResponseEntity<Void> assign(@PathVariable UUID orderId,
+                                       @Valid @RequestBody AssignCourierRequest request) {
+        delvieryService.assign(orderId, request);
+        return ResponseEntity.noContent()
+                .build();
     }
 }
