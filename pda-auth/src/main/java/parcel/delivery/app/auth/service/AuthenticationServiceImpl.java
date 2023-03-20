@@ -17,7 +17,7 @@ import parcel.delivery.app.auth.controller.api.response.SignInResponse;
 import parcel.delivery.app.auth.dto.RoleDto;
 import parcel.delivery.app.auth.dto.UserDto;
 import parcel.delivery.app.auth.security.exceptions.UserAlreadyExistException;
-import parcel.delivery.app.common.security.core.UserType;
+import parcel.delivery.app.common.security.core.UserRole;
 import parcel.delivery.app.common.security.jwt.JwtProvider;
 import parcel.delivery.app.common.security.jwt.JwtToken;
 import parcel.delivery.app.common.security.jwt.util.JwtUtil;
@@ -36,7 +36,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     @Transactional
-    public void signUp(SignUpRequest signUpRequestDto, UserType userType) {
+    public void signUp(SignUpRequest signUpRequestDto, UserRole userType) {
         final String clientId = signUpRequestDto.clientId();
         if (userService.findByClientId(clientId)
                 .isPresent()) {
@@ -69,7 +69,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         Authentication authentication = SecurityContextHolder.getContext()
                 .getAuthentication();
         JwtToken jwtToken = JwtUtil.tokenFromAuthentication(authentication);
-        return new AuthData(jwtToken.clientId(), jwtToken.userType(), jwtToken.privileges());
+        return new AuthData(jwtToken.clientId(), jwtToken.userRole(), jwtToken.privileges());
     }
 
     private Authentication authenticateUser(final UserDetails userDetails, SignInRequest signInRequest) {

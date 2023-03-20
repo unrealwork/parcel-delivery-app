@@ -2,7 +2,7 @@ package parcel.delivery.app.delivery.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import parcel.delivery.app.delivery.domain.CourierDto;
+import parcel.delivery.app.delivery.dto.CourierDto;
 import parcel.delivery.app.delivery.mapper.CourierMapper;
 import parcel.delivery.app.delivery.repository.CourierRepository;
 

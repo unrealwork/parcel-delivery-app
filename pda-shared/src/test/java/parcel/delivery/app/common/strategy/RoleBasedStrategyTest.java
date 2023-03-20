@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import parcel.delivery.app.common.security.AuthenticationFacade;
 import parcel.delivery.app.common.security.core.RolePrivilege;
-import parcel.delivery.app.common.security.core.UserType;
+import parcel.delivery.app.common.security.core.UserRole;
 
 import java.util.List;
 
@@ -34,28 +34,28 @@ class RoleBasedStrategyTest {
     @DisplayName("Should select correct strategy for user")
     void testUserStrategy() {
         Mockito.when(authenticationFacade.role())
-                .thenReturn(UserType.USER);
-        assertThat(testAggregateStrategy.apply(null), equalTo(UserType.USER));
+                .thenReturn(UserRole.USER);
+        assertThat(testAggregateStrategy.apply(null), equalTo(UserRole.USER));
     }
 
     @Test
     @DisplayName("Should select correct strategy for courier")
     void testCourierStrategy() {
         Mockito.when(authenticationFacade.role())
-                .thenReturn(UserType.COURIER);
-        assertThat(testAggregateStrategy.apply(null), equalTo(UserType.COURIER));
+                .thenReturn(UserRole.COURIER);
+        assertThat(testAggregateStrategy.apply(null), equalTo(UserRole.COURIER));
     }
 
     @Test
     @DisplayName("Should throw access denied for not defined strategy")
     void testNotDefinedStrategy() {
         Mockito.when(authenticationFacade.role())
-                .thenReturn(UserType.ADMIN);
+                .thenReturn(UserRole.ADMIN);
         Assertions.assertThrows(AccessDeniedException.class, () -> testAggregateStrategy.apply(null));
     }
 
 
-    interface TestStrategy extends ComputationRoleBasedStrategy<Void, UserType> {
+    interface TestStrategy extends ComputationRoleBasedStrategy<Void, UserRole> {
         @Override
         default RolePrivilege privilege() {
             return RolePrivilege.BASIC;
@@ -69,7 +69,7 @@ class RoleBasedStrategyTest {
     }
 
     @Service
-    static class TestAggregateStrategy extends RoleBasedAggregateStrategy<Void, UserType, TestStrategy> {
+    static class TestAggregateStrategy extends RoleBasedAggregateStrategy<Void, UserRole, TestStrategy> {
 
         protected TestAggregateStrategy(List<TestStrategy> strategies, AuthenticationFacade authenticationFacade) {
             super(strategies, authenticationFacade);
@@ -84,8 +84,8 @@ class RoleBasedStrategyTest {
     @Component
     static class UserTestStrategy implements TestStrategy {
         @Override
-        public UserType role() {
-            return UserType.USER;
+        public UserRole role() {
+            return UserRole.USER;
         }
 
         @Override
@@ -94,21 +94,21 @@ class RoleBasedStrategyTest {
         }
 
         @Override
-        public UserType apply(Void unused) {
-            return UserType.USER;
+        public UserRole apply(Void unused) {
+            return UserRole.USER;
         }
     }
 
     @Component
     static class CourierTestStrategy implements TestStrategy {
         @Override
-        public UserType role() {
-            return UserType.COURIER;
+        public UserRole role() {
+            return UserRole.COURIER;
         }
 
         @Override
-        public UserType apply(Void unused) {
-            return UserType.COURIER;
+        public UserRole apply(Void unused) {
+            return UserRole.COURIER;
         }
     }
 }

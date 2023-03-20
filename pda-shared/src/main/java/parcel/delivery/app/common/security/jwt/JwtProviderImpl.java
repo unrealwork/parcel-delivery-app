@@ -61,7 +61,7 @@ public final class JwtProviderImpl implements JwtProvider {
                 .clientId(allClaims.getSubject())
                 .issuedAt(dateToInstant(allClaims.getIssuedAt()))
                 .expiresAt(dateToInstant(allClaims.getExpiration()))
-                .userType(authData.userType())
+                .userRole(authData.userRole())
                 .privileges(authData.privileges())
                 .build();
     }
@@ -78,7 +78,7 @@ public final class JwtProviderImpl implements JwtProvider {
         final Date issueDate = extractIssueDateFromToken(jwtToken);
         final Date expireDate = calcExpirationDateForToken(jwtToken, issueDate);
 
-        Map<String, ?> extraClaims = Map.of(JwtClaimKeys.AUTHORIZTATION_DATA, new JwtAuthData(jwtToken.userType(), jwtToken.privileges()));
+        Map<String, ?> extraClaims = Map.of(JwtClaimKeys.AUTHORIZTATION_DATA, new JwtAuthData(jwtToken.userRole(), jwtToken.privileges()));
         return Jwts.builder()
                 .setClaims(extraClaims)
                 .setSubject(jwtToken.clientId())

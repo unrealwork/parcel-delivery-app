@@ -16,7 +16,7 @@ import parcel.delivery.app.auth.controller.api.request.SignUpRequest;
 import parcel.delivery.app.auth.controller.api.response.SignInResponse;
 import parcel.delivery.app.auth.repository.UserRepository;
 import parcel.delivery.app.auth.service.AuthenticationService;
-import parcel.delivery.app.common.security.core.UserType;
+import parcel.delivery.app.common.security.core.UserRole;
 import parcel.delivery.app.common.test.client.ApiRestClient;
 import parcel.delivery.app.common.test.security.annotations.WithAdminRole;
 import parcel.delivery.app.common.test.security.annotations.WithUserRole;
@@ -77,7 +77,7 @@ class AuthSignUpCourierTest {
                 .phone("+39612321312")
                 .password("234234123412")
                 .build();
-        authenticationService.signUp(adminSignUp, UserType.ADMIN);
+        authenticationService.signUp(adminSignUp, UserRole.ADMIN);
         SignInRequest adminSignin = new SignInRequest(adminSignUp.clientId(), adminSignUp.password());
         SignInResponse signInResponse = authenticationService.signIn(adminSignin);
         // Courier acc

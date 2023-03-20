@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import parcel.delivery.app.common.security.AuthenticationFacade;
-import parcel.delivery.app.common.security.core.UserType;
+import parcel.delivery.app.common.security.core.UserRole;
 import parcel.delivery.app.order.controller.api.request.ChangeStatusRequest;
 import parcel.delivery.app.order.domain.Order;
 import parcel.delivery.app.order.domain.OrderStatus;
@@ -25,8 +25,8 @@ public class CourierChangeOrderStatusStrategy implements ChangeOrderStatusStrate
     private final AuthenticationFacade auth;
 
     @Override
-    public UserType role() {
-        return UserType.COURIER;
+    public UserRole role() {
+        return UserRole.COURIER;
     }
 
     @Override

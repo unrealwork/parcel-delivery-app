@@ -1,4 +1,6 @@
-package parcel.delivery.app.delivery.domain;
+package parcel.delivery.app.delivery.dto;
+
+import parcel.delivery.app.delivery.domain.Delivery;
 
 import java.math.BigDecimal;
 

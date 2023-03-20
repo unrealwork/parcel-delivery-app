@@ -17,7 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import parcel.delivery.app.common.security.core.UserType;
+import parcel.delivery.app.common.security.core.UserRole;
 import parcel.delivery.app.common.security.jwt.JwtProvider;
 import parcel.delivery.app.common.security.jwt.JwtToken;
 import parcel.delivery.app.common.util.WebUtil;
@@ -68,7 +68,7 @@ class JwtAuthenticationFilterTest {
         String token = "valid";
         JwtToken jwtToken = JwtToken.builder()
                 .clientId("test@gmail.com")
-                .userType(UserType.ADMIN)
+                .userRole(UserRole.ADMIN)
                 .privileges(Set.of(CREATE_COURIER_USER))
                 .build();
 

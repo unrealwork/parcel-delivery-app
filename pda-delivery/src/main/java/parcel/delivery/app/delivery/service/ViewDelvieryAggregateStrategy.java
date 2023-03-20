@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import parcel.delivery.app.common.security.AuthenticationFacade;
 import parcel.delivery.app.common.security.core.RolePrivilege;
 import parcel.delivery.app.common.strategy.RoleBasedAggregateStrategy;
-import parcel.delivery.app.delivery.domain.DeliveryDto;
+import parcel.delivery.app.delivery.dto.DeliveryDto;
 
 import java.util.List;
 import java.util.UUID;

@@ -3,7 +3,7 @@ package parcel.delivery.app.order.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import parcel.delivery.app.common.security.core.UserType;
+import parcel.delivery.app.common.security.core.UserRole;
 import parcel.delivery.app.order.dto.OrderDto;
 import parcel.delivery.app.order.mapper.OrderMapper;
 import parcel.delivery.app.order.repository.OrderRepository;
@@ -17,8 +17,8 @@ public class AdminViewOrdersStrategy implements ViewOrdersStrategy {
     private final OrderMapper orderMapper;
 
     @Override
-    public UserType role() {
-        return UserType.ADMIN;
+    public UserRole role() {
+        return UserRole.ADMIN;
     }
 
     @Override

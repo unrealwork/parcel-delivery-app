@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import parcel.delivery.app.common.security.AuthenticationFacade;
-import parcel.delivery.app.common.security.core.UserType;
+import parcel.delivery.app.common.security.core.UserRole;
 import parcel.delivery.app.common.test.security.annotations.WithAdminRole;
 import parcel.delivery.app.common.test.security.annotations.WithCourierRole;
 import parcel.delivery.app.common.test.security.annotations.WithUserRole;
@@ -30,8 +30,8 @@ class UserRolesAnnotationsTest {
     @DisplayName("Should provide same authentication for tests as role ADMIN")
     void testAdminRole() {
         assertThat(auth.authentication(), notNullValue());
-        assertThat(auth.role(), equalTo(UserType.ADMIN));
-        assertThat(auth.privileges(), equalTo(UserType.ADMIN.priviliges()));
+        assertThat(auth.role(), equalTo(UserRole.ADMIN));
+        assertThat(auth.privileges(), equalTo(UserRole.ADMIN.privileges()));
     }
 
     @WithUserRole
@@ -39,8 +39,8 @@ class UserRolesAnnotationsTest {
     @DisplayName("Should provide same authentication for tests as role USER")
     void testUserRole() {
         assertThat(auth.authentication(), notNullValue());
-        assertThat(auth.role(), equalTo(UserType.USER));
-        assertThat(auth.privileges(), equalTo(UserType.USER.priviliges()));
+        assertThat(auth.role(), equalTo(UserRole.USER));
+        assertThat(auth.privileges(), equalTo(UserRole.USER.privileges()));
     }
 
     @WithCourierRole
@@ -48,8 +48,8 @@ class UserRolesAnnotationsTest {
     @DisplayName("Should provide same authentication for tests as role COURIER")
     void testCourierRole() {
         assertThat(auth.authentication(), notNullValue());
-        assertThat(auth.role(), equalTo(UserType.COURIER));
-        assertThat(auth.privileges(), equalTo(UserType.COURIER.priviliges()));
+        assertThat(auth.role(), equalTo(UserRole.COURIER));
+        assertThat(auth.privileges(), equalTo(UserRole.COURIER.privileges()));
     }
 
     @Configuration

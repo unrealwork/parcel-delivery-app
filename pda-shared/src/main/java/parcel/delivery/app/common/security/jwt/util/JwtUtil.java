@@ -6,7 +6,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import parcel.delivery.app.common.security.core.RolePrivilege;
-import parcel.delivery.app.common.security.core.UserType;
+import parcel.delivery.app.common.security.core.UserRole;
 import parcel.delivery.app.common.security.jwt.JwtToken;
 
 import java.util.HashSet;
@@ -25,13 +25,13 @@ public class JwtUtil {
         Set<RolePrivilege> privilegeSet = new HashSet<>();
         for (GrantedAuthority grantedAuthority : authentication.getAuthorities()) {
             String authority = grantedAuthority.getAuthority();
-            if (authority.startsWith(UserType.ROLE_PREFIX)) {
-                final UserType userType = UserType.fromAuthority(grantedAuthority);
+            if (authority.startsWith(UserRole.ROLE_PREFIX)) {
+                final UserRole userRole = UserRole.fromAuthority(grantedAuthority);
                 if (isRoleFound) {
                     throw new BadCredentialsException("User has several roles");
                 } else {
                     isRoleFound = true;
-                    tokenBuilder.userType(userType);
+                    tokenBuilder.userRole(userRole);
                 }
             } else {
                 RolePrivilege privilege = RolePrivilege.fromAuthority(grantedAuthority);

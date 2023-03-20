@@ -16,7 +16,7 @@ import parcel.delivery.app.auth.controller.api.response.SignInResponse;
 import parcel.delivery.app.auth.service.AuthenticationService;
 import parcel.delivery.app.common.annotations.AuthPolicy;
 import parcel.delivery.app.common.security.core.RolePrivilege;
-import parcel.delivery.app.common.security.core.UserType;
+import parcel.delivery.app.common.security.core.UserRole;
 
 @RestController
 @RequestMapping(value = "/auth")
@@ -48,7 +48,7 @@ public class AuthController {
     @PostMapping("/signup/courier")
     @AuthPolicy(RolePrivilege.CREATE_COURIER_USER)
     public ResponseEntity<Void> courierSignup(@RequestBody SignUpRequest courierSignUp) {
-        authenticationService.signUp(courierSignUp, UserType.COURIER);
+        authenticationService.signUp(courierSignUp, UserRole.COURIER);
         return ResponseEntity.noContent()
                 .build();
     }

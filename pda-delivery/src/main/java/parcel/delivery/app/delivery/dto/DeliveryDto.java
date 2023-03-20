@@ -1,9 +1,11 @@
-package parcel.delivery.app.delivery.domain;
+package parcel.delivery.app.delivery.dto;
 
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotNull;
+import parcel.delivery.app.delivery.domain.Delivery;
+import parcel.delivery.app.delivery.domain.DeliveryStatus;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

@@ -2,7 +2,7 @@ package parcel.delivery.app.delivery.service;
 
 import parcel.delivery.app.common.security.core.RolePrivilege;
 import parcel.delivery.app.common.strategy.ComputationRoleBasedStrategy;
-import parcel.delivery.app.delivery.domain.DeliveryDto;
+import parcel.delivery.app.delivery.dto.DeliveryDto;
 
 import java.util.UUID;
 

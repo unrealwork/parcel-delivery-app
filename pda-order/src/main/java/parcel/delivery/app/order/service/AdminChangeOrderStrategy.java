@@ -2,7 +2,7 @@ package parcel.delivery.app.order.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import parcel.delivery.app.common.security.core.UserType;
+import parcel.delivery.app.common.security.core.UserRole;
 import parcel.delivery.app.order.controller.api.request.ChangeStatusRequest;
 import parcel.delivery.app.order.error.exception.OrderNotFoundException;
 import parcel.delivery.app.order.repository.OrderRepository;
@@ -15,8 +15,8 @@ public class AdminChangeOrderStrategy implements ChangeOrderStatusStrategy {
     private final OrderRepository orderRepository;
 
     @Override
-    public UserType role() {
-        return UserType.ADMIN;
+    public UserRole role() {
+        return UserRole.ADMIN;
     }
 
 
