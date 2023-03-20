@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import parcel.delivery.app.common.annotations.AuthPolicy;
 import parcel.delivery.app.common.security.core.RolePrivilege;
-import parcel.delivery.app.delivery.domain.CourierDto;
+import parcel.delivery.app.delivery.dto.CourierDto;
 import parcel.delivery.app.delivery.service.CouriersService;
 
 import java.util.List;

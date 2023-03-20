@@ -3,7 +3,7 @@ package parcel.delivery.app.order.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import parcel.delivery.app.common.security.AuthenticationFacade;
-import parcel.delivery.app.common.security.core.UserType;
+import parcel.delivery.app.common.security.core.UserRole;
 import parcel.delivery.app.order.domain.Order;
 import parcel.delivery.app.order.dto.OrderDto;
 import parcel.delivery.app.order.mapper.OrderMapper;
@@ -19,8 +19,8 @@ public class UserViewOrdersStrategy implements ViewOrdersStrategy {
     private final AuthenticationFacade auth;
 
     @Override
-    public UserType role() {
-        return UserType.USER;
+    public UserRole role() {
+        return UserRole.USER;
     }
 
     @Override

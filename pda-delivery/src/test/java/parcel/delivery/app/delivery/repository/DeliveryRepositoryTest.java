@@ -15,12 +15,16 @@ import parcel.delivery.app.delivery.domain.Courier;
 import parcel.delivery.app.delivery.domain.CourierStatus;
 import parcel.delivery.app.delivery.domain.Delivery;
 import parcel.delivery.app.delivery.domain.DeliveryStatus;
-import parcel.delivery.app.delivery.helper.DeliveryDomainConstants;
+import parcel.delivery.app.delivery.dto.LongLat;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static parcel.delivery.app.delivery.helper.DeliveryDomainConstants.DELIVERY;
+import static parcel.delivery.app.delivery.helper.DeliveryDomainConstants.ORDER_ID;
 
 @DataJpaTest
 @ExtendWith(SpringExtension.class)
@@ -39,7 +43,7 @@ class DeliveryRepositoryTest {
                 .build();
         courierRepository.saveAndFlush(courier);
         Delivery delivery = Delivery.builder()
-                .orderId(DeliveryDomainConstants.ORDER_ID)
+                .orderId(ORDER_ID)
                 .status(DeliveryStatus.INITIAL)
                 .latitude(BigDecimal.ONE)
                 .latitude(BigDecimal.ONE)
@@ -47,11 +51,22 @@ class DeliveryRepositoryTest {
                 .courier(courier)
                 .build();
         Delivery savedDelivery = deliveryRepository.saveAndFlush(delivery);
-        assertThat(savedDelivery.getOrderId(), equalTo(DeliveryDomainConstants.ORDER_ID));
+        assertThat(savedDelivery.getOrderId(), equalTo(ORDER_ID));
         assertThat(savedDelivery.getCourier(), CoreMatchers.notNullValue());
         assertThat(savedDelivery.getStatus(), equalTo(DeliveryStatus.INITIAL));
         assertThat(savedDelivery.getCreatedAt(), CoreMatchers.notNullValue());
         assertThat(savedDelivery.getUpdatedAt(), CoreMatchers.notNullValue());
+    }
+
+    @Test
+    @DisplayName("Should load coordinates via JPA projection")
+    void testFindCoordinates() {
+        deliveryRepository.saveAndFlush(DELIVERY);
+        Optional<LongLat> longLatOpt = deliveryRepository.findCoordinatesByOrderId(ORDER_ID);
+        assertTrue(longLatOpt.isPresent());
+        LongLat longLat = longLatOpt.get();
+        assertThat(longLat.getLongitude(), CoreMatchers.notNullValue());
+        assertThat(longLat.getLatitude(), CoreMatchers.notNullValue());
     }
 
     @AfterEach

@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import parcel.delivery.app.common.config.properties.JwtProviderProperties;
 import parcel.delivery.app.common.security.core.RolePrivilege;
-import parcel.delivery.app.common.security.core.UserType;
+import parcel.delivery.app.common.security.core.UserRole;
 
 import java.time.Instant;
 import java.util.Set;
@@ -36,13 +36,13 @@ class JwtProviderTest {
         final JwtToken jwtToken = JwtToken.builder()
                 .clientId("test@mail.com")
                 .privileges(privileges)
-                .userType(UserType.ADMIN)
+                .userType(UserRole.ADMIN)
                 .build();
         String generatedToken = jwtProvider.generate(jwtToken);
         JwtToken parsedToken = jwtProvider.parse(generatedToken);
         assertEquals(parsedToken.clientId(), jwtToken.clientId());
         assertEquals(privileges, parsedToken.privileges());
-        Assertions.assertEquals(UserType.ADMIN, parsedToken.userType());
+        Assertions.assertEquals(UserRole.ADMIN, parsedToken.userRole());
     }
 
     @Test

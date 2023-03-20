@@ -11,7 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import parcel.delivery.app.common.security.core.RolePrivilege;
-import parcel.delivery.app.common.security.core.UserType;
+import parcel.delivery.app.common.security.core.UserRole;
 import parcel.delivery.app.common.security.jwt.JwtToken;
 
 import java.util.Set;
@@ -37,7 +37,7 @@ class JwtUtilTest {
         JwtToken jwtToken = JwtToken.builder()
                 .clientId("test@mail.com")
                 .privileges(Set.of(RolePrivilege.values()))
-                .userType(UserType.ADMIN)
+                .userType(UserRole.ADMIN)
                 .build();
         String principal = "test@mail.com";
         Authentication authentication = new UsernamePasswordAuthenticationToken(principal, "", jwtToken.authorities());

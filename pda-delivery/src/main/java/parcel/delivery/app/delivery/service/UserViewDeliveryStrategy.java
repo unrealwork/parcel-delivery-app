@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import parcel.delivery.app.common.security.AuthenticationFacade;
-import parcel.delivery.app.common.security.core.UserType;
+import parcel.delivery.app.common.security.core.UserRole;
 import parcel.delivery.app.delivery.domain.Delivery;
-import parcel.delivery.app.delivery.domain.DeliveryDto;
+import parcel.delivery.app.delivery.dto.DeliveryDto;
 import parcel.delivery.app.delivery.error.exception.DeilveryAcccessDeniedException;
 import parcel.delivery.app.delivery.error.exception.DeliveryNotFoundException;
 import parcel.delivery.app.delivery.mapper.DeilveryMapper;
@@ -24,8 +24,8 @@ public class UserViewDeliveryStrategy implements ViewDeliveryStrategy {
     private final AuthenticationFacade authenticationFacade;
 
     @Override
-    public UserType role() {
-        return UserType.USER;
+    public UserRole role() {
+        return UserRole.USER;
     }
 
     @Override

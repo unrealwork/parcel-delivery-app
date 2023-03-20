@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.test.context.support.WithMockUser;
 import parcel.delivery.app.common.security.core.RolePrivilege;
-import parcel.delivery.app.common.security.core.UserType;
+import parcel.delivery.app.common.security.core.UserRole;
 
 import java.util.Collection;
 
@@ -55,7 +55,7 @@ class AuthenticationFacadeTest {
     @WithMockUser(roles = {"ADMIN"})
     @DisplayName("Should provide access to user role")
     void role() {
-        assertThat(auth.role(), equalTo(UserType.ADMIN));
+        assertThat(auth.role(), equalTo(UserRole.ADMIN));
     }
 
     @Test

@@ -13,7 +13,7 @@ import parcel.delivery.app.auth.domain.User;
 import parcel.delivery.app.auth.repository.UserRepository;
 import parcel.delivery.app.auth.security.auth.PdaUserDetails;
 import parcel.delivery.app.common.security.core.RolePrivilege;
-import parcel.delivery.app.common.security.core.UserType;
+import parcel.delivery.app.common.security.core.UserRole;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,8 +46,8 @@ public class PdaUserDetailService implements UserDetailsService {
     private static Collection<? extends GrantedAuthority> roleToAuthorities(Role role) {
         List<GrantedAuthority> authorities = new ArrayList<>(1 + role.getPrivileges()
                 .size());
-        UserType userType = UserType.fromAuthority(role.getName());
-        authorities.add(userType);
+        UserRole userRole = UserRole.fromAuthority(role.getName());
+        authorities.add(userRole);
         for (Privilege privilege : role.getPrivileges()) {
             authorities.add(RolePrivilege.fromAuthority(privilege.getName()));
         }

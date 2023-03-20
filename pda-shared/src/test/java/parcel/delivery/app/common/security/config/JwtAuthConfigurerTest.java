@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import parcel.delivery.app.common.config.properties.JwtProviderProperties;
 import parcel.delivery.app.common.helper.SecuredTestingConfig;
 import parcel.delivery.app.common.security.core.RolePrivilege;
-import parcel.delivery.app.common.security.core.UserType;
+import parcel.delivery.app.common.security.core.UserRole;
 import parcel.delivery.app.common.security.filter.JwtAuthenticationFilter;
 import parcel.delivery.app.common.security.jwt.JwtProvider;
 import parcel.delivery.app.common.security.jwt.JwtProviderImpl;
@@ -53,7 +53,7 @@ class JwtAuthConfigurerTest {
     void testAvailability() throws Exception {
         JwtToken jwtToken = JwtToken
                 .builder()
-                .userType(UserType.USER)
+                .userRole(UserRole.USER)
                 .clientId("test@mail.com")
                 .privileges(Set.of(RolePrivilege.CREATE_COURIER_USER))
                 .build();
