@@ -36,7 +36,7 @@ class JwtProviderTest {
         final JwtToken jwtToken = JwtToken.builder()
                 .clientId("test@mail.com")
                 .privileges(privileges)
-                .userType(UserRole.ADMIN)
+                .userRole(UserRole.ADMIN)
                 .build();
         String generatedToken = jwtProvider.generate(jwtToken);
         JwtToken parsedToken = jwtProvider.parse(generatedToken);

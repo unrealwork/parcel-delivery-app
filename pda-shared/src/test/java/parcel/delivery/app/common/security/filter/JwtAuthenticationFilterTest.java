@@ -68,7 +68,7 @@ class JwtAuthenticationFilterTest {
         String token = "valid";
         JwtToken jwtToken = JwtToken.builder()
                 .clientId("test@gmail.com")
-                .userType(UserRole.ADMIN)
+                .userRole(UserRole.ADMIN)
                 .privileges(Set.of(CREATE_COURIER_USER))
                 .build();
 

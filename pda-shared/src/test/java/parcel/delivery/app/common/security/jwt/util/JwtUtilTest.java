@@ -37,7 +37,7 @@ class JwtUtilTest {
         JwtToken jwtToken = JwtToken.builder()
                 .clientId("test@mail.com")
                 .privileges(Set.of(RolePrivilege.values()))
-                .userType(UserRole.ADMIN)
+                .userRole(UserRole.ADMIN)
                 .build();
         String principal = "test@mail.com";
         Authentication authentication = new UsernamePasswordAuthenticationToken(principal, "", jwtToken.authorities());
