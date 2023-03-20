@@ -14,6 +14,7 @@ import static parcel.delivery.app.common.security.core.RolePrivilege.CHANGE_DEST
 import static parcel.delivery.app.common.security.core.RolePrivilege.CHANGE_ORDER_STATUS;
 import static parcel.delivery.app.common.security.core.RolePrivilege.CREATE_COURIER_USER;
 import static parcel.delivery.app.common.security.core.RolePrivilege.CREATE_ORDER;
+import static parcel.delivery.app.common.security.core.RolePrivilege.TRACK_DELIVERY;
 import static parcel.delivery.app.common.security.core.RolePrivilege.VIEW_COURIERS;
 import static parcel.delivery.app.common.security.core.RolePrivilege.VIEW_DELIVERY_DETAILS;
 import static parcel.delivery.app.common.security.core.RolePrivilege.VIEW_ORDERS;
@@ -30,7 +31,8 @@ public enum UserRole implements GrantedAuthority {
             CHANGE_ORDER_STATUS,
             VIEW_ORDERS,
             VIEW_COURIERS,
-            ASSIGN_COURIER),
+            ASSIGN_COURIER,
+            TRACK_DELIVERY),
     COURIER(BASIC,
             CHANGE_ORDER_STATUS,
             VIEW_ORDERS,
