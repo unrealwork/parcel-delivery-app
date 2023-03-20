@@ -65,7 +65,7 @@ public enum UserRole implements GrantedAuthority {
         return ROLE_PREFIX + name();
     }
 
-    public Collection<RolePrivilege> priviliges() {
+    public Collection<RolePrivilege> privileges() {
         return this.priviligesSet;
     }
 }

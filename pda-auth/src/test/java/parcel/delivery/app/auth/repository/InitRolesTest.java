@@ -59,8 +59,8 @@ public class InitRolesTest {
                 .collect(Collectors.toSet());
         String assertMessage = TestUtil.format("Role {} should have privileges {}",
                 userRole.getAuthority(),
-                userRole.priviliges());
-        assertThat(assertMessage, rolePrivileges, equalTo(userRole.priviliges()));
+                userRole.privileges());
+        assertThat(assertMessage, rolePrivileges, equalTo(userRole.privileges()));
     }
 
 }

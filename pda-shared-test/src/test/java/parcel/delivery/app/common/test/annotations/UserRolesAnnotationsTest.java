@@ -31,7 +31,7 @@ class UserRolesAnnotationsTest {
     void testAdminRole() {
         assertThat(auth.authentication(), notNullValue());
         assertThat(auth.role(), equalTo(UserRole.ADMIN));
-        assertThat(auth.privileges(), equalTo(UserRole.ADMIN.priviliges()));
+        assertThat(auth.privileges(), equalTo(UserRole.ADMIN.privileges()));
     }
 
     @WithUserRole
@@ -40,7 +40,7 @@ class UserRolesAnnotationsTest {
     void testUserRole() {
         assertThat(auth.authentication(), notNullValue());
         assertThat(auth.role(), equalTo(UserRole.USER));
-        assertThat(auth.privileges(), equalTo(UserRole.USER.priviliges()));
+        assertThat(auth.privileges(), equalTo(UserRole.USER.privileges()));
     }
 
     @WithCourierRole
@@ -49,7 +49,7 @@ class UserRolesAnnotationsTest {
     void testCourierRole() {
         assertThat(auth.authentication(), notNullValue());
         assertThat(auth.role(), equalTo(UserRole.COURIER));
-        assertThat(auth.privileges(), equalTo(UserRole.COURIER.priviliges()));
+        assertThat(auth.privileges(), equalTo(UserRole.COURIER.privileges()));
     }
 
     @Configuration
