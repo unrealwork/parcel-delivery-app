@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import java.util.Collection;
 import java.util.Set;
 
+import static parcel.delivery.app.common.security.core.RolePrivilege.ASSIGN_COURIER;
 import static parcel.delivery.app.common.security.core.RolePrivilege.BASIC;
 import static parcel.delivery.app.common.security.core.RolePrivilege.CANCEL_ORDER;
 import static parcel.delivery.app.common.security.core.RolePrivilege.CHANGE_DESTINATION;
@@ -18,7 +19,7 @@ import static parcel.delivery.app.common.security.core.RolePrivilege.VIEW_ORDERS
 
 public enum UserType implements GrantedAuthority {
     USER(BASIC, VIEW_ORDERS, CREATE_ORDER, CANCEL_ORDER, CHANGE_DESTINATION, VIEW_DELIVERY_DETAILS),
-    ADMIN(BASIC, CREATE_COURIER_USER, CHANGE_ORDER_STATUS, VIEW_ORDERS),
+    ADMIN(BASIC, CREATE_COURIER_USER, CHANGE_ORDER_STATUS, VIEW_ORDERS, ASSIGN_COURIER),
     COURIER(BASIC, CHANGE_ORDER_STATUS, VIEW_ORDERS, VIEW_DELIVERY_DETAILS);
 
     public static final String ROLE_PREFIX = "ROLE_";
