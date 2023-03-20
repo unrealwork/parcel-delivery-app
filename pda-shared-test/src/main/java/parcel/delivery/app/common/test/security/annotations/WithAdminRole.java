@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
 @Inherited
 @WithMockUser(username = WithAdminRole.USERNAME,
         authorities = {"ROLE_ADMIN", "BASIC", "CREATE_COURIER_USER", "CHANGE_ORDER_STATUS", "VIEW_ORDERS",
-                "ASSIGN_COURIER"})
+                "ASSIGN_COURIER", "VIEW_COURIERS"})
 public @interface WithAdminRole {
     String USERNAME = "jane@doe.com";
 }
