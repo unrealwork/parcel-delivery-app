@@ -7,5 +7,5 @@ import parcel.delivery.app.common.security.core.UserRole;
 
 import java.util.Collection;
 
-public record AuthData(String clientId, UserRole userRole, Collection<RolePrivilege> privileges) {
+public record AuthData(String clientId, UserRole role, Collection<RolePrivilege> privileges) {
 }

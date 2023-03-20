@@ -53,7 +53,7 @@ class AuthMeTestControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.clientId").value(equalTo(signUpRequest.clientId())))
-                .andExpect(jsonPath("$.userType").value(equalTo(UserRole.USER.name())));
+                .andExpect(jsonPath("$.role").value(equalTo(UserRole.USER.name())));
     }
 
     @Test
