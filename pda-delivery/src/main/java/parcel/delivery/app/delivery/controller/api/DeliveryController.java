@@ -32,7 +32,7 @@ public class DeliveryController {
     }
 
     @PutMapping("/{orderId}/assign")
-    @AuthPolicy(RolePrivilege.ASSIGN_COURIERS)
+    @AuthPolicy(RolePrivilege.ASSIGN_COURIER)
     public ResponseEntity<Void> assign(@PathVariable UUID orderId,
                                        @Valid @RequestBody AssignCourierRequest request) {
         delvieryService.assign(orderId, request);
