@@ -1,33 +1,49 @@
 package parcel.delivery.app.auth.config.properties;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.Builder;
+import lombok.Getter;
 import org.springframework.validation.annotation.Validated;
 import parcel.delivery.app.auth.annotations.validation.constrains.Password;
 import parcel.delivery.app.common.security.core.UserRole;
 
-@Data
+import java.util.Objects;
+
 @Validated
+@Builder
+@Getter
 public final class UserProperty {
-    @EqualsAndHashCode.Include
-    @Email
     private final @NotNull String username;
     @Password
-    @ToString.Exclude
     private final String password;
     private final UserRole role;
-    private final String firstName;
-    private final String lastName;
+    private final @NotBlank String firstName;
+    private final @NotBlank String lastName;
 
-    public UserProperty(@NotNull String username, @Password String password, UserRole role, @NotBlank String firstName, @NotBlank String lastName) {
+    public UserProperty(@NotNull String username, @Password String password, UserRole role,
+                        @NotBlank String firstName, @NotBlank String lastName) {
         this.username = username;
         this.password = password;
         this.role = role;
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        UserProperty that = (UserProperty) o;
+        return Objects.equals(getUsername(), that.getUsername());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUsername());
     }
 }
