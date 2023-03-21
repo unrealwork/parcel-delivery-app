@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class AuthSignUpControllerItTest extends BaseMessagingTest {
+class AuthSignUpControlnlerItTest extends BaseMessagingTest {
     private static final String URL = "/auth/signup";
 
     @Autowired
