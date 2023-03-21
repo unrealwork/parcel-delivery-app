@@ -40,12 +40,13 @@ liquibase-hibernate5 = { module = "org.liquibase.ext:liquibase-hibernate5", vers
 tc = { module = "org.testcontainers:testcontainers", version.ref = "testcontainers" }
 tc-junit = { module = "org.testcontainers:junit-jupiter", version.ref = "testcontainers" }
 tc-psql = { module = "org.testcontainers:postgresql", version.ref = "testcontainers" }
+tc-kafka = { module = "org.testcontainers:kafka", version.ref = "testcontainers" }
 snake-yaml = { module = "org.yaml:snakeyaml", version = "1.29" }
 picoli = { module = "info.picocli:picocli", version = "4.6.1" }
 
 [bundles]
 jjwt = ["jjwt-api", "jjwt-impl", "jjwt-jackson"]
-tc = ["tc", "tc-junit", "tc-psql"]
+tc = ["tc", "tc-junit", "tc-psql", "tc-kafka"]
 
 [plugins]
 sonar = { id = "org.sonarqube", version = "4.0.0.2929" }

@@ -1,7 +1,6 @@
 package parcel.delivery.app.auth.controller;
 
 
-import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,6 +17,7 @@ import parcel.delivery.app.auth.repository.UserRepository;
 import parcel.delivery.app.auth.service.AuthenticationService;
 import parcel.delivery.app.common.security.core.UserRole;
 import parcel.delivery.app.common.test.client.ApiRestClient;
+import parcel.delivery.app.common.test.messaging.BaseMessagingTest;
 import parcel.delivery.app.common.test.security.annotations.WithAdminRole;
 import parcel.delivery.app.common.test.security.annotations.WithUserRole;
 
@@ -27,8 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@RequiredArgsConstructor
-class AuthSignUpCourierTest {
+class AuthSignUpCourierTest extends BaseMessagingTest {
     public static final SignUpRequest COURIER_ACC = SignUpRequest.builder()
             .clientId("test@mail.com")
             .firstName("John")

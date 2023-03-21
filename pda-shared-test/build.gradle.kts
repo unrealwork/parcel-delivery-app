@@ -14,6 +14,9 @@ dependencies {
     compileOnly(libs.spring.validation)
     compileOnly(libs.spring.test)
     compileOnly(libs.spring.security.test)
+    implementation(libs.bundles.tc)
+    implementation(libs.junit.api)
+
     // JWT
     compileOnly(libs.bundles.jjwt)
     // Mapper
@@ -29,7 +32,6 @@ dependencies {
     testRuntimeOnly(libs.junit.engine)
     testImplementation(libs.spring.test)
     testImplementation(libs.spring.security.test)
-
 }
 
 apply(from = "../gradle/jacoco.gradle")
