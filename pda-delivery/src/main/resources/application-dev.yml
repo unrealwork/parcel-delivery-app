@@ -1,11 +1,7 @@
 spring:
   liquibase:
     drop-first: true
-    enabled: true
-  
-  datasource:
-    hikari:
-      auto-commit: false
+    enabled: false
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create

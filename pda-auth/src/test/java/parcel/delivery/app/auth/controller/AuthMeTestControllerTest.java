@@ -15,6 +15,7 @@ import parcel.delivery.app.auth.repository.UserRepository;
 import parcel.delivery.app.auth.service.AuthenticationService;
 import parcel.delivery.app.common.security.core.UserRole;
 import parcel.delivery.app.common.test.client.ApiRestClient;
+import parcel.delivery.app.common.test.messaging.BaseMessagingTest;
 import parcel.delivery.app.common.test.security.annotations.WithUserRole;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -24,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class AuthMeTestControllerTest {
+class AuthMeTestControllerTest extends BaseMessagingTest {
 
     private static final String URL = "/auth/me";
 

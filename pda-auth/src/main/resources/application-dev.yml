@@ -1,3 +1,24 @@
+application:
+  users:
+    - username: "jane@doe.com"
+      password: "32412342343"
+      firstName: "Jane"
+      lastName: "Doe"
+      role: ADMIN
+    - username: "jack@doe.com"
+      password: "12345678"
+      firstName: "Jack"
+      lastName: "Doe"
+      role: COURIER
+    - username: "john@doe.com"
+      password: "12345678"
+      firstName: "John"
+      lastName: "Doe"
+      role: USER
 spring:
   liquibase:
     enabled: false
+    drop-first: true
+  jpa:
+    hibernate:
+      ddl-auto: create

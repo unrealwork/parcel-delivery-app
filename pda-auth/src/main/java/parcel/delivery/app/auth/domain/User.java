@@ -27,11 +27,12 @@ import java.util.HashSet;
 @AllArgsConstructor
 @Builder
 @Getter
+@ToString
 public class User implements Serializable {
     @Serial
     private static final long serialVersionUID = -9157396184244112995L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(unique = true, nullable = false)

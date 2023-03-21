@@ -13,6 +13,7 @@ import parcel.delivery.app.auth.controller.api.request.SignUpRequest;
 import parcel.delivery.app.auth.repository.UserRepository;
 import parcel.delivery.app.auth.service.AuthenticationService;
 import parcel.delivery.app.common.test.client.ApiRestClient;
+import parcel.delivery.app.common.test.messaging.BaseMessagingTest;
 
 import static org.hamcrest.Matchers.containsStringIgnoringCase;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -21,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class AuthSignUpControllerItTest {
+class AuthSignUpControlnlerItTest extends BaseMessagingTest {
     private static final String URL = "/auth/signup";
 
     @Autowired
