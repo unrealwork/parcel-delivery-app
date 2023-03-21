@@ -26,6 +26,7 @@ dependencies {
     implementation(libs.spring.validation)
     implementation(libs.spring.devtools)
     implementation(libs.spring.actuator)
+    implementation(libs.spring.cloud.stream)
     //db
     implementation(libs.psql.db)
     implementation(libs.liquibase.core)
@@ -43,6 +44,7 @@ dependencies {
     testImplementation(libs.spring.test)
     testImplementation(libs.spring.security.test)
     testImplementation(libs.bundles.tc)
+    testImplementation(libs.spring.cloud.stream.test)
 }
 
 apply(from = "../gradle/jacoco.gradle")
@@ -52,7 +54,7 @@ tasks.test {
 }
 
 dockerCompose {
-    val serviceList = mutableListOf("db_pda_delivery")
+    val serviceList = mutableListOf("db_pda_delivery", "zookeeper", "broker")
     useComposeFiles.set(listOf("../docker-compose.yml"))
     startedServices.set(serviceList)
     setProjectName("parcel-delivery-app")
@@ -67,7 +69,7 @@ liquibase {
         val dbPassword = ext["dbPassword"] ?: "pda_delivery_pwd"
 
         this.arguments = mapOf(
-            "logLevel" to "debug",
+            "logLevel" to "info",
             "changeLogFile" to "src/main/resources/db/changelog/changelog.yml",
             "url" to dbUrl,
             "username" to dbUser,

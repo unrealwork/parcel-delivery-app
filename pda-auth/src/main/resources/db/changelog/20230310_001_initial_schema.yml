@@ -1,113 +1,223 @@
 databaseChangeLog:
   - changeSet:
-      id: 1
-      author: unrealwork
-      comment: "Init authentication service schema"
+      id: 1679331859525-1
+      author: unrea (generated)
       changes:
-        # CREATE PRIVILEGES
+        - createSequence:
+            cacheSize: 1
+            cycle: false
+            dataType: bigint
+            incrementBy: 50
+            maxValue: 9223372036854775807
+            minValue: 1
+            sequenceName: privileges_seq
+            startValue: 1
+  - changeSet:
+      id: 1679331859525-2
+      author: unrea (generated)
+      changes:
+        - createSequence:
+            cacheSize: 1
+            cycle: false
+            dataType: bigint
+            incrementBy: 50
+            maxValue: 9223372036854775807
+            minValue: 1
+            sequenceName: roles_seq
+            startValue: 1
+  - changeSet:
+      id: 1679331859525-3
+      author: unrea (generated)
+      changes:
+        - createSequence:
+            cacheSize: 1
+            cycle: false
+            dataType: bigint
+            incrementBy: 50
+            maxValue: 9223372036854775807
+            minValue: 1
+            sequenceName: users_seq
+            startValue: 1
+  - changeSet:
+      id: 1679331859525-4
+      author: unrea (generated)
+      changes:
         - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: hibernate_sequences_pkey
+                  name: sequence_name
+                  type: VARCHAR(255)
+              - column:
+                  name: next_val
+                  type: BIGINT
+            tableName: hibernate_sequences
+  - changeSet:
+      id: 1679331859525-5
+      author: unrea (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: privileges_pkey
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: name
+                  type: VARCHAR(255)
             tableName: privileges
+  - changeSet:
+      id: 1679331859525-6
+      author: unrea (generated)
+      changes:
+        - createTable:
             columns:
               - column:
-                  name: id
-                  type: bigint
-                  autoIncrement: true
                   constraints:
+                    nullable: false
                     primaryKey: true
-                    nullable: false
+                    primaryKeyName: roles_pkey
+                  name: id
+                  type: BIGINT
               - column:
-                  name: name
-                  type: varchar(100)
                   constraints:
                     nullable: false
-                    unique: true
-        # CREATE ROLES
-        - createTable:
+                  name: name
+                  type: VARCHAR(255)
             tableName: roles
-            columns:
-              - column:
-                  name: id
-                  type: bigint
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: name
-                  type: varchar(100)
-                  constraints:
-                    nullable: false
-                    unique: true
-        # CREATE ROLES_PRIVILEGES            
+  - changeSet:
+      id: 1679331859525-7
+      author: unrea (generated)
+      changes:
         - createTable:
-            tableName: roles_privileges
             columns:
               - column:
+                  constraints:
+                    nullable: false
                   name: role_id
-                  type: bigint
-                  constraints:
-                    nullable: false
-                    referencedTableName: roles
-                    referencedColumnNames: id
-                    foreignKeyName: rp_fk1
+                  type: BIGINT
               - column:
-                  name: privilege_id
-                  type: bigint
                   constraints:
                     nullable: false
-                    referencedTableName: privileges
-                    referencedColumnNames: id
-                    foreignKeyName: rp_fk2
-        # CREATE USERS            
+                  name: privilege_id
+                  type: BIGINT
+            tableName: roles_privileges
+  - changeSet:
+      id: 1679331859525-8
+      author: unrea (generated)
+      changes:
         - createTable:
-            tableName: users
             columns:
               - column:
-                  name: id
-                  type: bigint
-                  autoIncrement: true
                   constraints:
+                    nullable: false
                     primaryKey: true
-                    nullable: false
+                    primaryKeyName: users_pkey
+                  name: id
+                  type: BIGINT
               - column:
+                  constraints:
+                    nullable: false
                   name: client_id
-                  type: varchar(255)
-                  constraints:
-                    nullable: false
-                    unique: true
-              - column:
-                  name: password
-                  type: varchar(255)
-                  constraints:
-                    nullable: false
+                  type: VARCHAR(255)
               - column:
                   name: first_name
-                  type: varchar(255)
-                  constraints:
-                    nullable: false
+                  type: VARCHAR(255)
               - column:
                   name: last_name
-                  type: varchar(255)
-                  constraints:
-                    nullable: false
-                unique: true
-        # CREATE USERS_ROLES           
+                  type: VARCHAR(255)
+              - column:
+                  name: password
+                  type: VARCHAR(255)
+            tableName: users
+  - changeSet:
+      id: 1679331859525-9
+      author: unrea (generated)
+      changes:
         - createTable:
-            tableName: users_roles
             columns:
               - column:
+                  constraints:
+                    nullable: false
                   name: user_id
-                  type: bigint
-                  constraints:
-                    nullable: false
-                    referencedTableName: users
-                    referencedColumnNames: id
-                    foreignKeyName: ur_fk1
+                  type: BIGINT
               - column:
-                  name: role_id
-                  type: bigint
                   constraints:
                     nullable: false
-                    referencedTableName: roles
-                    referencedColumnNames: id
-                    foreignKeyName: ur_fk2
+                  name: role_id
+                  type: BIGINT
+            tableName: users_roles
+  - changeSet:
+      id: 1679331859525-10
+      author: unrea (generated)
+      changes:
+        - addUniqueConstraint:
+            columnNames: client_id
+            constraintName: uk_g9epudg12gt4bfg0g8l9evbf2
+            tableName: users
+  - changeSet:
+      id: 1679331859525-11
+      author: unrea (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: users_roles
+            constraintName: fk2o0jvgh89lemvvo17cbqvdxaa
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: users
+            validate: true
+  - changeSet:
+      id: 1679331859525-12
+      author: unrea (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: privilege_id
+            baseTableName: roles_privileges
+            constraintName: fk5duhoc7rwt8h06avv41o41cfy
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: privileges
+            validate: true
+  - changeSet:
+      id: 1679331859525-13
+      author: unrea (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: role_id
+            baseTableName: roles_privileges
+            constraintName: fk629oqwrudgp5u7tewl07ayugj
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: roles
+            validate: true
+  - changeSet:
+      id: 1679331859525-14
+      author: unrea (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: role_id
+            baseTableName: users_roles
+            constraintName: fkj6m8fwv7oqv74fcehir1a9ffy
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: id
+            referencedTableName: roles
+            validate: true

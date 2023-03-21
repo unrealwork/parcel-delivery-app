@@ -6,9 +6,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import parcel.delivery.app.auth.dto.PrivilegeDto;
+import parcel.delivery.app.auth.domain.Privilege;
 import parcel.delivery.app.common.security.core.RolePrivilege;
 
 import java.util.Arrays;
@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
-@DataJpaTest
+@SpringBootTest
 class InitRolePrivilegeTest {
     @Autowired
     private PrivilegeRepository privilegeRepository;
@@ -32,7 +32,7 @@ class InitRolePrivilegeTest {
     @MethodSource("testCases")
     @DisplayName("Test that all privileges are initially presented in DB")
     void test(RolePrivilege rolePrivilege) {
-        Optional<PrivilegeDto> privilege = privilegeRepository.findByName(rolePrivilege.getAuthority());
+        Optional<Privilege> privilege = privilegeRepository.findByName(rolePrivilege.getAuthority());
         assertTrue(privilege.isPresent(),
                 () -> "Privilege " + rolePrivilege + " is not presented in DB");
     }

@@ -4,10 +4,10 @@ application:
       provider:
         secretKey: 2A462D4A614E645267556B58703273357638782F413F4428472B4B6250655368
 server:
-  port: 8081
+  port: 8083
 spring:
   application:
-    name: pda-auth
+    name: pda-delivery
   messages:
     basename: i18n/messages
     fallback-to-system-locale: true
@@ -16,6 +16,8 @@ spring:
     url: jdbc:postgresql://localhost:35432/pda_delivery_db
     username: pda_delivery_user
     password: pda_delivery_pwd
+    hikari:
+      auto-commit: false
   liquibase:
     change-log: classpath:/db/changelog-master.yaml
   jpa:
@@ -32,4 +34,14 @@ spring:
       hibernate.format_sql: true
   jackson:
     deserialization:
-      use-big-decimal-for-floats: true        
+      use-big-decimal-for-floats: true
+  cloud:
+    function:
+      definition: courierUserCreatedConsumer
+    stream:
+      function:
+        bindings:
+          courierUserCreatedConsumer-in-0: userCreatedEvent
+      bindings:
+        userCreatedEvent:
+          destination: user-created
