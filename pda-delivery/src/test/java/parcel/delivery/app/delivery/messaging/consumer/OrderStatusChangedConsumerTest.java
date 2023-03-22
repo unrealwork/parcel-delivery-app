@@ -41,12 +41,12 @@ import static parcel.delivery.app.delivery.helper.DeliveryDomainConstants.DELIVE
 import static parcel.delivery.app.delivery.helper.DeliveryDomainConstants.ORDER_ID;
 
 @SpringBootTest(properties = {
-        "spring.cloud.stream.output-bindings=test",
-        "spring.cloud.stream.bindings.test.destination=order-status-changed"
+        "spring.cloud.function.definition=orderStatusChangedConsumer",
+        "spring.cloud.stream.bindings.orderStatusChangedConsumer-in-0.destination=order-status-changed"
 })
 @ExtendWith(SpringExtension.class)
 class OrderStatusChangedConsumerTest extends BaseIntegreationTest {
-    public static final String OUTPUT_BINDING = "test";
+    public static final String OUTPUT_BINDING = "order-status-changed";
     @Autowired
     private StreamBridge streamBridge;
     @SpyBean
