@@ -18,6 +18,7 @@ spring:
     password: pda_order_pwd
   liquibase:
     change-log: classpath:/db/changelog-master.yaml
+
   jpa:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -25,11 +26,12 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
         implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
-      ddl-auto: none
+      ddl-auto: validate
     properties:
       hibernate.id.new_generator_mappings: true
       hibernate.connection.provider_disables_autocommit: true
       hibernate.format_sql: true
+  
   jackson:
     deserialization:
       use-big-decimal-for-floats: true

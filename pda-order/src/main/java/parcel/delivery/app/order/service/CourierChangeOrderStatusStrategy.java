@@ -44,10 +44,9 @@ public class CourierChangeOrderStatusStrategy implements ChangeOrderStatusStrate
         if (!isAllowedStatusChange(currentStatus, newStatus)) {
             throw new OrderNotAllowedStatusException(currentStatus, newStatus);
         }
-        orderRepository.save(Order.builder()
-                .assignedTo(courier)
-                .status(newStatus)
-                .build());
+        order.setStatus(newStatus);
+        order.setAssignedTo(courier);
+        orderRepository.save(order);
         return null;
     }
 

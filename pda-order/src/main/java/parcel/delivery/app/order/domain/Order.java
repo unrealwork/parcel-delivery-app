@@ -70,7 +70,7 @@ public class Order implements Serializable {
     private String destination;
 
     @CreationTimestamp
-    @Column(nullable = false)
+    @Column(updatable = false)
     private Instant createdAt;
 
     @UpdateTimestamp
