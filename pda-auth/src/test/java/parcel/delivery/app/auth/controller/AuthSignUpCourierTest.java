@@ -94,7 +94,7 @@ class AuthSignUpCourierTest extends BaseControllerTest {
         // Courier acc
         client.post(COURIER_ACC, signInResponse.accessToken(), URL)
                 .andExpect(status().isNoContent());
-        Mockito.verify(eventSink)
+        Mockito.verify(eventSink, Mockito.timeout(5000))
                 .accept(new SignedUpEvent(UserRole.COURIER, WithCourierRole.USERNAME));
     }
 
