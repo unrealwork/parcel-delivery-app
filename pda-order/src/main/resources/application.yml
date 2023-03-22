@@ -37,16 +37,15 @@ spring:
       use-big-decimal-for-floats: true
   cloud:
     function:
-      definition: orderStatusChangedConsumer;
+      definition: deliveryAssignedConsumer;deliveryAcceptedConsumer
     stream:
       function:
         bindings:
-          orderStatusChangedConsumer-in-0: orderStatusChangedIn
-      output-bindings: orderStatusChanged, orderCreated
+          deliveryAssignedConsumer-in-0: deliveryAssignedEvent
+          deliveryAcceptedConsumer-in-0: deliveryAcceptedEvent
+      output-bindings: orderStatusChanged
       bindings:
-        orderStatusChanged:
-          destination: order-status-changed
-        orderStatusChangedIn:
-          destination: order-status-changed
-        orderCreated:
-          destination: order-created
+        deliveryAssignedEvent:
+          destination: delivery-assigned
+        deliveryAcceptedEvent:
+          destination: delivery-accepted

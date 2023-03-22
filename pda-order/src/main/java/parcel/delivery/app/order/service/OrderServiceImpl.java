@@ -9,7 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import parcel.delivery.app.common.domain.OrderStatus;
-import parcel.delivery.app.common.messaging.EventsChannels;
+import parcel.delivery.app.common.messaging.EventsOutputChannels;
 import parcel.delivery.app.common.messaging.events.OrderCreatedEvent;
 import parcel.delivery.app.common.messaging.events.OrderStatusChangedEvent;
 import parcel.delivery.app.order.controller.api.request.ChangeOrderDestinationRequest;
@@ -59,7 +59,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private void emitOrderCreatedEvent(Order saved) {
-        streamBridge.send(EventsChannels.ORDER_CREATED,
+        streamBridge.send(EventsOutputChannels.ORDER_CREATED,
                 new OrderCreatedEvent(saved.getId(), saved.getCreatedBy()));
     }
 
@@ -104,6 +104,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private void emitOrderStatusEvent(UUID orderId, OrderStatus status) {
-        this.streamBridge.send(EventsChannels.ORDER_STATUS_CHANGED, new OrderStatusChangedEvent(orderId, status));
+        this.streamBridge.send(EventsOutputChannels.ORDER_STATUS_CHANGED, new OrderStatusChangedEvent(orderId, status));
     }
 }

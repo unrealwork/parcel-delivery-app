@@ -9,7 +9,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
 @Testcontainers
-@Import( {Sink.class})
+@Import( {SinkConfiguration.class})
 public abstract class BaseIntegreationTest {
     @Container
     protected static KafkaContainer kafka =

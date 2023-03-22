@@ -19,7 +19,7 @@ import parcel.delivery.app.auth.controller.api.response.SignInResponse;
 import parcel.delivery.app.auth.dto.RoleDto;
 import parcel.delivery.app.auth.dto.UserDto;
 import parcel.delivery.app.auth.security.exceptions.UserAlreadyExistException;
-import parcel.delivery.app.common.messaging.EventsChannels;
+import parcel.delivery.app.common.messaging.EventsOutputChannels;
 import parcel.delivery.app.common.messaging.events.SignedUpEvent;
 import parcel.delivery.app.common.security.core.UserRole;
 import parcel.delivery.app.common.security.jwt.JwtProvider;
@@ -59,12 +59,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .roles(List.of(userRole))
                 .build();
         userService.save(user);
-        sendUserCreatedEvent(userType, clientId);
+        emitUserCreatedEvent(userType, clientId);
     }
 
-    private void sendUserCreatedEvent(UserRole userType, String clientId) {
+    private void emitUserCreatedEvent(UserRole userType, String clientId) {
         SignedUpEvent signedUpEvent = new SignedUpEvent(userType, clientId);
-        streamBridge.send(EventsChannels.USER_CREATED, signedUpEvent);
+        streamBridge.send(EventsOutputChannels.USER_CREATED, signedUpEvent);
     }
 
     @Override

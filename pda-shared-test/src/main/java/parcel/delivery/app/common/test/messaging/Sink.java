@@ -1,14 +1,13 @@
 package parcel.delivery.app.common.test.messaging;
 
-import org.springframework.stereotype.Component;
-import parcel.delivery.app.common.messaging.events.OrderStatusChangedEvent;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.function.Consumer;
 
-@Component
-public class Sink implements Consumer<OrderStatusChangedEvent> {
+@Configuration
+public class Sink<T> implements Consumer<T> {
     @Override
-    public void accept(OrderStatusChangedEvent orderStatusChangedEvent) {
-        // It's the sink for test purposes to catch produced events
+    public void accept(T t) {
+        // NOOP
     }
 }

@@ -41,19 +41,15 @@ spring:
     stream:
       function:
         bindings:
-          courierUserCreatedConsumer-in-0: userCreatedEventIn
-          orderStatusChangedConsumer-in-0: orderStatusChangedIn
-          orderStatusChangedConsumer-out-0: orderStatusChanged
-      output-bindings: orderStatusChanged
+          courierUserCreatedConsumer-in-0: userCreatedEvent
+          orderStatusChangedConsumer-in-0: orderStatusChangedEvent
       bindings:
+        #in
         orderCreatedProcessor-in-0:
           destination: order-created
-        orderCreatedProcessor-out-0:
+        orderStatusChangedEvent:
           destination: order-status-changed
-        userCreatedEventIn:
+        userCreatedEvent:
           destination: user-created
-        orderStatusChangedIn:
-          destination: order-status-changed
-        orderStatusChanged:
-          destination: order-status-changed
+        
         

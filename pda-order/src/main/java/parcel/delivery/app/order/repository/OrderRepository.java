@@ -24,4 +24,9 @@ public interface OrderRepository extends JpaRepository<Order, UUID> {
     @Modifying(clearAutomatically = true)
     @Query("update Order o set o.destination = :destination where o.id = :id")
     void updateDestination(@Param("id") UUID id, @Param("destination") String destination);
+
+    @Modifying(clearAutomatically = true)
+    @Query("update Order o set o.status = :status, o.assignedTo = :courier where o.id = :id")
+    void updateStatusAndCourier(@Param("id") UUID id, @Param("status") OrderStatus status,
+                                @Param("courier") String courier);
 }

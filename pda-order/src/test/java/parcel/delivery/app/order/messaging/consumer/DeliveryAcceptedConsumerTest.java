@@ -1,0 +1,70 @@
+package parcel.delivery.app.order.messaging.consumer;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import parcel.delivery.app.common.domain.OrderStatus;
+import parcel.delivery.app.common.messaging.EventsOutputChannels;
+import parcel.delivery.app.common.test.messaging.BaseIntegreationTest;
+import parcel.delivery.app.order.domain.Order;
+import parcel.delivery.app.order.helper.TestOrderService;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Mockito.verify;
+import static parcel.delivery.app.order.helper.OrderDomainTestConstants.ORDER;
+
+
+@SpringBootTest(properties = {
+        "spring.cloud.function.definition=deliveryAcceptedConsumer",
+        "spring.cloud.stream.bindings.deliveryAcceptedConsumer-in-0.destination=delivery-accepted",
+})
+@ExtendWith(SpringExtension.class)
+class DeliveryAcceptedConsumerTest extends BaseIntegreationTest {
+    @Autowired
+    @SpyBean
+    private DeliveryAcceptedConsumer consumer;
+    @Autowired
+    private StreamBridge streamBridge;
+
+    @Autowired
+    private TestOrderService testOrderService;
+    private Order savedOrder;
+
+    @BeforeEach
+    void setup() {
+        savedOrder = testOrderService.save(ORDER);
+    }
+
+
+    @Test
+    @DisplayName("Should handle delivery accepted event")
+    void testTrigger() {
+        streamBridge.send(EventsOutputChannels.DELIVERY_ACCEPTED, savedOrder.getId());
+        verify(consumer, Mockito.timeout(5000)).accept(savedOrder.getId());
+    }
+
+    @Test
+    @DisplayName("Should change status when accept method called")
+    void testAccept() {
+        consumer.accept(savedOrder.getId());
+        Order updatedOrder = testOrderService.findById(savedOrder.getId())
+                .orElse(null);
+        assertThat(updatedOrder, notNullValue());
+        assertThat(updatedOrder.getStatus(), equalTo(OrderStatus.ACCEPTED));
+    }
+
+    @AfterEach
+    public void cleanup() {
+        testOrderService.deleteAll();
+    }
+}
