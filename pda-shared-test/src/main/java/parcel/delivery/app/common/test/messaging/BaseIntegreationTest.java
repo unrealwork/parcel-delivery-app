@@ -1,6 +1,6 @@
 package parcel.delivery.app.common.test.messaging;
 
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.KafkaContainer;
@@ -9,7 +9,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
 @Testcontainers
-@ComponentScan("parcel.delivery.app.common.test")
+@Import( {Sink.class})
 public abstract class BaseIntegreationTest {
     @Container
     protected static KafkaContainer kafka =

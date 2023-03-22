@@ -11,6 +11,6 @@ class PdaAuthAppTest extends BaseIntegreationTest {
     @DisplayName("Should not throw any exceptions during run")
     void testRunningWithMainClass() {
         String arg = "--spring.kafka.bootstrap-servers=" + kafka.getBootstrapServers();
-        Assertions.assertDoesNotThrow(() -> PdaAuthApp.main());
+        Assertions.assertDoesNotThrow(() -> PdaAuthApp.main(arg));
     }
 }

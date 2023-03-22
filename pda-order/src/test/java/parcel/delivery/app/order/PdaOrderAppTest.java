@@ -11,6 +11,6 @@ class PdaOrderAppTest extends BaseIntegreationTest {
     @DisplayName("Should not throw errors when running via main")
     void testMain() {
         String arg = "--spring.kafka.bootstrap-servers=" + kafka.getBootstrapServers();
-        Assertions.assertDoesNotThrow(() -> PdaOrderApp.main());
+        Assertions.assertDoesNotThrow(() -> PdaOrderApp.main(arg));
     }
 }
