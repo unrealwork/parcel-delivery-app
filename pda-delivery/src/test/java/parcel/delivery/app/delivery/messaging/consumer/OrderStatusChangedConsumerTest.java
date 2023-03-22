@@ -15,7 +15,7 @@ import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import parcel.delivery.app.common.domain.OrderStatus;
 import parcel.delivery.app.common.messaging.events.OrderStatusChangedEvent;
-import parcel.delivery.app.common.test.messaging.BaseMessagingTest;
+import parcel.delivery.app.common.test.messaging.BaseIntegreationTest;
 import parcel.delivery.app.delivery.domain.Courier;
 import parcel.delivery.app.delivery.domain.CourierStatus;
 import parcel.delivery.app.delivery.domain.Delivery;
@@ -45,7 +45,7 @@ import static parcel.delivery.app.delivery.helper.DeliveryDomainConstants.ORDER_
         "spring.cloud.stream.bindings.test.destination=order-status-changed"
 })
 @ExtendWith(SpringExtension.class)
-class OrderStatusChangedConsumerTest extends BaseMessagingTest {
+class OrderStatusChangedConsumerTest extends BaseIntegreationTest {
     public static final String OUTPUT_BINDING = "test";
     @Autowired
     private StreamBridge streamBridge;

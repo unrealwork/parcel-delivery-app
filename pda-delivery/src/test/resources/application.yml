@@ -1,25 +1,4 @@
 spring:
-  cloud:
-    function:
-      definition: courierUserCreatedConsumer;orderStatusChangedConsumer;orderCreatedProcessor
-    stream:
-      function:
-        bindings:
-          courierUserCreatedConsumer-in-0: userCreatedEventIn
-          orderStatusChangedConsumer-in-0: orderStatusChangedIn
-          orderStatusChangedConsumer-out-0: orderStatusChanged
-      output-bindings: orderStatusChanged
-      bindings:
-        orderCreatedProcessor-in-0:
-          destination: order-created
-        orderCreatedProcessor-out-0:
-          destination: order-status-changed
-        userCreatedEventIn:
-          destination: user-created
-        orderStatusChangedIn:
-          destination: order-status-changed
-        orderStatusChanged:
-          destination: order-status-changed
   test:
     database:
       replace: none
