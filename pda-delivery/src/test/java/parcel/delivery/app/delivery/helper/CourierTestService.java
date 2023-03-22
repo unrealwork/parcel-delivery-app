@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import parcel.delivery.app.delivery.domain.Courier;
 import parcel.delivery.app.delivery.repository.CourierRepository;
 
+import java.util.Optional;
+
 @Transactional
 @RequiredArgsConstructor
 @Service
@@ -21,5 +23,9 @@ public class CourierTestService {
 
     public void deleteAll() {
         courierRepository.deleteAll();
+    }
+
+    public Optional<Courier> findById(String userId) {
+        return courierRepository.findById(userId);
     }
 }

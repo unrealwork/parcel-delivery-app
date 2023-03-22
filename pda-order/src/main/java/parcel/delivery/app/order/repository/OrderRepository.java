@@ -5,8 +5,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import parcel.delivery.app.common.domain.OrderStatus;
 import parcel.delivery.app.order.domain.Order;
-import parcel.delivery.app.order.domain.OrderStatus;
 
 import java.util.List;
 import java.util.UUID;

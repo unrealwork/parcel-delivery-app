@@ -7,7 +7,7 @@ import parcel.delivery.app.order.domain.Order;
 
 import java.math.BigDecimal;
 
-import static parcel.delivery.app.order.domain.OrderStatus.INITIAL;
+import static parcel.delivery.app.common.domain.OrderStatus.INITIAL;
 
 @UtilityClass
 public class OrderDomainTestConstants {

@@ -1,7 +1,11 @@
 package parcel.delivery.app.delivery.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.stereotype.Service;
+import parcel.delivery.app.common.domain.OrderStatus;
+import parcel.delivery.app.common.messaging.EventsChannels;
+import parcel.delivery.app.common.messaging.events.OrderStatusChangedEvent;
 import parcel.delivery.app.delivery.controller.api.request.AssignCourierRequest;
 import parcel.delivery.app.delivery.dto.DeliveryDto;
 import parcel.delivery.app.delivery.dto.LongLat;
@@ -15,6 +19,7 @@ public class DelivieryServiceImpl implements DelvieryService {
     private final AssignCourierStrategy assignCourierStrategy;
 
     private final TrackDeliveryStrategy trackDeliveryStrategy;
+    private final StreamBridge streamBridge;
 
     @Override
     public DeliveryDto get(UUID orderId) {
@@ -24,6 +29,12 @@ public class DelivieryServiceImpl implements DelvieryService {
     @Override
     public void assign(UUID orderId, AssignCourierRequest request) {
         assignCourierStrategy.apply(new AssignCourier(orderId, request.courierId()));
+        emitOrderAcceptedEvent(orderId);
+
+    }
+
+    private void emitOrderAcceptedEvent(UUID orderId) {
+        streamBridge.send(EventsChannels.ORDER_STATUS_CHANGED, new OrderStatusChangedEvent(orderId, OrderStatus.ACCEPTED));
     }
 
     @Override

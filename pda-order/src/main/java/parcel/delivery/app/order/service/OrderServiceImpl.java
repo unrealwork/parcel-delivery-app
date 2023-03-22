@@ -1,17 +1,21 @@
 package parcel.delivery.app.order.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.lang.NonNull;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import parcel.delivery.app.common.domain.OrderStatus;
+import parcel.delivery.app.common.messaging.EventsChannels;
+import parcel.delivery.app.common.messaging.events.OrderCreatedEvent;
+import parcel.delivery.app.common.messaging.events.OrderStatusChangedEvent;
 import parcel.delivery.app.order.controller.api.request.ChangeOrderDestinationRequest;
 import parcel.delivery.app.order.controller.api.request.ChangeStatusRequest;
 import parcel.delivery.app.order.controller.api.request.CreateOrderRequest;
 import parcel.delivery.app.order.domain.Order;
-import parcel.delivery.app.order.domain.OrderStatus;
 import parcel.delivery.app.order.dto.OrderDto;
 import parcel.delivery.app.order.error.exception.OrderCancellationException;
 import parcel.delivery.app.order.error.exception.OrderDestinationModificationException;
@@ -30,6 +34,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderMapper orderMapper;
     private final ViewOrdersStrategyAggregateAggregateStrategy viewOrdersStrategyAggregateStrategy;
     private final ChangeOrderStatusAggregateStrategy changeOrderStatusAggregateStrategy;
+    private final StreamBridge streamBridge;
 
     @Override
     public List<OrderDto> orders() {
@@ -49,13 +54,20 @@ public class OrderServiceImpl implements OrderService {
                 .weight(order.weight())
                 .build();
         Order saved = orderRepository.save(entity);
+        emitOrderCreatedEvent(saved);
         return orderMapper.toDto(saved);
+    }
+
+    private void emitOrderCreatedEvent(Order saved) {
+        streamBridge.send(EventsChannels.ORDER_CREATED,
+                new OrderCreatedEvent(saved.getId(), saved.getCreatedBy()));
     }
 
     @Override
     @Transactional
     public void changeStatus(UUID id, ChangeStatusRequest changeStatusRequest) throws OrderNotFoundException {
         changeOrderStatusAggregateStrategy.apply(new OrderRequest<>(id, changeStatusRequest));
+        emitOrderStatusEvent(id, changeStatusRequest.status());
     }
 
     @Override
@@ -67,6 +79,7 @@ public class OrderServiceImpl implements OrderService {
             throw new OrderCancellationException();
         }
         orderRepository.updateStatus(id, OrderStatus.CANCELLED);
+        emitOrderStatusEvent(id, OrderStatus.CANCELLED);
     }
 
     @NonNull
@@ -88,5 +101,9 @@ public class OrderServiceImpl implements OrderService {
                 .getOrder() >= OrderStatus.IN_PROGRESS.getOrder()) {
             throw new OrderDestinationModificationException();
         }
+    }
+
+    private void emitOrderStatusEvent(UUID orderId, OrderStatus status) {
+        this.streamBridge.send(EventsChannels.ORDER_STATUS_CHANGED, new OrderStatusChangedEvent(orderId, status));
     }
 }

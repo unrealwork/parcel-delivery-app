@@ -8,15 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
+import parcel.delivery.app.common.domain.OrderStatus;
 import parcel.delivery.app.order.domain.Order;
-import parcel.delivery.app.order.domain.OrderStatus;
 
 import java.math.BigDecimal;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static parcel.delivery.app.order.domain.OrderStatus.INITIAL;
+import static parcel.delivery.app.common.domain.OrderStatus.INITIAL;
 
 
 @ExtendWith(SpringExtension.class)

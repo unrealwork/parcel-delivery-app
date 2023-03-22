@@ -1,4 +1,3 @@
-
 application:
   security:
     jwt:
@@ -33,4 +32,19 @@ spring:
       hibernate.format_sql: true
   jackson:
     deserialization:
-      use-big-decimal-for-floats: true        
+      use-big-decimal-for-floats: true
+  cloud:
+    function:
+      definition: orderStatusChangedConsumer;
+    stream:
+      function:
+        bindings:
+          orderStatusChangedConsumer-in-0: orderStatusChangedIn
+      output-bindings: orderStatusChanged, orderCreated
+      bindings:
+        orderStatusChanged:
+          destination: order-status-changed
+        orderStatusChangedIn:
+          destination: order-status-changed
+        orderCreated:
+          destination: order-created

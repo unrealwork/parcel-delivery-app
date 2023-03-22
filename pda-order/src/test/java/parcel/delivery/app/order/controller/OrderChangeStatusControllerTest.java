@@ -13,12 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.annotation.Transactional;
+import parcel.delivery.app.common.domain.OrderStatus;
 import parcel.delivery.app.common.test.controller.BaseControllerTest;
 import parcel.delivery.app.common.test.security.annotations.WithAdminRole;
 import parcel.delivery.app.common.test.security.annotations.WithCourierRole;
 import parcel.delivery.app.order.controller.api.request.ChangeStatusRequest;
 import parcel.delivery.app.order.domain.Order;
-import parcel.delivery.app.order.domain.OrderStatus;
 import parcel.delivery.app.order.helper.TestOrderService;
 import parcel.delivery.app.order.repository.OrderRepository;
 
