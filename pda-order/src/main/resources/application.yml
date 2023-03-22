@@ -43,7 +43,6 @@ spring:
         bindings:
           deliveryAssignedConsumer-in-0: deliveryAssignedEvent
           deliveryAcceptedConsumer-in-0: deliveryAcceptedEvent
-      output-bindings: orderStatusChanged
       bindings:
         deliveryAssignedEvent:
           destination: delivery-assigned
