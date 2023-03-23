@@ -7,8 +7,8 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
+import parcel.delivery.app.common.domain.OrderStatus;
 import parcel.delivery.app.order.domain.Order;
-import parcel.delivery.app.order.domain.OrderStatus;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

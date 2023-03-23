@@ -2,8 +2,6 @@ package parcel.delivery.app.auth.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cloud.stream.function.StreamBridge;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,7 +17,7 @@ import parcel.delivery.app.auth.controller.api.response.SignInResponse;
 import parcel.delivery.app.auth.dto.RoleDto;
 import parcel.delivery.app.auth.dto.UserDto;
 import parcel.delivery.app.auth.security.exceptions.UserAlreadyExistException;
-import parcel.delivery.app.common.messaging.Events;
+import parcel.delivery.app.common.messaging.EventsEmitter;
 import parcel.delivery.app.common.messaging.events.SignedUpEvent;
 import parcel.delivery.app.common.security.core.UserRole;
 import parcel.delivery.app.common.security.jwt.JwtProvider;
@@ -37,9 +35,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserService userService;
     private final RoleService roleService;
     private final AuthenticationManager authenticationManager;
-
-    @Lazy
-    private final StreamBridge streamBridge;
+    private final EventsEmitter<SignedUpEvent> eventsEmitter;
 
     @Override
     @Transactional
@@ -59,12 +55,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .roles(List.of(userRole))
                 .build();
         userService.save(user);
-        sendUserCreatedEvent(userType, clientId);
+        emitUserCreatedEvent(userType, clientId);
     }
 
-    private void sendUserCreatedEvent(UserRole userType, String clientId) {
+    private void emitUserCreatedEvent(UserRole userType, String clientId) {
         SignedUpEvent signedUpEvent = new SignedUpEvent(userType, clientId);
-        streamBridge.send(Events.USER_CREATED, signedUpEvent);
+        eventsEmitter.emit(signedUpEvent);
     }
 
     @Override

@@ -4,8 +4,14 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import parcel.delivery.app.common.messaging.events.DeliveryAssignedEvent;
 import parcel.delivery.app.common.test.controller.BaseControllerTest;
+import parcel.delivery.app.common.test.messaging.Sink;
 import parcel.delivery.app.common.test.security.annotations.WithAdminRole;
 import parcel.delivery.app.common.test.security.annotations.WithCourierRole;
 import parcel.delivery.app.common.test.security.annotations.WithUserRole;
@@ -15,11 +21,19 @@ import parcel.delivery.app.delivery.domain.Delivery;
 import parcel.delivery.app.delivery.helper.CourierTestService;
 import parcel.delivery.app.delivery.helper.DeliveryTestService;
 
+import static org.mockito.Mockito.timeout;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static parcel.delivery.app.delivery.helper.DeliveryDomainConstants.COURER;
 import static parcel.delivery.app.delivery.helper.DeliveryDomainConstants.DELIVERY;
 import static parcel.delivery.app.delivery.helper.DeliveryDomainConstants.ORDER_ID;
 
+
+@SpringBootTest(properties = {
+        "spring.cloud.function.definition=deliveryAssignedSink",
+        "spring.cloud.stream.bindings.deliveryAssignedSink-in-0.destination=delivery-assigned",
+}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ExtendWith(SpringExtension.class)
 class DeliveryAssignControllerTest extends BaseControllerTest {
     private static final String URL = "/deliveries/{orderId}/assign";
     @Autowired
@@ -28,6 +42,8 @@ class DeliveryAssignControllerTest extends BaseControllerTest {
     private CourierTestService courierTestService;
     private Courier savedCourier;
     private Delivery savedDelivery;
+    @SpyBean
+    private Sink<DeliveryAssignedEvent> deliveryAssignedSink;
 
     @BeforeEach
     public void setup() {
@@ -57,6 +73,17 @@ class DeliveryAssignControllerTest extends BaseControllerTest {
     void testAccessProvidedForAdmin() throws Exception {
         client.put(new AssignCourierRequest(WithCourierRole.USERNAME), URL, ORDER_ID)
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    @WithAdminRole
+    @DisplayName("Should emit delivery-assigned event")
+    void testDeliveryAssignedEvent() throws Exception {
+        client.put(new AssignCourierRequest(WithCourierRole.USERNAME), URL, ORDER_ID)
+                .andExpect(status().isNoContent());
+        DeliveryAssignedEvent event = new DeliveryAssignedEvent(ORDER_ID, WithCourierRole.USERNAME);
+        verify(deliveryAssignedSink, timeout(5000))
+                .accept(event);
     }
 
 

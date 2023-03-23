@@ -35,8 +35,3 @@ spring:
   cloud:
     function:
       definition: ;
-    stream:
-      bindings:
-        userCreatedEvent:
-          destination: user-created
-      output-bindings: userCreatedEvent

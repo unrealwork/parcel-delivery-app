@@ -9,12 +9,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpMethod;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import parcel.delivery.app.common.test.client.ApiRestClient;
+import parcel.delivery.app.common.test.messaging.BaseIntegreationTest;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-class SecurityConfigTest {
+class SecurityConfigTest implements BaseIntegreationTest {
     @Autowired
     private ApiRestClient client;
 

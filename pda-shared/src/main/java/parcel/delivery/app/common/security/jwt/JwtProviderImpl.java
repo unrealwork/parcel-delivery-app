@@ -14,7 +14,7 @@ import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import parcel.delivery.app.common.config.properties.JwtProviderProperties;
+import parcel.delivery.app.common.mapper.properties.JwtProviderProperties;
 import parcel.delivery.app.common.util.DateTimeUtil;
 
 import java.security.Key;

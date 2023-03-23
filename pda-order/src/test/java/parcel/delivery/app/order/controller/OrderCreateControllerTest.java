@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static parcel.delivery.app.order.domain.OrderStatus.INITIAL;
+import static parcel.delivery.app.common.domain.OrderStatus.INITIAL;
 import static parcel.delivery.app.order.helper.OrderDomainTestConstants.DESCRIPTION;
 import static parcel.delivery.app.order.helper.OrderDomainTestConstants.DESTINATION;
 

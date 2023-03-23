@@ -25,7 +25,7 @@ import java.util.UUID;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static parcel.delivery.app.order.domain.OrderStatus.IN_PROGRESS;
+import static parcel.delivery.app.common.domain.OrderStatus.IN_PROGRESS;
 import static parcel.delivery.app.order.helper.OrderDomainTestConstants.DESTINATION_ALT;
 import static parcel.delivery.app.order.helper.OrderDomainTestConstants.ORDER;
 

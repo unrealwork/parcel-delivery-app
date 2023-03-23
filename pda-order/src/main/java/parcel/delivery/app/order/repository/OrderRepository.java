@@ -5,8 +5,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import parcel.delivery.app.common.domain.OrderStatus;
 import parcel.delivery.app.order.domain.Order;
-import parcel.delivery.app.order.domain.OrderStatus;
 
 import java.util.List;
 import java.util.UUID;
@@ -24,4 +24,9 @@ public interface OrderRepository extends JpaRepository<Order, UUID> {
     @Modifying(clearAutomatically = true)
     @Query("update Order o set o.destination = :destination where o.id = :id")
     void updateDestination(@Param("id") UUID id, @Param("destination") String destination);
+
+    @Modifying(clearAutomatically = true)
+    @Query("update Order o set o.status = :status, o.assignedTo = :courier where o.id = :id")
+    void updateStatusAndCourier(@Param("id") UUID id, @Param("status") OrderStatus status,
+                                @Param("courier") String courier);
 }

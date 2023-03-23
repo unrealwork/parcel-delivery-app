@@ -45,6 +45,7 @@ dependencies {
     testImplementation(libs.spring.security.test)
     testImplementation(libs.bundles.tc)
     testImplementation(libs.spring.cloud.stream.test)
+    testImplementation(libs.spring.cloud.stream.test.binder)
 }
 
 apply(from = "../gradle/jacoco.gradle")

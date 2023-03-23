@@ -1,7 +1,7 @@
 package parcel.delivery.app.order.error.exception;
 
+import parcel.delivery.app.common.domain.OrderStatus;
 import parcel.delivery.app.common.error.exception.MessageResolvableException;
-import parcel.delivery.app.order.domain.OrderStatus;
 
 public class OrderNotAllowedStatusException extends MessageResolvableException {
     private final OrderStatus fromStatus;

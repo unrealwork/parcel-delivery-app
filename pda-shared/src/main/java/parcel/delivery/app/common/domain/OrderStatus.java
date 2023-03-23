@@ -1,4 +1,4 @@
-package parcel.delivery.app.order.domain;
+package parcel.delivery.app.common.domain;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.Ordered;

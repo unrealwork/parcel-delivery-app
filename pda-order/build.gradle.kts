@@ -19,10 +19,11 @@ dependencies {
     implementation(libs.bundles.jjwt)
     // spring
     annotationProcessor(libs.spring.configuration.processor)
-    implementation(libs.spring.data.jpa)
-    implementation(libs.spring.security)
     implementation(libs.spring.web)
+    implementation(libs.spring.security)
+    implementation(libs.spring.data.jpa)
     implementation(libs.spring.validation)
+    implementation(libs.spring.cloud.stream)
     implementation(libs.spring.devtools)
     implementation(libs.spring.actuator)
     //db
@@ -38,6 +39,8 @@ dependencies {
     testImplementation(libs.spring.test)
     testImplementation(libs.spring.security.test)
     testImplementation(libs.bundles.tc)
+    testImplementation(libs.spring.cloud.stream.test.binder)
+
 }
 
 apply(from = "../gradle/jacoco.gradle")
@@ -47,7 +50,7 @@ tasks.test {
 }
 
 dockerCompose {
-    val serviceList = mutableListOf("db_pda_order")
+    val serviceList = mutableListOf("db_pda_order", "broker", "zookeeper", "kafdrop")
     useComposeFiles.set(listOf("../docker-compose.yml"))
     startedServices.set(serviceList)
     setProjectName("parcel-delivery-app")

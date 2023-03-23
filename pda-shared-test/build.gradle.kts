@@ -32,6 +32,7 @@ dependencies {
     testRuntimeOnly(libs.junit.engine)
     testImplementation(libs.spring.test)
     testImplementation(libs.spring.security.test)
+    testImplementation(libs.spring.cloud.stream.test.binder)
 }
 
 apply(from = "../gradle/jacoco.gradle")

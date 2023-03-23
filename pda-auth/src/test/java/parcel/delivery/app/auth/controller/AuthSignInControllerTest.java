@@ -17,7 +17,7 @@ import parcel.delivery.app.auth.controller.api.request.SignUpRequest;
 import parcel.delivery.app.auth.repository.UserRepository;
 import parcel.delivery.app.auth.service.AuthenticationService;
 import parcel.delivery.app.common.test.client.ApiRestClient;
-import parcel.delivery.app.common.test.messaging.BaseMessagingTest;
+import parcel.delivery.app.common.test.messaging.BaseIntegreationTest;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class AuthSignInControllerTest extends BaseMessagingTest {
+class AuthSignInControllerTest implements BaseIntegreationTest {
     private static final String URL = "/auth/signin";
 
     @Autowired

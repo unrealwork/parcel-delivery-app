@@ -1,4 +1,4 @@
-package parcel.delivery.app.common.config.properties;
+package parcel.delivery.app.common.mapper.properties;
 
 import lombok.Getter;
 import lombok.Setter;

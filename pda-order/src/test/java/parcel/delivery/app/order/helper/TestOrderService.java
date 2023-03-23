@@ -3,10 +3,11 @@ package parcel.delivery.app.order.helper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import parcel.delivery.app.common.domain.OrderStatus;
 import parcel.delivery.app.order.domain.Order;
-import parcel.delivery.app.order.domain.OrderStatus;
 import parcel.delivery.app.order.repository.OrderRepository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -27,5 +28,10 @@ public class TestOrderService {
 
     public void changeStatus(UUID existingOrderId, OrderStatus status) {
         orderRepository.updateStatus(existingOrderId, status);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Order> findById(UUID id) {
+        return orderRepository.findById(id);
     }
 }
