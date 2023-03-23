@@ -12,6 +12,7 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.cloud.stream.binder.test.InputDestination;
 import org.springframework.messaging.support.GenericMessage;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import parcel.delivery.app.common.messaging.events.DeliveryAcceptedEvent;
 import parcel.delivery.app.common.messaging.events.OrderCreatedEvent;
 import parcel.delivery.app.common.test.messaging.BaseIntegreationTest;
 import parcel.delivery.app.common.test.messaging.Sink;
@@ -19,8 +20,6 @@ import parcel.delivery.app.common.test.security.annotations.WithUserRole;
 import parcel.delivery.app.delivery.domain.Delivery;
 import parcel.delivery.app.delivery.domain.DeliveryStatus;
 import parcel.delivery.app.delivery.helper.DeliveryTestService;
-
-import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -42,7 +41,7 @@ class OrderCreatedProcessorTest implements BaseIntegreationTest {
     @SpyBean
     private OrderCreatedProcessor processor;
     @SpyBean
-    private Sink<UUID> deliveryAcceptedSink;
+    private Sink<DeliveryAcceptedEvent> deliveryAcceptedSink;
 
     @Autowired
     private DeliveryTestService testService;
@@ -64,7 +63,8 @@ class OrderCreatedProcessorTest implements BaseIntegreationTest {
         assertThat(createdDelivery.getStatus(), equalTo(DeliveryStatus.INITIAL));
         assertThat(createdDelivery.getOrderedBy(), equalTo(WithUserRole.USERNAME));
         // Out
-        verify(deliveryAcceptedSink, timeout(5000)).accept(ORDER_ID);
+        verify(deliveryAcceptedSink, timeout(5000))
+                .accept(new DeliveryAcceptedEvent(ORDER_ID));
     }
 
     @AfterEach
