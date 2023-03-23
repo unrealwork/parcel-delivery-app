@@ -10,7 +10,7 @@ import parcel.delivery.app.common.messaging.events.SignedUpEvent;
 import java.util.UUID;
 
 @Configuration
-public class SinkConfiguration {
+public class TestSinkConfiguration {
     @Bean
     public Sink<UUID> deliveryAcceptedSink() {
         return new Sink<>();

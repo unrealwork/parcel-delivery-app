@@ -7,10 +7,10 @@ import org.testcontainers.containers.KafkaContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
-import parcel.delivery.app.common.test.messaging.SinkConfiguration;
+import parcel.delivery.app.common.test.messaging.TestSinkConfiguration;
 
 @Testcontainers
-@Import( {SinkConfiguration.class})
+@Import( {TestSinkConfiguration.class})
 public abstract class BaseAppTest {
     @Container
     protected static KafkaContainer kafka =
