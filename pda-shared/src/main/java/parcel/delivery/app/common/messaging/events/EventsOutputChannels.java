@@ -1,9 +1,9 @@
-package parcel.delivery.app.common.messaging;
+package parcel.delivery.app.common.messaging.events;
 
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
-public class EventsOutputChannels {
+final class EventsOutputChannels {
     public static final String USER_CREATED = "user-created";
     public static final String ORDER_STATUS_CHANGED = "order-status-changed";
     public static final String ORDER_CREATED = "order-created";

@@ -3,9 +3,9 @@ package parcel.delivery.app.delivery.service;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import parcel.delivery.app.common.messaging.EventsOutputChannels;
+import parcel.delivery.app.common.messaging.EventsEmitter;
 import parcel.delivery.app.common.messaging.events.DeliveryAssignedEvent;
 import parcel.delivery.app.delivery.controller.api.request.AssignCourierRequest;
 import parcel.delivery.app.delivery.dto.DeliveryDto;
@@ -20,7 +20,9 @@ public class DelivieryServiceImpl implements DelvieryService {
     private final AssignCourierStrategy assignCourierStrategy;
 
     private final TrackDeliveryStrategy trackDeliveryStrategy;
-    private final StreamBridge streamBridge;
+
+    @Autowired
+    private EventsEmitter<DeliveryAssignedEvent> eventsEmitter;
 
     @Override
     public DeliveryDto get(UUID orderId) {
@@ -34,7 +36,8 @@ public class DelivieryServiceImpl implements DelvieryService {
     }
 
     private void emitOrderAssignedEvent(UUID orderId, @NotNull @Email String courierId) {
-        streamBridge.send(EventsOutputChannels.DELIVERY_ASSIGNED, new DeliveryAssignedEvent(orderId, courierId));
+        DeliveryAssignedEvent event = new DeliveryAssignedEvent(orderId, courierId);
+        eventsEmitter.emit(event);
     }
 
     @Override

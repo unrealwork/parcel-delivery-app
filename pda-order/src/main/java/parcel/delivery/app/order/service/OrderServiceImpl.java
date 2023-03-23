@@ -1,7 +1,6 @@
 package parcel.delivery.app.order.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.lang.NonNull;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
@@ -9,7 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import parcel.delivery.app.common.domain.OrderStatus;
-import parcel.delivery.app.common.messaging.EventsOutputChannels;
+import parcel.delivery.app.common.messaging.EventsEmitter;
 import parcel.delivery.app.common.messaging.events.OrderCreatedEvent;
 import parcel.delivery.app.common.messaging.events.OrderStatusChangedEvent;
 import parcel.delivery.app.order.controller.api.request.ChangeOrderDestinationRequest;
@@ -34,7 +33,8 @@ public class OrderServiceImpl implements OrderService {
     private final OrderMapper orderMapper;
     private final ViewOrdersStrategyAggregateAggregateStrategy viewOrdersStrategyAggregateStrategy;
     private final ChangeOrderStatusAggregateStrategy changeOrderStatusAggregateStrategy;
-    private final StreamBridge streamBridge;
+    private final EventsEmitter<OrderCreatedEvent> createdOrderEventEmmiter;
+    private final EventsEmitter<OrderStatusChangedEvent> orderStatusChangedEventEventsEmitter;
 
     @Override
     public List<OrderDto> orders() {
@@ -59,8 +59,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private void emitOrderCreatedEvent(Order saved) {
-        streamBridge.send(EventsOutputChannels.ORDER_CREATED,
-                new OrderCreatedEvent(saved.getId(), saved.getCreatedBy()));
+        createdOrderEventEmmiter.emit(new OrderCreatedEvent(saved.getId(), saved.getCreatedBy()));
     }
 
     @Override
@@ -104,6 +103,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private void emitOrderStatusEvent(UUID orderId, OrderStatus status) {
-        this.streamBridge.send(EventsOutputChannels.ORDER_STATUS_CHANGED, new OrderStatusChangedEvent(orderId, status));
+        orderStatusChangedEventEventsEmitter.emit(new OrderStatusChangedEvent(orderId, status));
     }
 }
