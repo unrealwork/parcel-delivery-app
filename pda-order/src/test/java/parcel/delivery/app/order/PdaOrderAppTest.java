@@ -3,9 +3,9 @@ package parcel.delivery.app.order;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import parcel.delivery.app.common.test.messaging.BaseIntegreationTest;
+import parcel.delivery.app.common.test.app.BaseAppTest;
 
-class PdaOrderAppTest extends BaseIntegreationTest {
+class PdaOrderAppTest extends BaseAppTest {
 
     @Test
     @DisplayName("Should not throw errors when running via main")

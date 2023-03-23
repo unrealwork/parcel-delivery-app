@@ -15,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-class SecurityConfigTest extends BaseIntegreationTest {
+class SecurityConfigTest implements BaseIntegreationTest {
     @Autowired
     private ApiRestClient client;
 

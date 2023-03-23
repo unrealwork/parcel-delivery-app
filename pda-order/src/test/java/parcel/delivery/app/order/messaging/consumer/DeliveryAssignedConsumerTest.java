@@ -8,10 +8,10 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.cloud.stream.binder.test.InputDestination;
+import org.springframework.messaging.support.GenericMessage;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import parcel.delivery.app.common.domain.OrderStatus;
-import parcel.delivery.app.common.messaging.EventsOutputChannels;
 import parcel.delivery.app.common.messaging.events.DeliveryAssignedEvent;
 import parcel.delivery.app.common.test.messaging.BaseIntegreationTest;
 import parcel.delivery.app.common.test.security.annotations.WithCourierRole;
@@ -25,14 +25,13 @@ import static parcel.delivery.app.order.helper.OrderDomainTestConstants.ORDER;
 
 @SpringBootTest(properties = {
         "spring.cloud.function.definition=deliveryAssignedConsumer",
-        "spring.cloud.stream.bindings.deliveryAssignedConsumer-in-0.destination=delivery-assigned",
 })
 @ExtendWith(SpringExtension.class)
-class DeliveryAssignedConsumerTest extends BaseIntegreationTest {
+class DeliveryAssignedConsumerTest implements BaseIntegreationTest {
     @SpyBean
     private DeliveryAssignedConsumer consumer;
     @Autowired
-    private StreamBridge streamBridge;
+    private InputDestination inputDestination;
     @Autowired
     private TestOrderService testOrderService;
     private Order savedUser;
@@ -46,7 +45,7 @@ class DeliveryAssignedConsumerTest extends BaseIntegreationTest {
     @DisplayName("Should consume event sent to output channel")
     void testConsume() {
         DeliveryAssignedEvent event = new DeliveryAssignedEvent(savedUser.getId(), WithCourierRole.USERNAME);
-        streamBridge.send(EventsOutputChannels.DELIVERY_ASSIGNED, event);
+        inputDestination.send(new GenericMessage<>(event));
         Mockito.verify(consumer, Mockito.timeout(5000))
                 .accept(event);
     }

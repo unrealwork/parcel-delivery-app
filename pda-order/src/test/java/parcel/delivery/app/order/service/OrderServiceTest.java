@@ -33,7 +33,7 @@ import static parcel.delivery.app.order.helper.OrderDomainTestConstants.ORDER;
                 "spring.cloud.stream.bindings.orderStatusChangedSink-in-0.destination=order-status-changed",
                 "spring.cloud.stream.bindings.orderCreatedSink-in-0.destination=order-created"
         })
-class OrderServiceTest extends BaseIntegreationTest {
+class OrderServiceTest implements BaseIntegreationTest {
     @Autowired
     private OrderService orderService;
     @Autowired

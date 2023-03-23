@@ -11,7 +11,8 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.cloud.stream.binder.test.InputDestination;
+import org.springframework.messaging.support.GenericMessage;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import parcel.delivery.app.common.domain.OrderStatus;
 import parcel.delivery.app.common.messaging.events.OrderStatusChangedEvent;
@@ -41,14 +42,12 @@ import static parcel.delivery.app.delivery.helper.DeliveryDomainConstants.DELIVE
 import static parcel.delivery.app.delivery.helper.DeliveryDomainConstants.ORDER_ID;
 
 @SpringBootTest(properties = {
-        "spring.cloud.function.definition=orderStatusChangedConsumer",
-        "spring.cloud.stream.bindings.orderStatusChangedConsumer-in-0.destination=order-status-changed"
+        "spring.cloud.function.definition=orderStatusChangedConsumer"
 })
 @ExtendWith(SpringExtension.class)
-class OrderStatusChangedConsumerTest extends BaseIntegreationTest {
-    public static final String OUTPUT_BINDING = "order-status-changed";
+class OrderStatusChangedConsumerTest implements BaseIntegreationTest {
     @Autowired
-    private StreamBridge streamBridge;
+    private InputDestination inputDestination;
     @SpyBean
     private OrderStatusChangedConsumer statusChangedConsumer;
     @Autowired
@@ -69,7 +68,7 @@ class OrderStatusChangedConsumerTest extends BaseIntegreationTest {
     @DisplayName("Should consumer be triggered correctly")
     void testTrigger() {
         OrderStatusChangedEvent event = new OrderStatusChangedEvent(ORDER_ID, CANCELLED);
-        streamBridge.send(OUTPUT_BINDING, event);
+        inputDestination.send(new GenericMessage<>(event));
         Mockito.verify(statusChangedConsumer, timeout(5000))
                 .accept(event);
     }

@@ -9,11 +9,9 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.cloud.stream.function.StreamBridge;
-import org.springframework.context.ApplicationContext;
+import org.springframework.cloud.stream.binder.test.InputDestination;
 import org.springframework.messaging.support.GenericMessage;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import parcel.delivery.app.common.messaging.EventsOutputChannels;
 import parcel.delivery.app.common.messaging.events.OrderCreatedEvent;
 import parcel.delivery.app.common.test.messaging.BaseIntegreationTest;
 import parcel.delivery.app.common.test.messaging.Sink;
@@ -34,14 +32,13 @@ import static parcel.delivery.app.delivery.helper.DeliveryDomainConstants.ORDER_
 
 @SpringBootTest(properties = {
         "spring.cloud.function.definition=orderCreatedProcessor;deliveryAcceptedSink",
-        "spring.cloud.stream.bindings.orderCreatedProcessor-in-0.destination=order-created",
         "spring.cloud.stream.bindings.orderCreatedProcessor-out-0.destination=order-status-changed",
         "spring.cloud.stream.bindings.deliveryAcceptedSink-in-0.destination=order-status-changed"
 })
 @ExtendWith(SpringExtension.class)
-class OrderCreatedProcessorTest extends BaseIntegreationTest {
+class OrderCreatedProcessorTest implements BaseIntegreationTest {
     @Autowired
-    private StreamBridge streamBridge;
+    private InputDestination inputDestination;
     @SpyBean
     private OrderCreatedProcessor processor;
     @SpyBean
@@ -50,15 +47,12 @@ class OrderCreatedProcessorTest extends BaseIntegreationTest {
     @Autowired
     private DeliveryTestService testService;
 
-    @Autowired
-    private ApplicationContext context;
-
     @Test
     @DisplayName("Should consume and produce event")
     void testApply() {
         OrderCreatedEvent event = new OrderCreatedEvent(ORDER_ID, WithUserRole.USERNAME);
         GenericMessage<OrderCreatedEvent> message = new GenericMessage<>(event);
-        streamBridge.send(EventsOutputChannels.ORDER_CREATED, message);
+        inputDestination.send(message);
         // In
         ArgumentCaptor<OrderCreatedEvent> captor = ArgumentCaptor.forClass(OrderCreatedEvent.class);
         verify(processor, Mockito.timeout(5000))

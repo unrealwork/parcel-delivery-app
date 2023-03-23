@@ -39,7 +39,7 @@ dependencies {
     testImplementation(libs.spring.test)
     testImplementation(libs.spring.security.test)
     testImplementation(libs.bundles.tc)
-    testImplementation(libs.spring.cloud.stream.test)
+    testImplementation(libs.spring.cloud.stream.test.binder)
 
 }
 

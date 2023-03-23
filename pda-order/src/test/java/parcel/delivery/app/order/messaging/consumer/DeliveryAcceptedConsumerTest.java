@@ -9,10 +9,10 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.cloud.stream.binder.test.InputDestination;
+import org.springframework.messaging.support.GenericMessage;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import parcel.delivery.app.common.domain.OrderStatus;
-import parcel.delivery.app.common.messaging.EventsOutputChannels;
 import parcel.delivery.app.common.test.messaging.BaseIntegreationTest;
 import parcel.delivery.app.order.domain.Order;
 import parcel.delivery.app.order.helper.TestOrderService;
@@ -26,15 +26,13 @@ import static parcel.delivery.app.order.helper.OrderDomainTestConstants.ORDER;
 
 @SpringBootTest(properties = {
         "spring.cloud.function.definition=deliveryAcceptedConsumer",
-        "spring.cloud.stream.bindings.deliveryAcceptedConsumer-in-0.destination=delivery-accepted",
 })
 @ExtendWith(SpringExtension.class)
-class DeliveryAcceptedConsumerTest extends BaseIntegreationTest {
-    @Autowired
+class DeliveryAcceptedConsumerTest implements BaseIntegreationTest {
     @SpyBean
     private DeliveryAcceptedConsumer consumer;
     @Autowired
-    private StreamBridge streamBridge;
+    private InputDestination inputDestination;
 
     @Autowired
     private TestOrderService testOrderService;
@@ -49,7 +47,7 @@ class DeliveryAcceptedConsumerTest extends BaseIntegreationTest {
     @Test
     @DisplayName("Should handle delivery accepted event")
     void testTrigger() {
-        streamBridge.send(EventsOutputChannels.DELIVERY_ACCEPTED, savedOrder.getId());
+        inputDestination.send(new GenericMessage<>(savedOrder.getId()));
         verify(consumer, Mockito.timeout(5000)).accept(savedOrder.getId());
     }
 

@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class AuthMeTestControllerTest extends BaseIntegreationTest {
+class AuthMeTestControllerTest implements BaseIntegreationTest {
 
     private static final String URL = "/auth/me";
 
