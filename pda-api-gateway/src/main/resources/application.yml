@@ -21,19 +21,13 @@ spring:
       discovery:
         locator:
           enabled: true
-      globalcors:
-        cors-configurations:
-          '[/**]':
-            allowedOrigins: "*"
-            allowedHeaders: "*"
-            allowedMethods:
-              - GET
-              - PUT
-              - POST
-              - OPTIONS
-        add-to-simple-url-handler-mapping: true
 springdoc:
   swagger-ui:
     use-root-path: true
-    url: /v3/api-docs
     persist-authorization: true
+    default-model-expand-depth: 4
+    urls:
+      - name: gateway
+        display-name: API Gateway
+        url: /v3/api-docs
+      

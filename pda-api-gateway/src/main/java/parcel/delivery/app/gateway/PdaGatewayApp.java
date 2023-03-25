@@ -1,5 +1,6 @@
 package parcel.delivery.app.gateway;
 
+import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Info;
@@ -41,6 +42,11 @@ public class PdaGatewayApp {
         return configurer.configure(builder);
     }
 
+
+    @Bean
+    public OpenAPIParser openAPIParser() {
+        return new OpenAPIParser();
+    }
 
     @Bean
     public UriBuilderFactory uriBuilderFactory() {

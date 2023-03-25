@@ -9,5 +9,4 @@ public class MicroserviceProperty {
     @NotBlank
     private String host;
     private int port;
-    private String openApiUrl;
 }

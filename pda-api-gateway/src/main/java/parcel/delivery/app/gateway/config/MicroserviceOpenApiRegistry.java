@@ -18,7 +18,7 @@ class MicroserviceOpenApiRegistry {
     private final AppProxyProperties properties;
     private final Map<MicroserviceProperty, OpenAPI> microserviceApiFetcherMap = new ConcurrentHashMap<>();
     private final UriBuilderFactory uriBuilderFactory;
-    private final OpenAPIParser parser = new OpenAPIParser();
+    private final OpenAPIParser parser;
 
 
     public OpenAPI retrieve(MicroserviceProperty microserviceProperty) {
@@ -26,10 +26,7 @@ class MicroserviceOpenApiRegistry {
     }
 
     private OpenAPI fetchOpenApiDoc(MicroserviceProperty microserviceProperty) {
-        String openApiUrl = microserviceProperty.getOpenApiUrl();
-        if (openApiUrl == null) {
-            openApiUrl = properties.getOpenApiUrl();
-        }
+        String openApiUrl = properties.getOpenApiUrl();
         URI uri = uriBuilderFactory.builder()
                 .scheme("http")
                 .host(microserviceProperty.getHost())
