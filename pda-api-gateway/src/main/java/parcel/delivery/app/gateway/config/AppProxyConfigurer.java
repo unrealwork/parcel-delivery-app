@@ -2,6 +2,7 @@ package parcel.delivery.app.gateway.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.route.Route;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.Buildable;
@@ -16,6 +17,7 @@ import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class AppProxyConfigurer implements RouteLocatorConfigurer {
     private final AppProxyProperties properties;
     private final MicroserviceOpenApiRegistry openApiRegistry;
@@ -34,14 +36,18 @@ public class AppProxyConfigurer implements RouteLocatorConfigurer {
     }
 
     private void addMicroserviceRoutes(RouteLocatorBuilder.Builder builder, String serviceId, MicroserviceProperty property) {
-        final OpenAPI openAPI = openApiRegistry.retrieve(property);
-        Set<String> pathsSet = openAPI.getPaths()
-                .keySet();
-        for (String s : pathsSet) {
-            builder = builder.route(predicateSpec -> builtApiPathRoute(predicateSpec, property, s));
+        try {
+            final OpenAPI openAPI = openApiRegistry.retrieve(property);
+            Set<String> pathsSet = openAPI.getPaths()
+                    .keySet();
+            for (String s : pathsSet) {
+                builder = builder.route(predicateSpec -> builtApiPathRoute(predicateSpec, property, s));
+            }
+            builder.route(serviceId + "-openapi",
+                    ps -> buildOpenApiRoute(serviceId, property, ps));
+        } catch (Exception e) {
+            log.warn("Failed to setup routes for microservice {}", property, e);
         }
-        builder.route(serviceId + "-openapi",
-                ps -> buildOpenApiRoute(serviceId, property, ps));
     }
 
     private Buildable<Route> buildOpenApiRoute(String serviceId, MicroserviceProperty property, PredicateSpec ps) {

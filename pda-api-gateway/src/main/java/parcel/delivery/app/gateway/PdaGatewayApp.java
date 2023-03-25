@@ -33,7 +33,7 @@ import parcel.delivery.app.gateway.config.RouteLocatorConfigurer;
 )
 @Slf4j
 public class PdaGatewayApp {
-    public static void main(String[] args) {
+    public static void main(String... args) {
         SpringApplication.run(PdaGatewayApp.class);
     }
 
