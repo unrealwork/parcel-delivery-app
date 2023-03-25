@@ -37,7 +37,7 @@ class MicroserviceOpenApiRegistryTest {
     @BeforeEach
     void setup() {
         parserResult.setOpenAPI(openAPI);
-        Mockito.when(swaggerParser.readLocation("http://localhost:8081/v3/api-docs", null, null))
+        Mockito.when(swaggerParser.readLocation("http://localhost:8085/v3/api-docs", null, null))
                 .thenReturn(parserResult);
 
     }
@@ -45,7 +45,7 @@ class MicroserviceOpenApiRegistryTest {
     @Test
     @DisplayName("Test cached registry")
     void restRetrieve() {
-        MicroserviceProperty msProperty = new MicroserviceProperty("localhost", 8081);
+        MicroserviceProperty msProperty = new MicroserviceProperty("localhost", 8085);
         OpenAPI registryResult = registry.retrieve(msProperty);
         assertThat(registryResult, equalTo(openAPI));
         Mockito.when(swaggerParser.readLocation(Mockito.anyString(), Mockito.any(), Mockito.any()))
