@@ -32,8 +32,6 @@ class AuthPolicyCustomizerTest {
         operation.setDescription(TEST_DESC);
         Mockito.when(handlerMethod.hasMethodAnnotation(AuthPolicy.class))
                 .thenReturn(true);
-        Mockito.when(handlerMethod.getMethodAnnotation(AuthPolicy.class))
-                .thenReturn(authPolicy);
     }
 
     @ParameterizedTest
@@ -43,6 +41,8 @@ class AuthPolicyCustomizerTest {
             """)
     @DisplayName("Should add information about required privilege when annotation is present")
     void testCustomizationOfOperation(RolePrivilege rolePrivilege, boolean isPrivilegeInfoAdded) {
+        Mockito.when(handlerMethod.getMethodAnnotation(AuthPolicy.class))
+                .thenReturn(authPolicy);
         Mockito.when(authPolicy.value())
                 .thenReturn(rolePrivilege);
         authPolicyCustomizer.customize(operation, handlerMethod);
@@ -54,8 +54,6 @@ class AuthPolicyCustomizerTest {
     void testMethodWithoutAnnotation() {
         Mockito.when(handlerMethod.hasMethodAnnotation(AuthPolicy.class))
                 .thenReturn(false);
-        Mockito.when(handlerMethod.getMethodAnnotation(AuthPolicy.class))
-                .thenReturn(null);
         authPolicyCustomizer.customize(operation, handlerMethod);
         assertThat(operation.getDescription(), equalTo(TEST_DESC));
     }
