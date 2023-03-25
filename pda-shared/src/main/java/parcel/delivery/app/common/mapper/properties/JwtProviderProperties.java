@@ -11,6 +11,7 @@ import java.time.Duration;
 @Getter
 @Setter
 public final class JwtProviderProperties {
+    private boolean enabled = true;
     private String secretKey;
-    private Duration expirationDuration = Duration.ofMinutes(20);
+    private Duration expirationDuration = Duration.ofHours(1);
 }

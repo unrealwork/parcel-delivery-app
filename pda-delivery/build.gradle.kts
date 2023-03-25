@@ -34,6 +34,8 @@ dependencies {
     liquibaseRuntime(libs.psql.db)
     liquibaseRuntime(libs.snake.yaml)
     liquibaseRuntime(libs.picoli)
+    // docs
+    implementation(libs.spring.doc)
     // testing
     testImplementation(project(":pda-shared-test"))
     testCompileOnly(libs.psql.db)

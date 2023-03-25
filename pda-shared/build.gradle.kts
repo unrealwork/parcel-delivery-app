@@ -16,13 +16,14 @@ dependencies {
     implementation(libs.bundles.jjwt)
     // Mapper
     implementation(libs.mapstruct.processor)
+    //documentation
+    implementation(libs.spring.doc)
     // Lombok
     annotationProcessor(libs.lombok)
     compileOnly(libs.lombok)
     testCompileOnly(libs.lombok)
     testAnnotationProcessor(libs.lombok)
     // Testing
-
     testImplementation(libs.junit.api)
     testImplementation(libs.spring.test)
     testImplementation(libs.spring.security.test)

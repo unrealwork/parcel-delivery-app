@@ -29,6 +29,8 @@ dependencies {
     //db
     implementation(libs.psql.db)
     implementation(libs.liquibase.core)
+    // docs
+    implementation(libs.spring.doc)
     // testing
     testImplementation(project(":pda-shared-test"))
     testCompileOnly(libs.psql.db)

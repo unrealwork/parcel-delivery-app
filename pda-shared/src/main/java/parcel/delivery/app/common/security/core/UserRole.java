@@ -36,7 +36,8 @@ public enum UserRole implements GrantedAuthority {
     COURIER(BASIC,
             CHANGE_ORDER_STATUS,
             VIEW_ORDERS,
-            VIEW_DELIVERY_DETAILS);
+            VIEW_DELIVERY_DETAILS),
+    SUPERUSER(RolePrivilege.values());
 
     public static final String ROLE_PREFIX = "ROLE_";
     private final Set<RolePrivilege> priviligesSet;

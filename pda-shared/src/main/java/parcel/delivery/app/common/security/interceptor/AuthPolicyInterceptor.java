@@ -35,7 +35,7 @@ public class AuthPolicyInterceptor implements HandlerInterceptor {
                 Collection<RolePrivilege> authPrivileges = authenticationFacade.privileges();
                 RolePrivilege requiredPrivilege = rolePrivilege.get();
                 if (!authPrivileges.contains(requiredPrivilege)) {
-                    throw new AccessDeniedException("Access denied the API endpoint without "
+                    throw new AccessDeniedException("Access denied to the API endpoint without "
                             + requiredPrivilege + " privilege");
                 }
             }

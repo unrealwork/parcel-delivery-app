@@ -11,7 +11,6 @@ import static parcel.delivery.app.common.domain.OrderStatus.INITIAL;
 
 @UtilityClass
 public class OrderDomainTestConstants {
-    public static final String ASSIGNED_TO = "jack@doe.com";
     public static final String DESCRIPTION = "Test description";
     public static final String DESTINATION = "20 W 34th St., New York, NY 10001, USA";
     public static final String DESTINATION_ALT = "11 Aleksandr Pushkin St, T'bilisi 0105";

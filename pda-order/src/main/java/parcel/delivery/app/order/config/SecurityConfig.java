@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import parcel.delivery.app.common.annotations.PdaSpringApp;
@@ -26,11 +27,18 @@ public class SecurityConfig implements WebMvcConfigurer {
         registry.addInterceptor(interceptor);
     }
 
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**");
+    }
+
     @Bean
     @SuppressWarnings("squid:S4502")
     public SecurityFilterChain configure(HttpSecurity http, ErrorHandler errorHandler, JwtAuthConfigurer jwtAuthConfigurer) throws Exception {
         // @formatter:off
         return http
+                .cors()
+                .and()
                 .csrf().disable()
                 .apply(jwtAuthConfigurer)
                 .and()

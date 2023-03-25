@@ -1,0 +1,39 @@
+application:
+  proxy:
+    prefix: "/api"
+    openApiUrl: /v3/api-docs
+    microservices:
+      auth:
+        host: ${PDA_AUTH_HOST:localhost}
+        port: ${PDA_AUTH_PORT:8081}
+      order:
+        host: ${PDA_ORDER_HOST:localhost}
+        port: ${PDA_ORDER_PORT:8082}
+      delivery:
+        host: ${PDA_DELIVERY_HOST:localhost}
+        port: ${PDA_DELIVERY_PORT:8083}
+
+spring:
+  application:
+    name: pda-api-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedHeaders: "*"
+            allowedMethods:
+              - GET
+              - PUT
+              - POST
+              - OPTIONS
+        add-to-simple-url-handler-mapping: true
+springdoc:
+  swagger-ui:
+    use-root-path: true
+    url: /v3/api-docs
+    persist-authorization: true

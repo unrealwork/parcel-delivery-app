@@ -53,7 +53,7 @@ public class OrderServiceImpl implements OrderService {
                 .createdBy(authentication.getName())
                 .weight(order.weight())
                 .build();
-        Order saved = orderRepository.save(entity);
+        Order saved = orderRepository.saveAndFlush(entity);
         emitOrderCreatedEvent(saved);
         return orderMapper.toDto(saved);
     }

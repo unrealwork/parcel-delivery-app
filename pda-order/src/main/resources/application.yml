@@ -4,7 +4,7 @@ application:
       provider:
         secretKey: 2A462D4A614E645267556B58703273357638782F413F4428472B4B6250655368
 server:
-  port: 8081
+  port: 8082
 spring:
   application:
     name: pda-auth
@@ -16,6 +16,8 @@ spring:
     url: jdbc:postgresql://localhost:25432/pda_order_db
     username: pda_order_user
     password: pda_order_pwd
+    hikari:
+      auto-commit: false
   liquibase:
     change-log: classpath:/db/changelog-master.yaml
 
@@ -48,3 +50,9 @@ spring:
           destination: delivery-assigned
         deliveryAcceptedEvent:
           destination: delivery-accepted
+springdoc:
+  swagger-ui:
+    use-root-path: true
+    with-credentials: true
+    persist-authorization: true
+  default-produces-media-type: application/json

@@ -11,9 +11,11 @@ import java.util.List;
 public abstract class RoleBasedAggregateStrategy<T, S, C extends ComputationRoleBasedStrategy<T, S>> implements RoleBasedStrategy<T, S> {
     private final EnumMap<UserRole, C> strategiesMap;
     private final AuthenticationFacade authenticationFacade;
+    private final UserRole defaultRole;
 
-    protected RoleBasedAggregateStrategy(List<C> strategies, AuthenticationFacade authenticationFacade) {
+    protected RoleBasedAggregateStrategy(List<C> strategies, AuthenticationFacade authenticationFacade, UserRole defaultRole) {
         this.authenticationFacade = authenticationFacade;
+        this.defaultRole = defaultRole;
         strategiesMap = new EnumMap<>(UserRole.class);
         for (C strategy : strategies) {
             if (strategy.privilege() != this.privilege()) {
@@ -25,7 +27,7 @@ public abstract class RoleBasedAggregateStrategy<T, S, C extends ComputationRole
 
     @Override
     public S apply(T t) {
-        UserRole role = authenticationFacade.role();
+        final UserRole role = authenticationFacade.role() == UserRole.SUPERUSER ? defaultRole : authenticationFacade.role();
         ComputationRoleBasedStrategy<T, S> strategy = strategiesMap.get(role);
         if (strategy == null) {
             throw new AccessDeniedException(privilege() + " does not have strategy for " + role);

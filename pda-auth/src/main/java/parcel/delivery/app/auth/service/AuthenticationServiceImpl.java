@@ -43,7 +43,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         final String clientId = signUpRequestDto.clientId();
         if (userService.findByClientId(clientId)
                 .isPresent()) {
-            throw new UserAlreadyExistException("User " + clientId + " is already exist");
+            throw new UserAlreadyExistException("User " + clientId + " already exists");
         }
         final RoleDto userRole = roleService.findRoleByAuthority(userType.getAuthority())
                 .orElseThrow(() -> new IllegalStateException("Role is not presented in DB"));

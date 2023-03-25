@@ -1,0 +1,12 @@
+build
+**/build
+.github
+.gradle
+.idea
+.jpb
+.git
+Dockerfile
+**/Dockerfile
+docker-compose*
+.dockerignore
+config/env
