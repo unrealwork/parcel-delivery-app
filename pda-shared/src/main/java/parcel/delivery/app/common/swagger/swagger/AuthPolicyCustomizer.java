@@ -14,7 +14,7 @@ import java.text.MessageFormat;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class AuthPolicyCustomiser implements OperationCustomizer {
+public class AuthPolicyCustomizer implements OperationCustomizer {
     private static final String TEMPLATE = "<b>Required privilege:</b> <code>{0}</code><br/><br/>{1}";
 
     @Override
