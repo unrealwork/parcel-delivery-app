@@ -3,7 +3,7 @@ services:
     image: hello-world:latest
     depends_on:
       db_pda_delivery:
-        condition: service_healthy
+        condition: pda-delivery
   db_pda_delivery:
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready" ]
