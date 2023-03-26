@@ -84,7 +84,7 @@ class AppProxyConfigurerTest {
     }
 
     @TestConfiguration
-    public static class EarlyConfiguration {
+    static class EarlyConfiguration {
         @MockBean
         private OpenApiServiceRegistry registry;
 
@@ -93,18 +93,19 @@ class AppProxyConfigurerTest {
 
         @PostConstruct
         public void initMock() {
-            OpenApiService apiService = new OpenApiService(mockServer.getHost(), mockServer.getServerPort());
+            if (mockServer.isCreated()) {
+                OpenApiService apiService = new OpenApiService(mockServer.getHost(), mockServer.getServerPort());
+                Map<String, OpenApiService> microservice = Map.of("test", apiService);
+                Mockito.when(appProxyProperties.getMicroservices())
+                        .thenReturn(microservice);
 
-            Map<String, OpenApiService> microservice = Map.of("test", apiService);
-            Mockito.when(appProxyProperties.getMicroservices())
-                    .thenReturn(microservice);
-
-            OpenAPI openAPI = new OpenAPI();
-            openAPI.setPaths(new Paths());
-            openAPI.getPaths()
-                    .addPathItem("/hello", new PathItem());
-            Mockito.when(registry.retrieve(Mockito.any()))
-                    .thenReturn(openAPI);
+                OpenAPI openAPI = new OpenAPI();
+                openAPI.setPaths(new Paths());
+                openAPI.getPaths()
+                        .addPathItem("/hello", new PathItem());
+                Mockito.when(registry.retrieve(Mockito.any()))
+                        .thenReturn(openAPI);
+            }
         }
     }
 }

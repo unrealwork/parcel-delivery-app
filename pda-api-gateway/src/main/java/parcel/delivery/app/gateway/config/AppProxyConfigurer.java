@@ -38,13 +38,17 @@ public class AppProxyConfigurer implements RouteLocatorConfigurer {
     private void addMicroserviceRoutes(RouteLocatorBuilder.Builder builder, String serviceId, OpenApiService property) {
         try {
             final OpenAPI openAPI = openApiRegistry.retrieve(property);
-            Set<String> pathsSet = openAPI.getPaths()
-                    .keySet();
-            for (String s : pathsSet) {
-                builder = builder.route(predicateSpec -> builtApiPathRoute(predicateSpec, property, s));
+            if (openAPI != null) {
+                Set<String> pathsSet = openAPI.getPaths()
+                        .keySet();
+                for (String s : pathsSet) {
+                    builder = builder.route(predicateSpec -> builtApiPathRoute(predicateSpec, property, s));
+                }
+                builder.route(serviceId + "-openapi",
+                        ps -> buildOpenApiRoute(serviceId, property, ps));
+            } else {
+                log.warn("Failed to retrieve");
             }
-            builder.route(serviceId + "-openapi",
-                    ps -> buildOpenApiRoute(serviceId, property, ps));
         } catch (Exception e) {
             log.warn("Failed to setup routes for microservice {}", property, e);
         }

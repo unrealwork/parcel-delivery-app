@@ -2,6 +2,7 @@ package parcel.delivery.app.gateway.config;
 
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.parser.core.models.SwaggerParseResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriBuilderFactory;
@@ -33,7 +34,11 @@ class OpenApiServiceRegistry {
                 .port(openApiService.getPort())
                 .path(openApiUrl)
                 .build();
-        return parser.readLocation(uri.toString(), null, null)
+        SwaggerParseResult swaggerParseResult = parser.readLocation(uri.toString(), null, null);
+        if (swaggerParseResult == null) {
+            throw new IllegalStateException("Failed to parse Open API specification from " + uri);
+        }
+        return swaggerParseResult
                 .getOpenAPI();
     }
 }

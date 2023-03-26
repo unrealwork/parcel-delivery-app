@@ -3,3 +3,5 @@ application:
     prefix: "/api"
     openApiUrl: /v3/api-docs
     microservices: { }
+server:
+  port: 0

@@ -5,13 +5,13 @@ application:
     microservices:
       auth:
         host: ${PDA_AUTH_HOST:localhost}
-        port: ${PDA_AUTH_PORT:8081}
+        port: ${PDA_AUTH_PORT:18081}
       order:
         host: ${PDA_ORDER_HOST:localhost}
-        port: ${PDA_ORDER_PORT:8082}
+        port: ${PDA_ORDER_PORT:18082}
       delivery:
         host: ${PDA_DELIVERY_HOST:localhost}
-        port: ${PDA_DELIVERY_PORT:8083}
+        port: ${PDA_DELIVERY_PORT:18083}
 
 spring:
   application:
