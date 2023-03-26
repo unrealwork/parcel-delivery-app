@@ -1,0 +1,17 @@
+services:
+  wait:
+    image: hello-world:latest
+    depends_on:
+      some-container:
+        condition: db_pda_delivery
+  db_pda_delivery:
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    environment:
+      POSTGRES_DB: pda_delivery_db
+      POSTGRES_USER: pda_delivery_user
+      POSTGRES_PASSWORD: pda_delivery_pwd  
+  
