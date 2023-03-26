@@ -25,6 +25,7 @@ import parcel.delivery.app.gateway.OpenApiService;
 import parcel.delivery.app.gateway.config.properties.AppProxyProperties;
 
 import java.util.Map;
+import java.util.Set;
 
 import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
@@ -94,7 +95,7 @@ class AppProxyConfigurerTest {
         @PostConstruct
         public void initMock() {
             if (mockServer.isCreated()) {
-                OpenApiService apiService = new OpenApiService(mockServer.getHost(), mockServer.getServerPort());
+                OpenApiService apiService = new OpenApiService(mockServer.getHost(), mockServer.getServerPort(), Set.of("/hello"));
                 Map<String, OpenApiService> microservice = Map.of("test", apiService);
                 Mockito.when(appProxyProperties.getMicroservices())
                         .thenReturn(microservice);

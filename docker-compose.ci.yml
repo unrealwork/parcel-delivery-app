@@ -1,0 +1,6 @@
+services:
+  wait:
+    image: hello-world:latest
+    depends_on:
+      pda_api_gateway:
+        condition: service_healthy

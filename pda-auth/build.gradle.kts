@@ -56,7 +56,7 @@ tasks.test {
 }
 
 dockerCompose {
-    val serviceList = mutableListOf("db_pda_auth", "zookeeper", "broker", "kafdrop")
+    val serviceList = mutableListOf("db_pda_auth", "zookeeper", "broker")
     useComposeFiles.set(listOf("../docker-compose.yml", "../docker-compose.dev.yml"))
     startedServices.set(serviceList)
     setProjectName("parcel-delivery-app")
