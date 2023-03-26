@@ -2,8 +2,8 @@ services:
   wait:
     image: hello-world:latest
     depends_on:
-      some-container:
-        condition: db_pda_delivery
+      db_pda_delivery:
+        condition: service_healthy
   db_pda_delivery:
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready" ]
