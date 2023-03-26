@@ -36,11 +36,8 @@ jobs:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
-      - name: Test compose
-        env:
-          GITHUB_TOKEN: ${{ secrets.PR_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml up -d wait && docker-compose down
+      - name: Test docker compose deploy
+        run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml up --remove-orphans -d wait && docker-compose down
       - name: Collect docker logs
         if: ${{ failure() }}
         run: docker-compose logs

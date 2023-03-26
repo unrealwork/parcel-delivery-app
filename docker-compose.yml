@@ -19,9 +19,9 @@ services:
       pda-delivery:
         condition: service_healthy
       broker:
-        condition: service_started
+        condition: service_healthy
       db_pda_auth:
-        condition: service_started
+        condition: service_healthy
     env_file:
       - config/env/pda-auth.env
   db_pda_order:
@@ -43,9 +43,9 @@ services:
       pda-auth:
         condition: service_healthy
       db_pda_order:
-        condition: service_started
+        condition: service_healthy
       broker:
-        condition: service_started
+        condition: service_healthy
     env_file:
       - config/env/pda-order.env
   db_pda_delivery:
@@ -67,9 +67,9 @@ services:
     restart: unless-stopped
     depends_on:
       db_pda_delivery:
-        condition: service_started
+        condition: service_healthy
       broker:
-        condition: service_started
+        condition: service_healthy
     env_file:
       - config/env/pda-delivery.env
   pda_api_gateway:
@@ -95,6 +95,12 @@ services:
     image: confluentinc/cp-zookeeper:7.3.0
     hostname: zookeeper
     container_name: zookeeper
+    healthcheck:
+      test: nc -z localhost 2181 || exit -1
+      start_period: 15s
+      interval: 5s
+      timeout: 10s
+      retries: 10
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
@@ -103,7 +109,14 @@ services:
     image: confluentinc/cp-kafka:7.3.0
     container_name: broker
     depends_on:
-      - zookeeper
+      zookeeper:
+        condition: service_healthy
+    healthcheck:
+      test: nc -z localhost 29092 || exit -1
+      start_period: 15s
+      interval: 5s
+      timeout: 10s
+      retries: 10
     environment:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_LISTENERS: LISTENER_BOB://0.0.0.0:29092,LISTENER_FRED://0.0.0.0:9092

@@ -3,4 +3,4 @@ services:
     image: hello-world:latest
     depends_on:
       pda-delivery:
-        condition: service_healthy
+        condition: pda_api_gateway
