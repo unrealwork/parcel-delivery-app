@@ -40,7 +40,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.PR_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: docker-compose up -d db_pda_delivery && docker-compose down
+        run: docker-compose up -d pda-delivery && docker-compose down
       - name: Collect docker logs
         if: ${{ failure() }}
         run: docker-compose logs
