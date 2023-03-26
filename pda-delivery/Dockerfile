@@ -10,5 +10,5 @@ WORKDIR /opt/app
 EXPOSE 8083
 COPY --from=builder /opt/app/$APP/build/libs/*.jar /opt/app/$APP.jar
 ENTRYPOINT java -jar /opt/app/$APP.jar
-HEALTHCHECK  --start-period=30s --interval=30s --timeout=30 --retries=5 \
+HEALTHCHECK  --start-period=1m --interval=30s --timeout=30 --retries=5 \
         CMD curl --fail --silent localhost:8083/actuator/health | grep UP || exit 1
