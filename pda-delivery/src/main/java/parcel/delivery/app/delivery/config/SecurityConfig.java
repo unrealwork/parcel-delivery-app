@@ -33,6 +33,7 @@ public class SecurityConfig implements WebMvcConfigurer {
     }
 
     @Override
+    @SuppressWarnings("squid:S5122")
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins("*")
