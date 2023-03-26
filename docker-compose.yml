@@ -43,8 +43,6 @@ services:
     image: postgres
     ports:
       - "35432:5432"
-    healthcheck:
-      disable: false
     env_file:
       - config/env/pda-delivery-db.env
   pda-delivery:
