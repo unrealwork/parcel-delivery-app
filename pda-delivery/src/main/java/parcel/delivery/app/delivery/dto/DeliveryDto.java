@@ -33,11 +33,11 @@ public record DeliveryDto(
         BigDecimal longitude,
         @DecimalMin("-90.0") @DecimalMax(value = "90.0") @Digits(integer = 3, fraction = 6)
         @Schema(description = "Latitude of a coordinates of delivery's location",
-                example = "51.523788"
+                example = "-0.158611"
         )
         BigDecimal latitude,
         @Schema(description = "Status of a delivery process",
-                example = "-0.158611"
+                example = "INITIAL"
         )
         @NotNull DeliveryStatus status,
         @Schema(description = """

@@ -40,12 +40,4 @@ spring:
               - POST
 springdoc:
   swagger-ui:
-    persist-authorization: true
-    default-model-expand-depth: 4
-    urls:
-      - name: gateway
-        display-name: API Gateway
-        url: /v3/api-docs
-    syntax-highlight:
-      activated: true
-      theme: obsidian
+    enabled: false

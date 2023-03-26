@@ -11,6 +11,7 @@ services:
     env_file:
       - config/env/pda-auth-db.env
   pda-auth:
+    container_name: pda_auth
     build:
       dockerfile: pda-auth/Dockerfile
       context: .
@@ -35,6 +36,7 @@ services:
     env_file:
       - config/env/pda-order-db.env
   pda-order:
+    container_name: pda_order
     build:
       dockerfile: pda-order/Dockerfile
       context: .
@@ -61,6 +63,7 @@ services:
     env_file:
       - config/env/pda-delivery-db.env
   pda-delivery:
+    container_name: pda_delivery
     build:
       dockerfile: pda-delivery/Dockerfile
       context: .
