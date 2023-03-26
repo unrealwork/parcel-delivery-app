@@ -3,6 +3,7 @@ package parcel.delivery.app.delivery.service;
 import org.springframework.stereotype.Component;
 import parcel.delivery.app.common.security.AuthenticationFacade;
 import parcel.delivery.app.common.security.core.RolePrivilege;
+import parcel.delivery.app.common.security.core.UserRole;
 import parcel.delivery.app.common.strategy.RoleBasedAggregateStrategy;
 import parcel.delivery.app.delivery.dto.DeliveryDto;
 
@@ -13,7 +14,7 @@ import java.util.UUID;
 public class ViewDelvieryAggregateStrategy extends RoleBasedAggregateStrategy<UUID, DeliveryDto, ViewDeliveryStrategy> {
     protected ViewDelvieryAggregateStrategy(List<ViewDeliveryStrategy> strategies,
                                             AuthenticationFacade authenticationFacade) {
-        super(strategies, authenticationFacade);
+        super(strategies, authenticationFacade, UserRole.USER);
     }
 
     @Override

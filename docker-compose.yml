@@ -3,41 +3,39 @@ services:
   db_pda_auth:
     container_name: pda_auth_db
     image: postgres
-    ports:
-      - "15432:5432"
     env_file:
       - config/env/pda-auth-db.env
-  pda_auth:
+  pda-auth:
     build:
       dockerfile: pda-auth/Dockerfile
       context: .
     restart: unless-stopped
-    expose:
-      - "8081"
-    ports:
-      - "8081:8081"
     depends_on:
-      - db_pda_auth
+      pda-delivery:
+        condition: service_healthy
+      broker:
+        condition: service_started
+      db_pda_auth:
+        condition: service_started
     env_file:
       - config/env/pda-auth.env
   db_pda_order:
     container_name: pda_order_db
     image: postgres
-    ports:
-      - "25432:5432"
     env_file:
       - config/env/pda-order-db.env
-  pda_order:
+  pda-order:
     build:
       dockerfile: pda-order/Dockerfile
       context: .
     restart: unless-stopped
-    expose:
-      - "8082"
-    ports:
-      - "8082:8082"
     depends_on:
-      - db_pda_order
+      pda-auth:
+        condition: service_healthy
+      db_pda_order:
+        condition: service_started
+      broker:
+        condition: service_started
     env_file:
       - config/env/pda-order.env
   db_pda_delivery:
@@ -45,21 +43,41 @@ services:
     image: postgres
     ports:
       - "35432:5432"
+    healthcheck:
+      disable: false
     env_file:
       - config/env/pda-delivery-db.env
-  pda_delivery:
+  pda-delivery:
     build:
       dockerfile: pda-delivery/Dockerfile
       context: .
     restart: unless-stopped
-    expose:
-      - "8083"
-    ports:
-      - "8083:8083"
     depends_on:
-      - db_pda_delivery
+      db_pda_delivery:
+        condition: service_started
+      broker:
+        condition: service_started
     env_file:
       - config/env/pda-delivery.env
+  pda_api_gateway:
+    build:
+      dockerfile: pda-api-gateway/Dockerfile
+      context: .
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    expose:
+      - 8080
+    depends_on:
+      pda-auth:
+        condition: service_healthy
+      pda-order:
+        condition: service_healthy
+      pda-delivery:
+        condition: service_healthy
+    env_file:
+      - config/env/pda-api-gateway.env
+  
   zookeeper:
     image: confluentinc/cp-zookeeper:7.3.0
     hostname: zookeeper
@@ -71,8 +89,6 @@ services:
   broker:
     image: confluentinc/cp-kafka:7.3.0
     container_name: broker
-    ports:
-      - "9092:9092"
     depends_on:
       - zookeeper
     environment:
@@ -82,15 +98,3 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_BOB:PLAINTEXT,LISTENER_FRED:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_BOB
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-  kafdrop:
-    container_name: pda_kafdrop
-    image: obsidiandynamics/kafdrop
-    ports:
-      - "9000:9000"
-    expose:
-      - 9000
-    depends_on:
-      - broker
-    environment:
-      ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_BROKERCONNECT: broker:29092

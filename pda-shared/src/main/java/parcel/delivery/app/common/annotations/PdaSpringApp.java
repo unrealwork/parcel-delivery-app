@@ -1,6 +1,8 @@
 package parcel.delivery.app.common.annotations;
 
 
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
@@ -15,6 +17,13 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @SpringBootApplication(scanBasePackages = {PdaSpringApp.ROOT_PACKAGE})
 @ConfigurationPropertiesScan(basePackages = {PdaSpringApp.ROOT_PACKAGE})
+@SecurityScheme(
+        name = "jwt",
+        description = "Authentication and authorization in the app are organized using JWT tokens.",
+        type = SecuritySchemeType.HTTP,
+        bearerFormat = "JWT",
+        scheme = "bearer"
+)
 @Inherited
 @Documented
 public @interface PdaSpringApp {

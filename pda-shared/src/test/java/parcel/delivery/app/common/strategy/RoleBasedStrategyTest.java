@@ -72,7 +72,7 @@ class RoleBasedStrategyTest {
     static class TestAggregateStrategy extends RoleBasedAggregateStrategy<Void, UserRole, TestStrategy> {
 
         protected TestAggregateStrategy(List<TestStrategy> strategies, AuthenticationFacade authenticationFacade) {
-            super(strategies, authenticationFacade);
+            super(strategies, authenticationFacade, UserRole.USER);
         }
 
         @Override

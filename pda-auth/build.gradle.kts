@@ -34,6 +34,8 @@ dependencies {
     liquibaseRuntime(libs.psql.db)
     liquibaseRuntime(libs.snake.yaml)
     liquibaseRuntime(libs.picoli)
+    //documentation
+    implementation(libs.spring.doc)
     // testing
     testImplementation(project(":pda-shared-test"))
     testCompileOnly(libs.psql.db)
@@ -55,7 +57,7 @@ tasks.test {
 
 dockerCompose {
     val serviceList = mutableListOf("db_pda_auth", "zookeeper", "broker", "kafdrop")
-    useComposeFiles.set(listOf("../docker-compose.yml"))
+    useComposeFiles.set(listOf("../docker-compose.yml", "../docker-compose.dev.yml"))
     startedServices.set(serviceList)
     setProjectName("parcel-delivery-app")
     noRecreate.set(true)

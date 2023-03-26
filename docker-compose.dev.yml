@@ -1,0 +1,37 @@
+services:
+  db_pda_auth:
+    ports:
+      - "15432:5432"
+  pda-auth:
+    ports:
+      - "18081:8081"
+  db_pda_order:
+    ports:
+      - "25432:5432"
+  pda-order:
+    ports:
+      - "18082:8082"
+  db_pda_delivery:
+    ports:
+      - "35432:5432"
+  pda-delivery:
+    ports:
+      - "18083:8083"
+  broker:
+    ports:
+      - "9092:9092"
+  kafdrop:
+    container_name: pda_kafdrop
+    image: obsidiandynamics/kafdrop
+    profiles:
+      - dev
+    ports:
+      - "9000:9000"
+    expose:
+      - 9000
+    depends_on:
+      - broker
+    environment:
+      ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_BROKERCONNECT: broker:29092
+  

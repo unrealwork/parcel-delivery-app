@@ -35,3 +35,10 @@ spring:
   cloud:
     function:
       definition: ;
+springdoc:
+  swagger-ui:
+    use-root-path: true
+    with-credentials: true
+    persist-authorization: true
+  default-produces-media-type: application/json
+

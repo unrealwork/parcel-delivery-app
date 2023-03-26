@@ -3,6 +3,7 @@ package parcel.delivery.app.auth.config.properties;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.validation.annotation.Validated;
 import parcel.delivery.app.auth.annotations.validation.constrains.Password;
 import parcel.delivery.app.common.security.core.UserRole;
@@ -11,6 +12,7 @@ import java.util.Objects;
 
 @Validated
 @Getter
+@Setter
 public final class UserProperty {
     private final @NotNull String username;
     @Password

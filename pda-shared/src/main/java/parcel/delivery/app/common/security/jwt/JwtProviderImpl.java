@@ -7,6 +7,7 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.io.DecodingException;
 import io.jsonwebtoken.io.Deserializer;
 import io.jsonwebtoken.jackson.io.JacksonDeserializer;
 import io.jsonwebtoken.lang.Maps;
@@ -35,10 +36,11 @@ public final class JwtProviderImpl implements JwtProvider {
     private final Duration expirationDuration;
 
     public JwtProviderImpl(JwtProviderProperties conf) {
-        validateSecretKey(conf.getSecretKey());
-        this.secretKey = getSignatureKey(conf.getSecretKey());
+        this.secretKey = conf.isEnabled() ? getSignatureKey(conf.getSecretKey()) : null;
         this.expirationDuration = conf.getExpirationDuration();
-
+        if (conf.isEnabled()) {
+            validateSecretKey(conf.getSecretKey());
+        }
     }
 
 
@@ -74,9 +76,9 @@ public final class JwtProviderImpl implements JwtProvider {
     }
 
     @Override
-    public String generate(JwtToken jwtToken) {
+    public String generate(JwtToken jwtToken, Duration expirationDuration) {
         final Date issueDate = extractIssueDateFromToken(jwtToken);
-        final Date expireDate = calcExpirationDateForToken(jwtToken, issueDate);
+        final Date expireDate = calcExpirationDateForToken(jwtToken, issueDate, expirationDuration);
 
         Map<String, ?> extraClaims = Map.of(JwtClaimKeys.AUTHORIZTATION_DATA, new JwtAuthData(jwtToken.userRole(), jwtToken.privileges()));
         return Jwts.builder()
@@ -88,7 +90,12 @@ public final class JwtProviderImpl implements JwtProvider {
                 .compact();
     }
 
-    private Date calcExpirationDateForToken(JwtToken jwtToken, Date issueDate) {
+    @Override
+    public String generate(JwtToken jwtToken) {
+        return generate(jwtToken, this.expirationDuration);
+    }
+
+    private Date calcExpirationDateForToken(JwtToken jwtToken, Date issueDate, Duration expirationDuration) {
         return Optional.of(jwtToken)
                 .map(JwtToken::expiresAt)
                 .map(DateTimeUtil::instantToDate)
@@ -108,7 +115,7 @@ public final class JwtProviderImpl implements JwtProvider {
         try {
             parse(token);
             return true;
-        } catch (MalformedJwtException e) {
+        } catch (MalformedJwtException | DecodingException e) {
             log.warn("Invalid JWT token: {}", e.getMessage());
         } catch (ExpiredJwtException e) {
             log.warn("JWT token is expired: {}", e.getMessage());
@@ -116,6 +123,8 @@ public final class JwtProviderImpl implements JwtProvider {
             log.warn("JWT token is unsupported: {}", e.getMessage());
         } catch (IllegalArgumentException e) {
             log.warn("JWT claims string is empty: {}", e.getMessage());
+        } catch (Exception e) {
+            log.warn("JWT claims parsing failed: {}", e.getMessage());
         }
         return false;
     }

@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import parcel.delivery.app.common.annotations.PdaSpringApp;
@@ -42,6 +43,7 @@ public class SecurityConfig implements WebMvcConfigurer {
     public SecurityFilterChain configure(HttpSecurity http, ErrorHandler errorHandler, JwtAuthConfigurer jwtAuthConfigurer) throws Exception {
         // @formatter:off
         return http
+                .cors().and()
                 .csrf().disable()
                 .apply(jwtAuthConfigurer)
                 .and()
@@ -51,6 +53,11 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .and()
                 .build();
                 // @formatter:on
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**");
     }
 
     @Bean

@@ -1,5 +1,9 @@
 package parcel.delivery.app.auth.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,24 +26,33 @@ import parcel.delivery.app.common.security.core.UserRole;
 @RequestMapping(value = "/auth")
 @Slf4j
 @RequiredArgsConstructor
+@Tag(
+        name = "Authentication API",
+        description = "Endpoints related to user authentication"
+)
 public class AuthController {
     private final AuthenticationService authenticationService;
 
-    @GetMapping("/me")
-    @AuthPolicy
-    public ResponseEntity<AuthData> me() {
-        AuthData authData = authenticationService.me();
-        return ResponseEntity.ok(authData);
-    }
 
+    @Operation(summary = "Register new user",
+            description = "Provide data required for the registration process of a user of the app",
+            responses = {
+                    @ApiResponse(description = "Successful registration", responseCode = "204")
+            }
+    )
     @PostMapping("/signup")
+    @SecurityRequirements
     public ResponseEntity<Void> signup(@Valid @RequestBody SignUpRequest signUpRequest) {
         authenticationService.signUp(signUpRequest);
         return ResponseEntity.noContent()
                 .build();
     }
 
+
+    @Operation(summary = "Sign in",
+            description = "Retrieve access token using user's credentials. Single entrypoint for all types of accounts.")
     @PostMapping("/signin")
+    @SecurityRequirements
     public ResponseEntity<SignInResponse> signin(@Valid @RequestBody SignInRequest userSignInRequest) {
         SignInResponse result = authenticationService.signIn(userSignInRequest);
         return ResponseEntity.ok(result);
@@ -47,9 +60,24 @@ public class AuthController {
 
     @PostMapping("/signup/courier")
     @AuthPolicy(RolePrivilege.CREATE_COURIER_USER)
+    @Operation(summary = "Create courier account",
+            description = "Creates courier account with provided registration data",
+            responses = {
+                    @ApiResponse(description = "Successful courier account creation", responseCode = "204")
+            }
+    )
     public ResponseEntity<Void> courierSignup(@RequestBody SignUpRequest courierSignUp) {
         authenticationService.signUp(courierSignUp, UserRole.COURIER);
         return ResponseEntity.noContent()
                 .build();
+    }
+
+    @GetMapping("/me")
+    @AuthPolicy
+    @Operation(summary = "Retrieve authorization data",
+            description = "Describes authorization data containing in provided JWT token")
+    public ResponseEntity<AuthData> me() {
+        AuthData authData = authenticationService.me();
+        return ResponseEntity.ok(authData);
     }
 }
