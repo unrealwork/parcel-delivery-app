@@ -3,6 +3,11 @@ services:
   db_pda_auth:
     container_name: pda_auth_db
     image: postgres
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     env_file:
       - config/env/pda-auth-db.env
   pda-auth:
@@ -21,6 +26,11 @@ services:
       - config/env/pda-auth.env
   db_pda_order:
     container_name: pda_order_db
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     image: postgres
     env_file:
       - config/env/pda-order-db.env
@@ -40,6 +50,11 @@ services:
       - config/env/pda-order.env
   db_pda_delivery:
     container_name: pda_delivery_db
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     image: postgres
     ports:
       - "35432:5432"

@@ -4,21 +4,3 @@ services:
     depends_on:
       pda-delivery:
         condition: service_healthy
-  db_pda_delivery:
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    environment:
-      POSTGRES_DB: pda_delivery_db
-      POSTGRES_USER: pda_delivery_user
-      POSTGRES_PASSWORD: pda_delivery_pwd
-  pda-delivery:
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db_pda_delivery:5432/pda_delivery_db
-      SPRING_DATASOURCE_USER: pda_delivery_user
-      SPRING_DATASOURCE_PASSWORD: pda_delivery_pwd
-      JWT_SECRET_KEY: 2A462D4A614E645267556B58703273357638782F413F4428472B4B6250655368
-      SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: broker:29092
-  
