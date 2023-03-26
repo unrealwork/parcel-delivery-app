@@ -13,8 +13,6 @@ import org.springframework.web.util.UriBuilderFactory;
 import parcel.delivery.app.gateway.OpenApiService;
 import parcel.delivery.app.gateway.config.properties.AppProxyProperties;
 
-import java.util.Set;
-
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -39,10 +37,8 @@ public class AppProxyConfigurer implements RouteLocatorConfigurer {
         try {
             final OpenAPI openAPI = openApiRegistry.retrieve(property);
             if (openAPI != null) {
-                Set<String> pathsSet = openAPI.getPaths()
-                        .keySet();
-                for (String s : pathsSet) {
-                    builder = builder.route(predicateSpec -> builtApiPathRoute(predicateSpec, property, s));
+                for (String apiEndpoint : property.getEndpoints()) {
+                    builder = builder.route(predicateSpec -> builtApiPathRoute(predicateSpec, property, apiEndpoint));
                 }
                 builder.route(serviceId + "-openapi",
                         ps -> buildOpenApiRoute(serviceId, property, ps));
@@ -58,18 +54,19 @@ public class AppProxyConfigurer implements RouteLocatorConfigurer {
         String proxiedOpenApiPath = uriBuilderFactory.uriString(properties.getOpenApiUrl() + "/{serviceId}")
                 .build(serviceId)
                 .toString();
-        return buildRewriteRoute(ps, property, proxiedOpenApiPath, properties.getOpenApiUrl());
+
+        return ps.path(false, proxiedOpenApiPath)
+                .filters(gfs -> gfs.rewritePath(proxiedOpenApiPath, properties.getOpenApiUrl()))
+                .uri(uriForMicroservice(property));
     }
 
 
-    private Buildable<Route> builtApiPathRoute(PredicateSpec predicateSpec, OpenApiService property, String apiPath) {
-        String proxyPath = properties.getPrefix() + apiPath;
-        return buildRewriteRoute(predicateSpec, property, proxyPath, apiPath);
-    }
-
-    private Buildable<Route> buildRewriteRoute(PredicateSpec ps, OpenApiService property, String from, String to) {
-        return ps.path(false, from)
-                .filters(gfs -> gfs.rewritePath(from, to))
+    private Buildable<Route> builtApiPathRoute(PredicateSpec predicateSpec, OpenApiService property, String apiEndpoint) {
+        String predicate = properties.getPrefix() + apiEndpoint + "/**";
+        String filterPattern = properties.getPrefix() + "(?<remaining>.*)";
+        String mappingPattern = "$\\{remaining}";
+        return predicateSpec.path(false, predicate)
+                .filters(gfs -> gfs.rewritePath(filterPattern, mappingPattern))
                 .uri(uriForMicroservice(property));
     }
 

@@ -16,6 +16,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import parcel.delivery.app.gateway.OpenApiService;
 
+import java.util.Set;
+
 import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -42,7 +44,7 @@ class OpenApiServiceRegistryTest {
         parserResult.setOpenAPI(openAPI);
         Mockito.when(swaggerParser.readLocation(any(), any(), any()))
                 .thenReturn(parserResult);
-        OpenApiService msProperty = new OpenApiService("localhost", 8085);
+        OpenApiService msProperty = new OpenApiService("localhost", 8085, Set.of());
         OpenAPI registryResult = registry.retrieve(msProperty);
         assertThat(registryResult, equalTo(openAPI));
         Mockito.when(swaggerParser.readLocation(Mockito.anyString(), any(), any()))

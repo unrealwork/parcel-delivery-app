@@ -6,12 +6,19 @@ application:
       auth:
         host: ${PDA_AUTH_HOST:localhost}
         port: ${PDA_AUTH_PORT:18081}
+        endpoints:
+          - /auth
       order:
         host: ${PDA_ORDER_HOST:localhost}
         port: ${PDA_ORDER_PORT:18082}
+        endpoints:
+          - /orders
       delivery:
         host: ${PDA_DELIVERY_HOST:localhost}
         port: ${PDA_DELIVERY_PORT:18083}
+        endpoints:
+          - /deliveries
+          - /couriers
 
 spring:
   application:
@@ -21,9 +28,18 @@ spring:
       discovery:
         locator:
           enabled: true
+      globalcors:
+        corsConfigurations:
+          '[**]':
+            allowedOrigins: "*"
+            allowed-headers: "*"
+            allowedMethods:
+              - GET
+              - PUT
+              - OPTIONS
+              - POST
 springdoc:
   swagger-ui:
-    use-root-path: true
     persist-authorization: true
     default-model-expand-depth: 4
     urls:
