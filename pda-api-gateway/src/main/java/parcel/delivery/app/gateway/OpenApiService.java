@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class MicroserviceProperty {
+public class OpenApiService {
     @NotBlank
     private String host;
     private int port;

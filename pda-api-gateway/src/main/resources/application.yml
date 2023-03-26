@@ -30,4 +30,6 @@ springdoc:
       - name: gateway
         display-name: API Gateway
         url: /v3/api-docs
-      
+    syntax-highlight:
+      activated: true
+      theme: obsidian

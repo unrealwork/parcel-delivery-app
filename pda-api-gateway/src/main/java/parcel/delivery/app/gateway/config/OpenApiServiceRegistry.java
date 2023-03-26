@@ -5,7 +5,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriBuilderFactory;
-import parcel.delivery.app.gateway.MicroserviceProperty;
+import parcel.delivery.app.gateway.OpenApiService;
 import parcel.delivery.app.gateway.config.properties.AppProxyProperties;
 
 import java.net.URI;
@@ -14,23 +14,23 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 @RequiredArgsConstructor
-class MicroserviceOpenApiRegistry {
+class OpenApiServiceRegistry {
     private final AppProxyProperties properties;
-    private final Map<MicroserviceProperty, OpenAPI> microserviceApiFetcherMap = new ConcurrentHashMap<>();
+    private final Map<OpenApiService, OpenAPI> microserviceApiFetcherMap = new ConcurrentHashMap<>();
     private final UriBuilderFactory uriBuilderFactory;
     private final OpenAPIParser parser;
 
 
-    public OpenAPI retrieve(MicroserviceProperty microserviceProperty) {
-        return microserviceApiFetcherMap.computeIfAbsent(microserviceProperty, this::fetchOpenApiDoc);
+    public OpenAPI retrieve(OpenApiService openApiService) {
+        return microserviceApiFetcherMap.computeIfAbsent(openApiService, this::fetchOpenApiDoc);
     }
 
-    private OpenAPI fetchOpenApiDoc(MicroserviceProperty microserviceProperty) {
+    private OpenAPI fetchOpenApiDoc(OpenApiService openApiService) {
         String openApiUrl = properties.getOpenApiUrl();
         URI uri = uriBuilderFactory.builder()
                 .scheme("http")
-                .host(microserviceProperty.getHost())
-                .port(microserviceProperty.getPort())
+                .host(openApiService.getHost())
+                .port(openApiService.getPort())
                 .path(openApiUrl)
                 .build();
         return parser.readLocation(uri.toString(), null, null)

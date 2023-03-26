@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import parcel.delivery.app.gateway.MicroserviceProperty;
+import parcel.delivery.app.gateway.OpenApiService;
 
 import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -23,20 +23,15 @@ import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest
 @ExtendWith( {SpringExtension.class, MockitoExtension.class})
-class MicroserviceOpenApiRegistryTest {
+class OpenApiServiceRegistryTest {
     @Autowired
     @InjectMocks
-    private MicroserviceOpenApiRegistry registry;
+    private OpenApiServiceRegistry registry;
     @MockBean
     private OpenAPIParser swaggerParser;
-    @MockBean
-    private AppProxyConfigurer appProxyConfigurer;
-
 
     @BeforeEach
     void setup() {
-
-
     }
 
     @Test
@@ -47,7 +42,7 @@ class MicroserviceOpenApiRegistryTest {
         parserResult.setOpenAPI(openAPI);
         Mockito.when(swaggerParser.readLocation(any(), any(), any()))
                 .thenReturn(parserResult);
-        MicroserviceProperty msProperty = new MicroserviceProperty("localhost", 8085);
+        OpenApiService msProperty = new OpenApiService("localhost", 8085);
         OpenAPI registryResult = registry.retrieve(msProperty);
         assertThat(registryResult, equalTo(openAPI));
         Mockito.when(swaggerParser.readLocation(Mockito.anyString(), any(), any()))

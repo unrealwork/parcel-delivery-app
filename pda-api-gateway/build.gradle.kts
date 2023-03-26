@@ -26,6 +26,9 @@ dependencies {
     testImplementation(libs.junit.api)
     testRuntimeOnly(libs.junit.engine)
     testImplementation(libs.spring.test)
+    testImplementation(libs.tc.junit)
+    testImplementation(libs.tc.mockserver)
+    testImplementation(libs.mockserver.client)
 }
 
 tasks.test {

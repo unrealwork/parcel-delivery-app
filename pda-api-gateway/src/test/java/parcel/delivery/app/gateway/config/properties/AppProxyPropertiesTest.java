@@ -7,7 +7,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import parcel.delivery.app.gateway.MicroserviceProperty;
+import parcel.delivery.app.gateway.OpenApiService;
 import parcel.delivery.app.gateway.config.RouteLocatorConfigurer;
 
 import java.util.Map;
@@ -31,11 +31,11 @@ class AppProxyPropertiesTest {
                 .thenReturn(null);
         assertThat(properties, notNullValue());
         assertThat(properties.getOpenApiUrl(), CoreMatchers.equalTo("/v3/api-docs"));
-        Map<String, MicroserviceProperty> microservices = properties.getMicroservices();
+        Map<String, OpenApiService> microservices = properties.getMicroservices();
         assertThat(microservices, notNullValue());
         assertThat(microservices.size(), equalTo(3));
         assertThat(microservices.keySet(), hasItems("auth", "order", "delivery"));
-        MicroserviceProperty property = microservices
+        OpenApiService property = microservices
                 .get("auth");
         assertThat(property.getHost(), equalTo("localhost"));
         assertThat(property.getPort(), equalTo(8081));

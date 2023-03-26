@@ -10,7 +10,7 @@ import org.springframework.cloud.gateway.route.builder.PredicateSpec;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriBuilderFactory;
-import parcel.delivery.app.gateway.MicroserviceProperty;
+import parcel.delivery.app.gateway.OpenApiService;
 import parcel.delivery.app.gateway.config.properties.AppProxyProperties;
 
 import java.util.Set;
@@ -20,7 +20,7 @@ import java.util.Set;
 @Slf4j
 public class AppProxyConfigurer implements RouteLocatorConfigurer {
     private final AppProxyProperties properties;
-    private final MicroserviceOpenApiRegistry openApiRegistry;
+    private final OpenApiServiceRegistry openApiRegistry;
 
     private final UriBuilderFactory uriBuilderFactory;
 
@@ -35,7 +35,7 @@ public class AppProxyConfigurer implements RouteLocatorConfigurer {
         return builder.build();
     }
 
-    private void addMicroserviceRoutes(RouteLocatorBuilder.Builder builder, String serviceId, MicroserviceProperty property) {
+    private void addMicroserviceRoutes(RouteLocatorBuilder.Builder builder, String serviceId, OpenApiService property) {
         try {
             final OpenAPI openAPI = openApiRegistry.retrieve(property);
             Set<String> pathsSet = openAPI.getPaths()
@@ -50,7 +50,7 @@ public class AppProxyConfigurer implements RouteLocatorConfigurer {
         }
     }
 
-    private Buildable<Route> buildOpenApiRoute(String serviceId, MicroserviceProperty property, PredicateSpec ps) {
+    private Buildable<Route> buildOpenApiRoute(String serviceId, OpenApiService property, PredicateSpec ps) {
         String proxiedOpenApiPath = uriBuilderFactory.uriString(properties.getOpenApiUrl() + "/{serviceId}")
                 .build(serviceId)
                 .toString();
@@ -58,18 +58,18 @@ public class AppProxyConfigurer implements RouteLocatorConfigurer {
     }
 
 
-    private Buildable<Route> builtApiPathRoute(PredicateSpec predicateSpec, MicroserviceProperty property, String apiPath) {
+    private Buildable<Route> builtApiPathRoute(PredicateSpec predicateSpec, OpenApiService property, String apiPath) {
         String proxyPath = properties.getPrefix() + apiPath;
         return buildRewriteRoute(predicateSpec, property, proxyPath, apiPath);
     }
 
-    private Buildable<Route> buildRewriteRoute(PredicateSpec ps, MicroserviceProperty property, String from, String to) {
+    private Buildable<Route> buildRewriteRoute(PredicateSpec ps, OpenApiService property, String from, String to) {
         return ps.path(false, from)
                 .filters(gfs -> gfs.rewritePath(from, to))
                 .uri(uriForMicroservice(property));
     }
 
-    private String uriForMicroservice(MicroserviceProperty property) {
+    private String uriForMicroservice(OpenApiService property) {
         return uriBuilderFactory.builder()
                 .scheme("http")
                 .host(property.getHost())
