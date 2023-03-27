@@ -26,8 +26,10 @@ java {
 
 dockerCompose {
     useComposeFiles.set(listOf("docker-compose.yml"))
+    startedServices.set(listOf("pda_api_gateway"))
     setProjectName("parcel-delivery-app")
-    noRecreate.set(true)
+    this.noRecreate.set(true)
+    buildBeforeUp.set(false)
 }
 
 

@@ -100,6 +100,20 @@ class OrderStatusChangedConsumerTest implements BaseIntegreationTest {
         assertThat(updatedCourier.getStatus(), equalTo(afterCourierStatus));
     }
 
+    @Test
+    @DisplayName("Should set delivery coordinates when courier set order status to in_progress")
+    void testCoordinatesChangedAfterInProgressChange() {
+        Delivery delivery = deliveryTestService.save(DELIVERY.toBuilder()
+                .build());
+        OrderStatusChangedEvent event = new OrderStatusChangedEvent(delivery.getOrderId(), OrderStatus.IN_PROGRESS);
+        statusChangedConsumer.accept(event);
+        Delivery updated = deliveryTestService.findById(delivery.getOrderId())
+                .orElse(null);
+        assertThat(updated, notNullValue());
+        assertThat(updated.getLatitude(), notNullValue());
+        assertThat(updated.getLongitude(), notNullValue());
+    }
+
     @AfterEach
     void cleanup() {
         deliveryTestService.deleteAll();
