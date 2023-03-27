@@ -57,7 +57,7 @@ public class OrdersController {
         return ResponseEntity.ok(orders);
     }
 
-    @Operation(summary = "Create an order",
+    @Operation(summary = "Create",
             description = "Allows users create users a new order."
     )
     @PostMapping
@@ -67,7 +67,7 @@ public class OrdersController {
     }
 
 
-    @Operation(summary = "Change order's status",
+    @Operation(summary = "Change status",
             description = """
                     Allows to change an order's status.<br/>
                     <ul>

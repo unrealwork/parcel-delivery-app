@@ -34,7 +34,7 @@ public class AuthController {
     private final AuthenticationService authenticationService;
 
 
-    @Operation(summary = "Register new user",
+    @Operation(summary = "Create a new user account",
             description = "Provide data required for the registration process of a user of the app",
             responses = {
                     @ApiResponse(description = "Successful registration", responseCode = "204")
