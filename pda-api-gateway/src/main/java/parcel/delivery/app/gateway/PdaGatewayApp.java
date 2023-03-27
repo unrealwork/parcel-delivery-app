@@ -21,7 +21,10 @@ import parcel.delivery.app.gateway.config.RouteLocatorConfigurer;
 @ConfigurationPropertiesScan("parcel.delivery.app.gateway.config.properties")
 @OpenAPIDefinition(info = @Info(
         title = "API for Parcel Delivery App",
-        description = "Contains methods related to authentication, orders, delivery",
+        description = """
+                Entrypoint that combine APIs from  underlying microservices.
+                Contains methods related to authentication, orders, delivery.
+                """,
         version = "0.0.1"),
         security = @SecurityRequirement(name = "jwt"))
 @SecurityScheme(
