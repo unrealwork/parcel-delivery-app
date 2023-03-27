@@ -2,8 +2,20 @@
   "openapi": "3.0.1",
   "info": {
     "title": "API for Parcel Delivery App",
-    "description": "Contains methods related to authentication, orders, delivery",
+    "description": "Entrypoint that combines APIs from underlying microservices. The Gateway API contains methods related to authentication, orders, and delivery.\n",
+    "contact": {
+      "name": "Igor Shmagrinskiy",
+      "email": "unrealwork@gmail.com"
+    },
+    "license": {
+      "name": "MIT License",
+      "url": "https://github.com/unrealwork/parcel-delivery-app/blob/main/LICENSE"
+    },
     "version": "0.0.1"
+  },
+  "externalDocs": {
+    "description": "PDA API Docs",
+    "url": "https://unrealwork.github.io/parcel-delivery-app"
   },
   "servers": [
     {
@@ -69,8 +81,8 @@
           "required": true
         },
         "responses": {
-          "401": {
-            "description": "Unauthorized",
+          "400": {
+            "description": "Bad Request",
             "content": {
               "application/json": {
                 "schema": {
@@ -81,16 +93,6 @@
           },
           "403": {
             "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error response"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
             "content": {
               "application/json": {
                 "schema": {
@@ -111,6 +113,16 @@
           },
           "500": {
             "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
             "content": {
               "application/json": {
                 "schema": {
@@ -149,8 +161,8 @@
           }
         ],
         "responses": {
-          "401": {
-            "description": "Unauthorized",
+          "400": {
+            "description": "Bad Request",
             "content": {
               "application/json": {
                 "schema": {
@@ -162,8 +174,11 @@
           "403": {
             "description": "In case if order is not accessible for a user"
           },
-          "400": {
-            "description": "Bad Request",
+          "404": {
+            "description": "In case if delivery for orderId is not found"
+          },
+          "500": {
+            "description": "Internal Server Error",
             "content": {
               "application/json": {
                 "schema": {
@@ -172,11 +187,8 @@
               }
             }
           },
-          "404": {
-            "description": "In case if delivery for orderId is not found"
-          },
-          "500": {
-            "description": "Internal Server Error",
+          "401": {
+            "description": "Unauthorized",
             "content": {
               "application/json": {
                 "schema": {
@@ -222,8 +234,8 @@
           }
         ],
         "responses": {
-          "401": {
-            "description": "Unauthorized",
+          "400": {
+            "description": "Bad Request",
             "content": {
               "application/json": {
                 "schema": {
@@ -234,16 +246,6 @@
           },
           "403": {
             "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error response"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
             "content": {
               "application/json": {
                 "schema": {
@@ -264,6 +266,16 @@
           },
           "500": {
             "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
             "content": {
               "application/json": {
                 "schema": {
@@ -294,8 +306,8 @@
         "description": "<b>Required privilege:</b> <code>VIEW_COURIERS</code><br/><br/>Retrieves list of couriers with their statuses availability statuses\n",
         "operationId": "couriers",
         "responses": {
-          "401": {
-            "description": "Unauthorized",
+          "400": {
+            "description": "Bad Request",
             "content": {
               "application/json": {
                 "schema": {
@@ -306,16 +318,6 @@
           },
           "403": {
             "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error response"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
             "content": {
               "application/json": {
                 "schema": {
@@ -336,6 +338,16 @@
           },
           "500": {
             "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
             "content": {
               "application/json": {
                 "schema": {
@@ -379,6 +391,16 @@
           "required": true
         },
         "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error response"
+                }
+              }
+            }
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -411,16 +433,6 @@
           },
           "500": {
             "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error response"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
             "content": {
               "application/json": {
                 "schema": {
@@ -455,6 +467,16 @@
           "required": true
         },
         "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error response"
+                }
+              }
+            }
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -487,16 +509,6 @@
           },
           "500": {
             "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error response"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
             "content": {
               "application/json": {
                 "schema": {
@@ -530,6 +542,16 @@
           "required": true
         },
         "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error response"
+                }
+              }
+            }
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -562,16 +584,6 @@
           },
           "500": {
             "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error response"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
             "content": {
               "application/json": {
                 "schema": {
@@ -603,6 +615,16 @@
         "description": "Describes authorization data containing in provided JWT token",
         "operationId": "me",
         "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error response"
+                }
+              }
+            }
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -635,16 +657,6 @@
           },
           "500": {
             "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error response"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
             "content": {
               "application/json": {
                 "schema": {
@@ -1089,7 +1101,8 @@
         "properties": {
           "courierId": {
             "type": "string",
-            "description": "Unique identifier of courier's user"
+            "description": "Unique identifier of courier's user",
+            "example": "jack@doe.com"
           }
         },
         "description": "Performs assignment of a delivery to courier",
@@ -1127,12 +1140,12 @@
             "exclusiveMinimum": false,
             "type": "number",
             "description": "Latitude of a coordinates of delivery's location",
-            "example": 51.523788
+            "example": -0.158611
           },
           "status": {
             "type": "string",
             "description": "Status of a delivery process",
-            "example": "-0.158611",
+            "example": "INITIAL",
             "enum": [
               "INITIAL",
               "IN_PROGRESS",
