@@ -1,9 +1,12 @@
 package parcel.delivery.app.gateway;
 
 import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import lombok.extern.slf4j.Slf4j;
@@ -22,10 +25,15 @@ import parcel.delivery.app.gateway.config.RouteLocatorConfigurer;
 @OpenAPIDefinition(info = @Info(
         title = "API for Parcel Delivery App",
         description = """
-                Entrypoint that combine APIs from  underlying microservices.
-                Contains methods related to authentication, orders, delivery.
+                Entrypoint that combines APIs from underlying microservices. The Gateway API contains methods related to authentication, orders, and delivery.
                 """,
+        license = @License(name = "MIT License",
+                url = "https://github.com/unrealwork/parcel-delivery-app/blob/main/LICENSE"),
+        contact = @Contact(name = "Igor Shmagrinskiy",
+                email = "unrealwork@gmail.com"),
         version = "0.0.1"),
+        externalDocs = @ExternalDocumentation(description = "PDA API Docs",
+                url = "https://unrealwork.github.io/parcel-delivery-app"),
         security = @SecurityRequirement(name = "jwt"))
 @SecurityScheme(
         name = "jwt",
