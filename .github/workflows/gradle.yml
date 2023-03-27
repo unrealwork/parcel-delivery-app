@@ -42,7 +42,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: ./gradlew test sonarqube --info
       - name: Test docker compose deploy
-        if: ${{ github.event_name == 'push' }}
+        #if: ${{ github.event_name == 'push' }}
         run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml up --remove-orphans -d wait && docker-compose down
       - name: Collect docker log
         if: ${{ failure() && github.event_name == 'push' }}
