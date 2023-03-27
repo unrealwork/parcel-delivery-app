@@ -17,6 +17,7 @@ import parcel.delivery.app.common.test.security.annotations.WithCourierRole;
 import parcel.delivery.app.common.test.security.annotations.WithUserRole;
 import parcel.delivery.app.delivery.controller.api.request.AssignCourierRequest;
 import parcel.delivery.app.delivery.domain.Courier;
+import parcel.delivery.app.delivery.domain.CourierStatus;
 import parcel.delivery.app.delivery.domain.Delivery;
 import parcel.delivery.app.delivery.helper.CourierTestService;
 import parcel.delivery.app.delivery.helper.DeliveryTestService;
@@ -24,6 +25,9 @@ import parcel.delivery.app.delivery.helper.DeliveryTestService;
 import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.testcontainers.shaded.org.hamcrest.CoreMatchers.equalTo;
+import static org.testcontainers.shaded.org.hamcrest.CoreMatchers.notNullValue;
+import static org.testcontainers.shaded.org.hamcrest.MatcherAssert.assertThat;
 import static parcel.delivery.app.delivery.helper.DeliveryDomainConstants.COURER;
 import static parcel.delivery.app.delivery.helper.DeliveryDomainConstants.DELIVERY;
 import static parcel.delivery.app.delivery.helper.DeliveryDomainConstants.ORDER_ID;
@@ -70,9 +74,19 @@ class DeliveryAssignControllerTest extends BaseControllerTest {
     @Test
     @WithAdminRole
     @DisplayName("Should provide access for admin")
-    void testAccessProvidedForAdmin() throws Exception {
+    void testValidRequest() throws Exception {
         client.put(new AssignCourierRequest(WithCourierRole.USERNAME), URL, ORDER_ID)
                 .andExpect(status().isNoContent());
+        Courier courier = courierTestService.findById(WithCourierRole.USERNAME)
+                .orElse(null);
+        assertThat(courier, notNullValue());
+        assertThat(courier.getStatus(), equalTo(CourierStatus.UNAVAILABLE));
+        Delivery delivery = deliveryTestService.findById(ORDER_ID)
+                .orElse(null);
+        assertThat(delivery, notNullValue());
+        assertThat(delivery.getCourier()
+                        .getUserId(),
+                equalTo(WithCourierRole.USERNAME));
     }
 
     @Test

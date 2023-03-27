@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import parcel.delivery.app.delivery.domain.Courier;
+import parcel.delivery.app.delivery.domain.CourierStatus;
 import parcel.delivery.app.delivery.domain.Delivery;
 import parcel.delivery.app.delivery.error.exception.CourierNotFoundException;
 import parcel.delivery.app.delivery.error.exception.DeliveryAlreadyAssignedException;
@@ -39,6 +40,7 @@ public class AssignCourierStrategy implements Function<AssignCourier, Void> {
             throw new DeliveryAlreadyAssignedException();
         }
         Courier courier = courierOpt.get();
+        courier.setStatus(CourierStatus.UNAVAILABLE);
         delivery.setCourier(courier);
         deliveryRepository.save(delivery);
         return null;
