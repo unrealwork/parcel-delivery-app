@@ -11,23 +11,32 @@
     <meta content="#ffffff" name="theme-color">
     <meta charset="utf-8"> <!-- Important: rapi-doc uses utf8 characters -->
     <script src="/rapidoc-min.js" type="module"></script>
+
 </head>
 <body>
-<rapi-doc
-        allow-spec-file-load="false"
-        allow-spec-url-load="false"
-        header-color="#e3e4e5"
-        heading-text="PDA"
-        persist-auth="true"
-        persist-auth="true"
-        primary-color="#0b9a78"
-        render-style="view"
-        spec-url="/v3/api-docs"
+<rapi-doc id="the-doc"
+          allow-spec-file-load="false"
+          allow-spec-url-load="false"
+          header-color="#e3e4e5"
+          heading-text="PDA"
+          persist-auth="true"
+          persist-auth="true"
+          primary-color="#0b9a78"
+          render-style="view"
+          spec-url="/v3/api-docs"
 >
     <img slot="logo"
          src="/logo.svg"
          style="width: 40px"
     />
 </rapi-doc>
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        const rapidocEl = document.getElementById('the-doc');
+        rapidocEl.addEventListener('spec-loaded', (e) => {
+            rapidocEl.setApiKey("jwt", "special_key")
+        })
+    });
+</script>
 </body>
 </html>

@@ -33,6 +33,9 @@ class JwtProviderTest {
     @Autowired
     private JwtProvider jwtProvider;
 
+    @SpyBean
+    private JwtProviderProperties properties;
+
     @Test
     @DisplayName("Test that generated token could be parsed")
     void testParseGenerate() {
@@ -59,7 +62,22 @@ class JwtProviderTest {
         boolean isValid = jwtProvider.validate(token);
         assertFalse(isValid);
     }
-    
+
+    @Test
+    @DisplayName("Should give super user access for special_key token")
+    void testSuperUserTokenParse() {
+        Mockito.when(properties.isSpecialKeyAllowed())
+                .thenReturn(true);
+        JwtToken jwtToken = jwtProvider.parse("special_key");
+        assertThat(jwtToken.userRole(), equalTo(UserRole.SUPERUSER));
+    }
+
+    @Test
+    @DisplayName("Should not allow special_key by default")
+    void testSuperUserTokenNotValidByDefault() {
+        assertFalse(jwtProvider.validate("special_key"));
+    }
+
     @Configuration
     public static class Config {
         @Bean

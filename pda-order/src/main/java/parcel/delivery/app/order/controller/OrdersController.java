@@ -42,7 +42,7 @@ public class OrdersController {
     private final OrderService orderService;
 
 
-    @Operation(summary = "View orders",
+    @Operation(summary = "View",
             description = """
                     Retrieve information of orders accessible for an account depends on role.
                     <ul><li>User: own created orders</li>
@@ -96,7 +96,7 @@ public class OrdersController {
     }
 
 
-    @Operation(summary = "Cancel the order",
+    @Operation(summary = "Cancel",
             description = "Allows users to cancel their own orders. If order is already IN_PROGRESS cancellation is not possible.",
             parameters = @Parameter(description = """
                     Unique identifier of the order.
@@ -120,7 +120,7 @@ public class OrdersController {
     }
 
 
-    @Operation(summary = "Change order's destination",
+    @Operation(summary = "Change destination",
             description = """
                     Allows to change an order's destination of own orders. Destination can be changed before moment when delivery is started.
                     """,
