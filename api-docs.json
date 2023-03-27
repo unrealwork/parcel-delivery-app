@@ -52,7 +52,7 @@
         "tags": [
           "Delivery API"
         ],
-        "summary": "Assign courier to delivery",
+        "summary": "Assign courier",
         "description": "<b>Required privilege:</b> <code>ASSIGN_COURIER</code><br/><br/>Allows to assign a courier user\n",
         "operationId": "assign",
         "parameters": [
@@ -81,8 +81,18 @@
           "required": true
         },
         "responses": {
-          "400": {
-            "description": "Bad Request",
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
             "content": {
               "application/json": {
                 "schema": {
@@ -101,28 +111,18 @@
               }
             }
           },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error response"
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error response"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error response"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
             "content": {
               "application/json": {
                 "schema": {
@@ -142,7 +142,7 @@
         "tags": [
           "Delivery API"
         ],
-        "summary": "View delivery detail for order",
+        "summary": "View delivery details",
         "description": "<b>Required privilege:</b> <code>VIEW_DELIVERY_DETAILS</code><br/><br/>Retrieve information about delivery of the order. Behaviour is user role based:\n<ul><li>User: own created orders</li>\n<li>Courier: orders assigned to him</li></ul>\n",
         "operationId": "delivery",
         "parameters": [
@@ -161,22 +161,6 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error response"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "In case if order is not accessible for a user"
-          },
-          "404": {
-            "description": "In case if delivery for orderId is not found"
-          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -196,6 +180,22 @@
                 }
               }
             }
+          },
+          "403": {
+            "description": "In case if order is not accessible for a user"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error response"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "In case if delivery for orderId is not found"
           },
           "200": {
             "description": "OK",
@@ -215,7 +215,7 @@
         "tags": [
           "Delivery API"
         ],
-        "summary": "Track delivery by coordinates",
+        "summary": "Track delivery",
         "description": "<b>Required privilege:</b> <code>TRACK_DELIVERY</code><br/><br/>Retrieves information about current location of the order\n",
         "operationId": "track",
         "parameters": [
@@ -234,8 +234,18 @@
           }
         ],
         "responses": {
-          "400": {
-            "description": "Bad Request",
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
             "content": {
               "application/json": {
                 "schema": {
@@ -254,28 +264,18 @@
               }
             }
           },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error response"
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error response"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error response"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
             "content": {
               "application/json": {
                 "schema": {
@@ -306,8 +306,18 @@
         "description": "<b>Required privilege:</b> <code>VIEW_COURIERS</code><br/><br/>Retrieves list of couriers with their statuses availability statuses\n",
         "operationId": "couriers",
         "responses": {
-          "400": {
-            "description": "Bad Request",
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
             "content": {
               "application/json": {
                 "schema": {
@@ -326,28 +336,18 @@
               }
             }
           },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error response"
+                }
+              }
+            }
+          },
           "404": {
             "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error response"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error response"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
             "content": {
               "application/json": {
                 "schema": {
@@ -377,7 +377,7 @@
         "tags": [
           "Authentication API"
         ],
-        "summary": "Register new user",
+        "summary": "Create a new user account",
         "description": "Provide data required for the registration process of a user of the app",
         "operationId": "signup",
         "requestBody": {
@@ -391,8 +391,8 @@
           "required": true
         },
         "responses": {
-          "401": {
-            "description": "Unauthorized",
+          "400": {
+            "description": "Bad Request",
             "content": {
               "application/json": {
                 "schema": {
@@ -403,16 +403,6 @@
           },
           "403": {
             "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error response"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
             "content": {
               "application/json": {
                 "schema": {
@@ -433,6 +423,16 @@
           },
           "500": {
             "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
             "content": {
               "application/json": {
                 "schema": {
@@ -467,8 +467,8 @@
           "required": true
         },
         "responses": {
-          "401": {
-            "description": "Unauthorized",
+          "400": {
+            "description": "Bad Request",
             "content": {
               "application/json": {
                 "schema": {
@@ -479,16 +479,6 @@
           },
           "403": {
             "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error response"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
             "content": {
               "application/json": {
                 "schema": {
@@ -509,6 +499,16 @@
           },
           "500": {
             "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
             "content": {
               "application/json": {
                 "schema": {
@@ -542,8 +542,8 @@
           "required": true
         },
         "responses": {
-          "401": {
-            "description": "Unauthorized",
+          "400": {
+            "description": "Bad Request",
             "content": {
               "application/json": {
                 "schema": {
@@ -554,16 +554,6 @@
           },
           "403": {
             "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error response"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
             "content": {
               "application/json": {
                 "schema": {
@@ -584,6 +574,16 @@
           },
           "500": {
             "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
             "content": {
               "application/json": {
                 "schema": {
@@ -615,8 +615,8 @@
         "description": "Describes authorization data containing in provided JWT token",
         "operationId": "me",
         "responses": {
-          "401": {
-            "description": "Unauthorized",
+          "400": {
+            "description": "Bad Request",
             "content": {
               "application/json": {
                 "schema": {
@@ -627,16 +627,6 @@
           },
           "403": {
             "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error response"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
             "content": {
               "application/json": {
                 "schema": {
@@ -665,6 +655,16 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error response"
+                }
+              }
+            }
+          },
           "200": {
             "description": "OK",
             "content": {
@@ -683,7 +683,7 @@
         "tags": [
           "Order API"
         ],
-        "summary": "Change order's status",
+        "summary": "Change status",
         "description": "<b>Required privilege:</b> <code>CHANGE_ORDER_STATUS</code><br/><br/>Allows to change an order's status.<br/>\n<ul>\n<li>Admin - any of statuses</li>\n<li>Courier - can change from PENDING -> IN_PROGRESS and IN_PROGRESS -> DELIVERED</li>\n</ul>\n",
         "operationId": "changeStatus",
         "parameters": [
@@ -722,16 +722,6 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error response"
-                }
-              }
-            }
-          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -742,8 +732,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "500": {
+            "description": "Internal Server Error",
             "content": {
               "application/json": {
                 "schema": {
@@ -752,8 +742,18 @@
               }
             }
           },
-          "500": {
-            "description": "Internal Server Error",
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
             "content": {
               "application/json": {
                 "schema": {
@@ -773,7 +773,7 @@
         "tags": [
           "Order API"
         ],
-        "summary": "Change order's destination",
+        "summary": "Change destination",
         "description": "<b>Required privilege:</b> <code>CHANGE_DESTINATION</code><br/><br/>Allows to change an order's destination of own orders. Destination can be changed before moment when delivery is started.\n",
         "operationId": "destination",
         "parameters": [
@@ -812,6 +812,19 @@
               }
             }
           },
+          "403": {
+            "description": "In case of modification of someone's else order"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error response"
+                }
+              }
+            }
+          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -822,21 +835,8 @@
               }
             }
           },
-          "403": {
-            "description": "In case of modification of someone's else order"
-          },
           "400": {
             "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error response"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
             "content": {
               "application/json": {
                 "schema": {
@@ -856,7 +856,7 @@
         "tags": [
           "Order API"
         ],
-        "summary": "Cancel the order",
+        "summary": "Cancel",
         "description": "<b>Required privilege:</b> <code>CANCEL_ORDER</code><br/><br/>Allows users to cancel their own orders. If order is already IN_PROGRESS cancellation is not possible.",
         "operationId": "cancel",
         "parameters": [
@@ -878,6 +878,19 @@
           "404": {
             "description": "In case of non existing  order"
           },
+          "403": {
+            "description": "In case of cancellation of someone's else order"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error response"
+                }
+              }
+            }
+          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -888,21 +901,8 @@
               }
             }
           },
-          "403": {
-            "description": "In case of cancellation of someone's else order"
-          },
           "400": {
             "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error response"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
             "content": {
               "application/json": {
                 "schema": {
@@ -922,22 +922,12 @@
         "tags": [
           "Order API"
         ],
-        "summary": "View orders",
+        "summary": "View",
         "description": "<b>Required privilege:</b> <code>VIEW_ORDERS</code><br/><br/>Retrieve information of orders accessible for an account depends on role.\n<ul><li>User: own created orders</li>\n<li>Admin: all orders</li>\n<li>Courier: orders assigned to him</li></ul>\n",
         "operationId": "orders",
         "responses": {
           "404": {
             "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error response"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
             "content": {
               "application/json": {
                 "schema": {
@@ -956,8 +946,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "500": {
+            "description": "Internal Server Error",
             "content": {
               "application/json": {
                 "schema": {
@@ -966,8 +956,18 @@
               }
             }
           },
-          "500": {
-            "description": "Internal Server Error",
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
             "content": {
               "application/json": {
                 "schema": {
@@ -995,7 +995,7 @@
         "tags": [
           "Order API"
         ],
-        "summary": "Create an order",
+        "summary": "Create",
         "description": "<b>Required privilege:</b> <code>CREATE_ORDER</code><br/><br/>Allows users create users a new order.",
         "operationId": "create",
         "requestBody": {
@@ -1019,16 +1019,6 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error response"
-                }
-              }
-            }
-          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -1039,8 +1029,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
+          "500": {
+            "description": "Internal Server Error",
             "content": {
               "application/json": {
                 "schema": {
@@ -1049,8 +1039,18 @@
               }
             }
           },
-          "500": {
-            "description": "Internal Server Error",
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
             "content": {
               "application/json": {
                 "schema": {
@@ -1483,7 +1483,7 @@
     "securitySchemes": {
       "jwt": {
         "type": "http",
-        "description": "Authentication and authorization in the app are organized using JWT tokens.",
+        "description": "Authentication and authorization in the app are organized using JWT tokens.\n",
         "scheme": "bearer",
         "bearerFormat": "JWT"
       }
