@@ -6,12 +6,12 @@ This project is a solution for the [test assignment](#Task). Implement API for s
 
 ### Getting started
 
-* [API docs](https://unrealwork.github.io/parcel-delivery-app/) available on github pages.
+* [API docs](https://unrealwork.github.io/parcel-delivery-app/)
 * Start services locally
   ```bash
-  ./gradlew composeUp
+  ./gradlew :composeUp
   ```
-* Navigate to https://unrealwork.github.io/parcel-delivery-app
+* Navigate to http://localhost:18080
 * Use playground to interact with the API
   ![img_1.png](assets/images/playgroud.png)
 

@@ -1,4 +1,20 @@
 application:
+  users:
+    - username: "jane@doe.com"
+      password: "password123"
+      firstName: "Jane"
+      lastName: "Doe"
+      role: ADMIN
+    - username: "jack@doe.com"
+      password: "password123"
+      firstName: "Jack"
+      lastName: "Doe"
+      role: COURIER
+    - username: "john@doe.com"
+      password: "password123"
+      firstName: "John"
+      lastName: "Doe"
+      role: USER
   security:
     jwt:
       provider:

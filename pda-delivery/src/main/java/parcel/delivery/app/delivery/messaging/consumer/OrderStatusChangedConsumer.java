@@ -12,6 +12,7 @@ import parcel.delivery.app.delivery.domain.DeliveryStatus;
 import parcel.delivery.app.delivery.repository.CourierRepository;
 import parcel.delivery.app.delivery.repository.DeliveryRepository;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -36,7 +37,8 @@ public class OrderStatusChangedConsumer implements Consumer<OrderStatusChangedEv
     private void handleStatusChangeForExistingDelivery(@NonNull Delivery delivery, OrderStatus status) {
         final UUID id = delivery.getOrderId();
         if (status == OrderStatus.IN_PROGRESS) {
-            deliveryRepository.updateStatus(id, DeliveryStatus.IN_PROGRESS);
+            deliveryRepository.findById(id)
+                    .ifPresent(this::updateInprogressDelivery);
         }
         if (status == OrderStatus.DELIVERED) {
             deliveryRepository.updateStatus(id, DeliveryStatus.COMPLETED);
@@ -50,6 +52,14 @@ public class OrderStatusChangedConsumer implements Consumer<OrderStatusChangedEv
              */
             makeCourierAvailable(delivery);
         }
+    }
+
+    private void updateInprogressDelivery(Delivery delivery) {
+        delivery.setStatus(DeliveryStatus.IN_PROGRESS);
+        // Coordinates are hardcoded 
+        delivery.setLatitude(new BigDecimal("51.523788"));
+        delivery.setLatitude(new BigDecimal("-0.158611"));
+        deliveryRepository.save(delivery);
     }
 
     private void makeCourierAvailable(Delivery delivery) {

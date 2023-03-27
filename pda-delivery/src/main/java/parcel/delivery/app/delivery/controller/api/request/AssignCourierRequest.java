@@ -8,6 +8,6 @@ import jakarta.validation.constraints.NotNull;
         accessMode = Schema.AccessMode.WRITE_ONLY,
         description = "Performs assignment of a delivery to courier")
 public record AssignCourierRequest(@NotNull @Email
-                                   @Schema(description = "Unique identifier of courier's user")
+                                   @Schema(description = "Unique identifier of courier's user", example = "jack@doe.com")
                                    String courierId) {
 }

@@ -58,8 +58,6 @@ services:
       timeout: 5s
       retries: 5
     image: postgres
-    ports:
-      - "35432:5432"
     env_file:
       - config/env/pda-delivery-db.env
   pda-delivery:
@@ -76,14 +74,13 @@ services:
     env_file:
       - config/env/pda-delivery.env
   pda_api_gateway:
+    container_name: pda_api_gateway
     build:
       dockerfile: pda-api-gateway/Dockerfile
       context: .
     restart: unless-stopped
     ports:
-      - "8080:8080"
-    expose:
-      - 8080
+      - "18080:8080"
     depends_on:
       pda-auth:
         condition: service_healthy
