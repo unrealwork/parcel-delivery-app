@@ -57,7 +57,7 @@ public class OrderStatusChangedConsumer implements Consumer<OrderStatusChangedEv
     private void updateInprogressDelivery(Delivery delivery) {
         delivery.setStatus(DeliveryStatus.IN_PROGRESS);
         // Coordinates are hardcoded 
-        delivery.setLatitude(new BigDecimal("51.523788"));
+        delivery.setLongitude(new BigDecimal("51.523788"));
         delivery.setLatitude(new BigDecimal("-0.158611"));
         deliveryRepository.save(delivery);
     }

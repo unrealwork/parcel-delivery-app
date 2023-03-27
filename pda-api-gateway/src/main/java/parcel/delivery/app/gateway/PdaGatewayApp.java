@@ -39,8 +39,6 @@ import parcel.delivery.app.gateway.config.RouteLocatorConfigurer;
         name = "jwt",
         description = """
                 Authentication and authorization in the app are organized using JWT tokens.
-                        
-                You are initially preauthorized with `special_key` which give access to all resources.
                 """,
         type = SecuritySchemeType.HTTP,
         bearerFormat = "JWT",
