@@ -34,7 +34,7 @@ public class AuthController {
     private final AuthenticationService authenticationService;
 
 
-    @Operation(summary = "Register new user",
+    @Operation(summary = "Create a user account",
             description = "Provide data required for the registration process of a user of the app",
             responses = {
                     @ApiResponse(description = "Successful registration", responseCode = "204")
@@ -60,7 +60,7 @@ public class AuthController {
 
     @PostMapping("/signup/courier")
     @AuthPolicy(RolePrivilege.CREATE_COURIER_USER)
-    @Operation(summary = "Create courier account",
+    @Operation(summary = "Create a courier account",
             description = "Creates courier account with provided registration data",
             responses = {
                     @ApiResponse(description = "Successful courier account creation", responseCode = "204")

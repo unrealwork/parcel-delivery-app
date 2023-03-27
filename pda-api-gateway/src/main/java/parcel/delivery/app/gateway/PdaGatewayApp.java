@@ -37,7 +37,9 @@ import parcel.delivery.app.gateway.config.RouteLocatorConfigurer;
         security = @SecurityRequirement(name = "jwt"))
 @SecurityScheme(
         name = "jwt",
-        description = "Authentication and authorization in the app are organized using JWT tokens.",
+        description = """
+                Authentication and authorization in the app are organized using JWT tokens.
+                """,
         type = SecuritySchemeType.HTTP,
         bearerFormat = "JWT",
         scheme = "bearer"

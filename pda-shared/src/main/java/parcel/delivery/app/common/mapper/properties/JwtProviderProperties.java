@@ -2,6 +2,7 @@ package parcel.delivery.app.common.mapper.properties;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.time.Duration;
@@ -12,6 +13,8 @@ import java.time.Duration;
 @Setter
 public final class JwtProviderProperties {
     private boolean enabled = true;
+    @Value("${JWT_ALLOW_SPECIAL_KEY: false}")
+    private boolean specialKeyAllowed = false;
     private String secretKey;
     private Duration expirationDuration = Duration.ofHours(1);
 }

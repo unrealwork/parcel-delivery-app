@@ -33,7 +33,7 @@ import static parcel.delivery.app.common.security.core.RolePrivilege.VIEW_DELIVE
 public class DeliveryController {
     private final DelvieryService delvieryService;
 
-    @Operation(summary = "View delivery detail for order",
+    @Operation(summary = "View details",
             description = """
                     Retrieve information about delivery of the order. Behaviour is user role based:
                     <ul><li>User: own created orders</li>
@@ -62,7 +62,7 @@ public class DeliveryController {
         return ResponseEntity.ok(delvieryService.get(orderId));
     }
 
-    @Operation(summary = "Assign courier to delivery",
+    @Operation(summary = "Assign courier",
             description = """
                     Allows to assign a courier user
                     """,
@@ -86,7 +86,7 @@ public class DeliveryController {
     }
 
 
-    @Operation(summary = "Track delivery by coordinates",
+    @Operation(summary = "Track",
             description = """
                     Retrieves information about current location of the order
                     """,

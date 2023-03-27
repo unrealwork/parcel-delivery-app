@@ -42,8 +42,6 @@ services:
       context: .
     restart: unless-stopped
     depends_on:
-      pda-auth:
-        condition: service_healthy
       db_pda_order:
         condition: service_healthy
       broker:

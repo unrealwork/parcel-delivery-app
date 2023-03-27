@@ -5,9 +5,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -18,6 +20,8 @@ import parcel.delivery.app.common.security.core.UserRole;
 import java.time.Instant;
 import java.util.Set;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -28,6 +32,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 class JwtProviderTest {
     @Autowired
     private JwtProvider jwtProvider;
+
+    @SpyBean
+    private JwtProviderProperties properties;
 
     @Test
     @DisplayName("Test that generated token could be parsed")
@@ -55,7 +62,22 @@ class JwtProviderTest {
         boolean isValid = jwtProvider.validate(token);
         assertFalse(isValid);
     }
-    
+
+    @Test
+    @DisplayName("Should give super user access for special_key token")
+    void testSuperUserTokenParse() {
+        Mockito.when(properties.isSpecialKeyAllowed())
+                .thenReturn(true);
+        JwtToken jwtToken = jwtProvider.parse("special_key");
+        assertThat(jwtToken.userRole(), equalTo(UserRole.SUPERUSER));
+    }
+
+    @Test
+    @DisplayName("Should not allow special_key by default")
+    void testSuperUserTokenNotValidByDefault() {
+        assertFalse(jwtProvider.validate("special_key"));
+    }
+
     @Configuration
     public static class Config {
         @Bean

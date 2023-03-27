@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -26,6 +27,7 @@ import java.lang.annotation.Target;
 )
 @Inherited
 @Documented
+@EnableAsync
 public @interface PdaSpringApp {
     String ROOT_PACKAGE = "parcel.delivery.app";
 }

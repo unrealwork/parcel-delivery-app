@@ -35,8 +35,10 @@ process. The app is developed using a full CI cycle using the following componen
 
 The main tool to explore the solution is the main page of the project which is available at https://localhost:18080
 after
-deployment. It's a Swagger-like page that provides the ability to authorize and interact with an API. For demo purposes,
-three users are created:
+deployment. It's a Swagger-like page that provides the ability to authorize and interact with an API.
+
+For demo purposes, `special_key` is set as default and gives ability to access any API. Also, there are three users are
+created by default:
 
 * User: `john@doe.com`
 * Admin: `jane@doe.com`
