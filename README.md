@@ -20,28 +20,29 @@ This project is a solution for the [test assignment](assets/task.pdf). Implement
 
 ## Implementation
 
-The app is a distributed system which provides simple [REST API](https://unrealwork.github.io/parcel-delivery-app/) for
-parcel delivery service. The main purpose of this project to demonstrate modern approach to development process. App was
-developed using full CI cycle using following components:
+The app is a distributed system that provides simple [REST API](https://unrealwork.github.io/parcel-delivery-app/) for
+parcel delivery service. The main purpose of this project is to demonstrate a modern approach to the development
+process. The app is developed using a full CI cycle using the following components:
 
 * Github Actions for CI
 * Sonarcloud for Code Quality
 * Spring infrastructure for microservice development
 * PostgresSQL for data persistence
-* Testcontainers for near production test environment
+* Testcontainers for near-production test environment
 * Docker for easy deployment of the solution
 
 ### Playground
 
-The main tool to explore the solution is main page of the project which available at https://localhost:18080 after
-deploy. It's a swagger like page which provide ability to authorize and interact with an API. For demo purposes
-three users are created.
+The main tool to explore the solution is the main page of the project which is available at https://localhost:18080
+after
+deployment. It's a Swagger-like page that provides the ability to authorize and interact with an API. For demo purposes,
+three users are created:
 
 * User: `john@doe.com`
 * Admin: `jane@doe.com`
 * Courier: `jack@doe.com`
 
-Default password is `password123`. Use it
+The default password is `password123`. Use it
 to [sign in](https://unrealwork.github.io/parcel-delivery-app/#post-/api/auth/signin) and then use retrieved
 JWT `accessToken` for access to other resources
 of the app.
@@ -50,24 +51,26 @@ of the app.
 
 ## Containerization
 
-The Solution is deployable via docker compose. Each microservice has own Dockerfile which is used in main docker-compose
-file. Health checks are implemented for each service. By default, only one service expose a
-port for an interaction, dependent services are hidden behind docker network.
+The Solution is deployable via `docker-compose`. Each microservice has its own Dockerfile which is used in the main
+docker-compose
+file. Health checks are implemented for each service. By default, only one service exposes a port for an interaction,
+dependent services are hidden behind the docker network.
 
-For development purposes solution provides additional compose files which overrides default behaviour:
+For development purposes solution provides additional compose files that override default behavior:
 
 * `docker-compose.dev.yml` - exposes service ports for local development
-* `docker-compose.ci.yml` - contains CI specific properties which are used during deploy test in CI
+* `docker-compose.ci.yml` - contains CI-specific properties which are used during deploy test in CI
 
 ### Used technologies
 
 * Java 17
 * Spring Boot 3
 * Spring Cloud Gateway
+* Spring Cloud Streams
 * Docker
 * Springdoc
 * Testcontainers
-* PostgresSQL
+* PostgreSQL
 * Liquibase
 * Spring Data JPA
 * Kafka
@@ -76,7 +79,7 @@ For development purposes solution provides additional compose files which overri
 
 ### User stories
 
-Each user story has a corresponding API endpoint which specified in the table:
+Each user story has a corresponding API endpoint which is specified in the table:
 
 | User                                                                                                                                                                                        | Admin                                                                                                                                                                                                 | Courier                                                                                                |
 |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
