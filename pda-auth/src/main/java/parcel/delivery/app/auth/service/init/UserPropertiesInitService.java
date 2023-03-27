@@ -9,8 +9,6 @@ import parcel.delivery.app.auth.config.properties.UsersProperties;
 import parcel.delivery.app.auth.controller.api.request.SignUpRequest;
 import parcel.delivery.app.auth.repository.UserRepository;
 import parcel.delivery.app.auth.service.AuthenticationService;
-import parcel.delivery.app.common.messaging.EventsEmitter;
-import parcel.delivery.app.common.messaging.events.SignedUpEvent;
 
 @Component
 @RequiredArgsConstructor
@@ -19,7 +17,6 @@ class UserPropertiesInitService implements Initializer {
     private final UsersProperties usersProperties;
     private final UserRepository userRepository;
     private final AuthenticationService authenticationService;
-    private final EventsEmitter<SignedUpEvent> eventsEmitter;
 
 
     @Override

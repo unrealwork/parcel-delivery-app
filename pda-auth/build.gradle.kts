@@ -60,7 +60,6 @@ dockerCompose {
     useComposeFiles.set(listOf("../docker-compose.yml", "../docker-compose.dev.yml"))
     startedServices.set(serviceList)
     setProjectName("parcel-delivery-app")
-    noRecreate.set(true)
 }
 
 

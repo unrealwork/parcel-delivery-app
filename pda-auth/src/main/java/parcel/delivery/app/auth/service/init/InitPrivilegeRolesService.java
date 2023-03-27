@@ -3,7 +3,6 @@ package parcel.delivery.app.auth.service.init;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 import parcel.delivery.app.auth.domain.Privilege;
 import parcel.delivery.app.auth.domain.Role;
@@ -20,7 +19,6 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-@Order(Ordered.HIGHEST_PRECEDENCE)
 final class InitPrivilegeRolesService implements Initializer {
     private final RoleRepository roleRepository;
     private final PrivilegeRepository privilegeRepository;

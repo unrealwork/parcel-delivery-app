@@ -7,6 +7,6 @@ public interface Initializer extends Ordered {
 
     @Override
     default int getOrder() {
-        return Ordered.HIGHEST_PRECEDENCE;
+        return Ordered.LOWEST_PRECEDENCE;
     }
 }
