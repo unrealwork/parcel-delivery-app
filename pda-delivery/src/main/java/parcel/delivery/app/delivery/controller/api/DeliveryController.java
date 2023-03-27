@@ -33,7 +33,7 @@ import static parcel.delivery.app.common.security.core.RolePrivilege.VIEW_DELIVE
 public class DeliveryController {
     private final DelvieryService delvieryService;
 
-    @Operation(summary = "View delivery details",
+    @Operation(summary = "View details",
             description = """
                     Retrieve information about delivery of the order. Behaviour is user role based:
                     <ul><li>User: own created orders</li>
@@ -86,7 +86,7 @@ public class DeliveryController {
     }
 
 
-    @Operation(summary = "Track delivery",
+    @Operation(summary = "Track",
             description = """
                     Retrieves information about current location of the order
                     """,
