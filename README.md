@@ -49,7 +49,7 @@ to [sign in](https://unrealwork.github.io/parcel-delivery-app/#post-/api/auth/si
 JWT `accessToken` for access to other resources
 of the app.
 
-![img_1.png](assets/images/playgroud.png)
+![img.png](assets/images/playground.png)
 
 ## Containerization
 
