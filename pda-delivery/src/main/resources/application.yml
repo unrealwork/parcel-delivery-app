@@ -47,6 +47,8 @@ spring:
         #in
         orderCreatedProcessor-in-0:
           destination: order-created
+        orderCreatedProcessor-out-0:
+          destination: delivery-accepted
         orderStatusChangedEvent:
           destination: order-status-changed
         userCreatedEvent:

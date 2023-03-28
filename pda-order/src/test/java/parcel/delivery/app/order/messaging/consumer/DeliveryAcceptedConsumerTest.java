@@ -13,6 +13,7 @@ import org.springframework.cloud.stream.binder.test.InputDestination;
 import org.springframework.messaging.support.GenericMessage;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import parcel.delivery.app.common.domain.OrderStatus;
+import parcel.delivery.app.common.messaging.events.DeliveryAcceptedEvent;
 import parcel.delivery.app.common.test.messaging.BaseIntegreationTest;
 import parcel.delivery.app.order.domain.Order;
 import parcel.delivery.app.order.helper.TestOrderService;
@@ -47,14 +48,16 @@ class DeliveryAcceptedConsumerTest implements BaseIntegreationTest {
     @Test
     @DisplayName("Should handle delivery accepted event")
     void testTrigger() {
-        inputDestination.send(new GenericMessage<>(savedOrder.getId()));
-        verify(consumer, Mockito.timeout(5000)).accept(savedOrder.getId());
+        DeliveryAcceptedEvent event = new DeliveryAcceptedEvent(savedOrder.getId());
+        inputDestination.send(new GenericMessage<>(event));
+        verify(consumer, Mockito.timeout(5000)).accept(event);
     }
 
     @Test
     @DisplayName("Should change status when accept method called")
     void testAccept() {
-        consumer.accept(savedOrder.getId());
+        DeliveryAcceptedEvent event = new DeliveryAcceptedEvent(savedOrder.getId());
+        consumer.accept(event);
         Order updatedOrder = testOrderService.findById(savedOrder.getId())
                 .orElse(null);
         assertThat(updatedOrder, notNullValue());
