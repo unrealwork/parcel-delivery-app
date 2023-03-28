@@ -14,25 +14,28 @@
 </head>
 <body>
 <rapi-doc id="doc"
-        allow-spec-file-load="false"
-        allow-spec-url-load="false"
-        header-color="#e3e4e5"
-        heading-text="PDA"
-        persist-auth="true"
-        persist-auth="true"
-        theme="light"
-        primary-color="#0b9a78"
-        allow-authentication="false"
-        spec-url="api-docs.json"
-        allow-server-selection="false"
-        allow-try="false"
-        render-style="read"
-        sort-tags="true"
+          allow-spec-file-load="false"
+          allow-spec-url-load="false"
+          header-color="#e3e4e5"
+          heading-text="PDA"
+          persist-auth="true"
+          persist-auth="true"
+          theme="light"
+          primary-color="#0b9a78"
+          allow-authentication="false"
+          spec-url="api-docs.json"
+          allow-server-selection="false"
+          allow-try="false"
+          render-style="read"
+          sort-tags="true"
+          default-schema-tab="schema"
+          schema-description-expanded="true"
 >
     <img alt="PDA Logo" class="pda" slot="logo"
          src="logo.svg"
          style="display: none; width: 40px"
     />
+    <div slot="header" class="pda" style="display: none">Docs</div>
     <script>
         window.addEventListener('DOMContentLoaded', (event) => {
             const rapidocEl = document.getElementById("doc");
