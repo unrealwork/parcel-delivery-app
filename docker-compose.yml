@@ -17,6 +17,8 @@ services:
       context: .
     restart: unless-stopped
     depends_on:
+      pda-delivery:
+        condition: service_healthy
       broker:
         condition: service_healthy
       db_pda_auth:
@@ -115,7 +117,7 @@ services:
       retries: 10
     environment:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_LISTENERS: LISTENER_BOB://:29092,LISTENER_FRED://:9092
+      KAFKA_LISTENERS: LISTENER_BOB://0.0.0.0:29092,LISTENER_FRED://0.0.0.0:9092
       KAFKA_ADVERTISED_LISTENERS: LISTENER_BOB://broker:29092,LISTENER_FRED://localhost:9092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_BOB:PLAINTEXT,LISTENER_FRED:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_BOB

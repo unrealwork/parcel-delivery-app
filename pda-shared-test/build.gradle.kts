@@ -1,6 +1,5 @@
 plugins {
-    java
-    jacoco
+    id("pda.common-conventions")
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.spring.dm)
 }
@@ -21,25 +20,15 @@ dependencies {
     compileOnly(libs.bundles.jjwt)
     // Mapper
     compileOnly(libs.mapstruct.processor)
-    // Lombok
-    annotationProcessor(libs.lombok)
-    compileOnly(libs.lombok)
     // Testing
     testImplementation(project(":pda-shared"))
     testImplementation(libs.spring.web)
     testImplementation(libs.spring.security)
-    testImplementation(libs.junit.api)
-    testRuntimeOnly(libs.junit.engine)
     testImplementation(libs.spring.test)
     testImplementation(libs.spring.security.test)
     testImplementation(libs.spring.cloud.stream.test.binder)
 }
 
-apply(from = "../gradle/jacoco.gradle")
-
-tasks.test {
-    useJUnitPlatform()
-}
 
 tasks.bootJar {
     enabled = false
