@@ -47,15 +47,12 @@ spring:
         #in
         orderCreatedProcessor-in-0:
           destination: order-created
-          group: pda
         orderCreatedProcessor-out-0:
           destination: delivery-accepted
         orderStatusChangedEvent:
           destination: order-status-changed
-          group: pda
         userCreatedEvent:
           destination: user-created
-          group: pda
 springdoc:
   swagger-ui:
     use-root-path: true

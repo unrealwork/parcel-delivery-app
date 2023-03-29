@@ -1,17 +1,12 @@
 plugins {
-    java
-    jacoco
+    id("pda.common-conventions")
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.docker.compose)
     alias(libs.plugins.spring.dm)
 }
 
-apply(from = "../gradle/jacoco.gradle")
 
 dependencies {
-    // lombok
-    compileOnly(libs.lombok)
-    annotationProcessor(libs.lombok)
     //spring
     implementation(libs.spring.cloud.gateway)
     implementation(libs.spring.devtools)
@@ -21,18 +16,10 @@ dependencies {
     // swagger
     implementation(libs.swagger.parser)
     // Testing
-    testCompileOnly(libs.lombok)
-    testAnnotationProcessor(libs.lombok)
-    testImplementation(libs.junit.api)
-    testRuntimeOnly(libs.junit.engine)
     testImplementation(libs.spring.test)
     testImplementation(libs.tc.junit)
     testImplementation(libs.tc.mockserver)
     testImplementation(libs.mockserver.client)
-}
-
-tasks.test {
-    useJUnitPlatform()
 }
 
 dockerCompose {

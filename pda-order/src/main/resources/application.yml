@@ -48,10 +48,8 @@ spring:
       bindings:
         deliveryAssignedEvent:
           destination: delivery-assigned
-          group: pda
         deliveryAcceptedEvent:
           destination: delivery-accepted
-          group: pda
 springdoc:
   swagger-ui:
     use-root-path: true

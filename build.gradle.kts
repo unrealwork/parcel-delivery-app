@@ -1,27 +1,6 @@
 plugins {
-    java
-    checkstyle
-    jacoco
-    alias(libs.plugins.sonar)
+    id("pda.sonar-conventions")
     alias(libs.plugins.docker.compose)
-}
-
-subprojects {
-    group = "parcel.delivery.app"
-    version = "0.0.1"
-    
-    repositories {
-        mavenCentral()
-    }
-}
-
-apply(from = "gradle/sonar.gradle")
-
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
-    }
 }
 
 dockerCompose {
@@ -31,7 +10,3 @@ dockerCompose {
     this.noRecreate.set(true)
     buildBeforeUp.set(false)
 }
-
-
-
-
