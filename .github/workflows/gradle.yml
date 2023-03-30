@@ -43,7 +43,7 @@ jobs:
       #        run: ./gradlew test sonarqube --info
       - name: Test docker compose deploy
         #        if: ${{ github.event_name == 'push' }}
-        run: ./gradlew :composeUp && docker-compose down
+        run: ./gradlew :composeUp
       - name: Collect docker log
         if: ${{ failure() && github.event_name == 'push' }}
         run: docker-compose logs
