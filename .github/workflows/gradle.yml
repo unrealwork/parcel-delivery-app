@@ -53,7 +53,7 @@ jobs:
           ref: gh-pages
       - name: 'Upload new api-docs'
         run: |
-          curl -K http://localhost:18080/v3/api-docs -o output.txt
+          curl http://localhost:8081/v3/api-docs -o api-docs.json
           git config --global user.name 'unrealwork'
           git config --global user.email 'unrealwork@gmail.com'
           git commit -m  "Update API docs"
