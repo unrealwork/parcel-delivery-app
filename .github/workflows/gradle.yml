@@ -50,7 +50,6 @@ jobs:
       - name: 'Checkout docs branch'
         uses: actions/checkout@v3
         with:
-          token:
           ref: gh-pages
       - name: 'Upload new api-docs'
         run: |
