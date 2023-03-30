@@ -7,12 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import parcel.delivery.app.common.annotations.AuthPolicy;
 import parcel.delivery.app.common.security.core.RolePrivilege;
 import parcel.delivery.app.delivery.controller.api.request.AssignCourierRequest;
@@ -28,7 +23,7 @@ import static parcel.delivery.app.common.security.core.RolePrivilege.VIEW_DELIVE
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/deliveries")
-@Tag(name = "Delivery API",
+@Tag(name = "Delivery",
         description = "Endpoints related to delivery of orders")
 public class DeliveryController {
     private final DelvieryService delvieryService;
