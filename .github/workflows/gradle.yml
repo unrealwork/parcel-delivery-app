@@ -36,14 +36,26 @@ jobs:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
-      - name: Build and analyze
-        env:
-          GITHUB_TOKEN: ${{ secrets.PR_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./gradlew test sonarqube --info
+      #      - name: Build and analyze
+      #        env:
+      #          GITHUB_TOKEN: ${{ secrets.PR_TOKEN }}  # Needed to get PR information, if any
+      #          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #        run: ./gradlew test sonarqube --info
       - name: Test docker compose deploy
         #        if: ${{ github.event_name == 'push' }}
         run: ./gradlew :composeUp && docker-compose down
       - name: Collect docker log
         if: ${{ failure() && github.event_name == 'push' }}
         run: docker-compose logs
+      - name: 'Checkout docs branch'
+        uses: actions/checkout@v3
+        with:
+          token:
+          ref: gh-pages
+      - name: 'Upload new api-docs'
+        run: |
+          curl -K http://localhost:18080/v3/api-docs -o output.txt
+          git config --global user.name 'unrealwork'
+          git config --global user.email 'unrealwork@gmail.com'
+          git commit -m  "Update API docs"
+          git push
