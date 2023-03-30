@@ -56,5 +56,7 @@ jobs:
           curl http://localhost:18080/v3/api-docs -o api-docs.json
           git config --global user.name 'unrealwork'
           git config --global user.email 'unrealwork@gmail.com'
-          git commit -m  "Update API docs"
-          git push
+          git add api-docs.json
+          git commit -m  "Update API docs" || exit 0
+          git push || exit 0
+ 
