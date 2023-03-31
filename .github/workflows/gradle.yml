@@ -36,13 +36,13 @@ jobs:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
-      #      - name: Build and analyze
-      #        env:
-      #          GITHUB_TOKEN: ${{ secrets.PR_TOKEN }}  # Needed to get PR information, if any
-      #          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      #        run: ./gradlew test sonarqube --info
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.PR_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: ./gradlew test sonarqube --info
       - name: Test docker compose deploy
-        #        if: ${{ github.event_name == 'push' }}
+        if: ${{ github.event_name == 'push' }}
         run: ./gradlew :composeUp
       - name: Collect docker log
         if: ${{ failure() && github.event_name == 'push' }}
@@ -51,6 +51,7 @@ jobs:
         with:
           ref: gh-pages
       - name: 'Upload docs'
+        if: ${{ success() && github.event_name == 'push' }}
         run: |
           curl http://localhost:18080/v3/api-docs -o api-docs.json
           git config user.name github-actions
