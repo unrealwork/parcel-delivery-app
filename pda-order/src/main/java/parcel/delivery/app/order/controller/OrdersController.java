@@ -7,13 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import parcel.delivery.app.common.annotations.AuthPolicy;
 import parcel.delivery.app.order.controller.api.request.ChangeOrderDestinationRequest;
 import parcel.delivery.app.order.controller.api.request.ChangeStatusRequest;
@@ -27,16 +21,12 @@ import parcel.delivery.app.order.service.OrderService;
 import java.util.List;
 import java.util.UUID;
 
-import static parcel.delivery.app.common.security.core.RolePrivilege.CANCEL_ORDER;
-import static parcel.delivery.app.common.security.core.RolePrivilege.CHANGE_DESTINATION;
-import static parcel.delivery.app.common.security.core.RolePrivilege.CHANGE_ORDER_STATUS;
-import static parcel.delivery.app.common.security.core.RolePrivilege.CREATE_ORDER;
-import static parcel.delivery.app.common.security.core.RolePrivilege.VIEW_ORDERS;
+import static parcel.delivery.app.common.security.core.RolePrivilege.*;
 
 @RestController()
 @RequestMapping("orders")
 @RequiredArgsConstructor
-@Tag(name = "Order API",
+@Tag(name = "Order",
         description = "Endpoints related to users' orders")
 public class OrdersController {
     private final OrderService orderService;

@@ -42,8 +42,21 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: ./gradlew test sonarqube --info
       - name: Test docker compose deploy
-        #        if: ${{ github.event_name == 'push' }}
-        run: ./gradlew :composeUp && docker-compose down
+        if: ${{ github.event_name == 'push' }}
+        run: ./gradlew :composeUp
       - name: Collect docker log
         if: ${{ failure() && github.event_name == 'push' }}
         run: docker-compose logs
+      - uses: actions/checkout@v3
+        with:
+          ref: gh-pages
+      - name: 'Upload docs'
+        if: ${{ success() && github.event_name == 'push' }}
+        run: |
+          curl http://localhost:18080/v3/api-docs -o api-docs.json
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add api-docs.json
+          git commit -m  "Update API docs" || exit 0
+          git push || exit 0
+ 
