@@ -47,11 +47,10 @@ jobs:
       - name: Collect docker log
         if: ${{ failure() && github.event_name == 'push' }}
         run: docker-compose logs
-      - name: 'Checkout docs branch'
+      - name: 'Upload docs'
         uses: actions/checkout@v3
         with:
           ref: gh-pages
-      - name: 'Upload new api-docs'
         run: |
           curl http://localhost:18080/v3/api-docs -o api-docs.json
           git config user.name github-actions
