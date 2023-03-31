@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "Courier API",
+@Tag(name = "Courier",
         description = "Contains endpoints related to couriers in delivery service"
 )
 public class CouriersController {
