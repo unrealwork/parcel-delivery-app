@@ -1,9 +1,10 @@
 package parcel.delivery.app.auth.mapper;
 
+import org.mapstruct.Mapper;
 import parcel.delivery.app.auth.domain.Role;
 import parcel.delivery.app.auth.dto.RoleDto;
-import parcel.delivery.app.common.mapper.annotations.PdaMapper;
+import parcel.delivery.app.common.mapper.PdaMapperConfig;
 
-@PdaMapper
+@Mapper(config = PdaMapperConfig.class)
 public interface RoleMapper extends EntityDtoMapper<Role, RoleDto> {
 }
