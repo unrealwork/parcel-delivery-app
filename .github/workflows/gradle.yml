@@ -54,8 +54,8 @@ jobs:
       - name: 'Upload new api-docs'
         run: |
           curl http://localhost:18080/v3/api-docs -o api-docs.json
-          git config --global user.name 'unrealwork'
-          git config --global user.email 'unrealwork@gmail.com'
+          git config user.name github-actions
+          git config user.email github-actions@github.com
           git add api-docs.json
           git commit -m  "Update API docs" || exit 0
           git push || exit 0
