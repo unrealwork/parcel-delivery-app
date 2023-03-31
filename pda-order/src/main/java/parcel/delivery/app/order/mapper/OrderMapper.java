@@ -5,6 +5,6 @@ import parcel.delivery.app.common.mapper.EntityDtoMapper;
 import parcel.delivery.app.order.domain.Order;
 import parcel.delivery.app.order.dto.OrderDto;
 
-@Mapper(componentModel = "spring")
+@Mapper
 public interface OrderMapper extends EntityDtoMapper<Order, OrderDto> {
 }

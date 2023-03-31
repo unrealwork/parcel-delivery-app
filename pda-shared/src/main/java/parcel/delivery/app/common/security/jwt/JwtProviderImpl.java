@@ -1,11 +1,6 @@
 package parcel.delivery.app.common.security.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.DecodingException;
 import io.jsonwebtoken.io.Deserializer;
@@ -15,7 +10,7 @@ import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import parcel.delivery.app.common.mapper.properties.JwtProviderProperties;
+import parcel.delivery.app.common.config.properties.JwtProviderProperties;
 import parcel.delivery.app.common.security.core.UserRole;
 import parcel.delivery.app.common.util.DateTimeUtil;
 
@@ -41,7 +36,7 @@ public final class JwtProviderImpl implements JwtProvider {
             .build();
     private static final Map<String, Class<?>> CLASS_MAP = Maps.<String, Class<?>>of(JwtClaimKeys.AUTHORIZTATION_DATA, JwtAuthData.class)
             .build();
-    @SuppressWarnings("squid:S3740")
+    @SuppressWarnings({"squid:S3740", "unchecked"})
     private static final Deserializer<Map<String, ?>> JACKSON_DESERIALIZER = new JacksonDeserializer(CLASS_MAP);
     private final Key secretKey;
     private final Duration expirationDuration;
