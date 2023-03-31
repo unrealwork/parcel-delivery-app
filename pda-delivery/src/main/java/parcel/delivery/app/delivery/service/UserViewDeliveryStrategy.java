@@ -9,7 +9,7 @@ import parcel.delivery.app.delivery.domain.Delivery;
 import parcel.delivery.app.delivery.dto.DeliveryDto;
 import parcel.delivery.app.delivery.error.exception.DeilveryAcccessDeniedException;
 import parcel.delivery.app.delivery.error.exception.DeliveryNotFoundException;
-import parcel.delivery.app.delivery.mapper.DeilveryMapper;
+import parcel.delivery.app.delivery.mapper.DeliveryMapper;
 import parcel.delivery.app.delivery.repository.DeliveryRepository;
 
 import java.util.Objects;
@@ -20,7 +20,7 @@ import java.util.UUID;
 @Component
 public class UserViewDeliveryStrategy implements ViewDeliveryStrategy {
     private final DeliveryRepository deliveryRepository;
-    private final DeilveryMapper deilveryMapper;
+    private final DeliveryMapper deilveryMapper;
     private final AuthenticationFacade authenticationFacade;
 
     @Override

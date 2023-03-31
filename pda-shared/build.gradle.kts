@@ -14,7 +14,7 @@ dependencies {
     // JWT
     implementation(libs.bundles.jjwt)
     // Mapper
-    implementation(libs.mapstruct.processor)
+    implementation(libs.mapstruct)
     //documentation
     implementation(libs.spring.doc)
     // Testing

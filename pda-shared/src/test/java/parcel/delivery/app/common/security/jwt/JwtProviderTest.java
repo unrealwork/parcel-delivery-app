@@ -13,7 +13,7 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import parcel.delivery.app.common.mapper.properties.JwtProviderProperties;
+import parcel.delivery.app.common.config.properties.JwtProviderProperties;
 import parcel.delivery.app.common.security.core.RolePrivilege;
 import parcel.delivery.app.common.security.core.UserRole;
 
